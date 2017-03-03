@@ -155,7 +155,8 @@ bar {
         status_command i3status
 }
 
-exec_always ~/.bground.sh
+# set background using feh
+exec --no-startup-id feh --bg-fill ~/Pictures/wallpapers/yosemite-4.jpg 
 
 # Added config options
 hide_edge_borders 	both
