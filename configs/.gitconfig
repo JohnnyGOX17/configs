@@ -1,9 +1,0 @@
-[user]
-	name = John Gentile
-	email = johncgentile17@gmail.com
-[core]
-	editor = vim
-[push]
-	default = simple
-[credential]
-	helper = cache --timeout=7200
