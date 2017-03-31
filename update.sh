@@ -5,3 +5,4 @@
 cp ./configs/.bashrc ~/.bashrc
 cp ./configs/.vimrc ~/.vimrc
 cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
+cp ./configs/.tmux.conf ~/.tmux.conf
