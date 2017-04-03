@@ -21,7 +21,7 @@ export EDITOR="$VISUAL"
 
 # add paths for NVCC (NVIDIA CUDA Compiler)
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64
-export PATH=$PATH:/usr/local/cuda/bin
+export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 
 # =============================================================================
 # User specific aliases and functions
