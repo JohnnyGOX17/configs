@@ -27,9 +27,6 @@ export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 # User specific aliases and functions
 # =============================================================================
 
-# git bash completion script
-. ~/scripts/git-completion.bash
-
 # ls macros
 alias ll='ls -alh'
 alias ls='ls -a --color=auto'
@@ -50,9 +47,6 @@ alias tmux="tmux -2"
 # keep more bash history
 export HISTSIZE=10000
 export HISTFILESIZE=120000
-
-# change cursor style to blinking bar
-echo -e -n "\x1b[\x35 q"
 
 # customize PS1 bash prompt: bold w/blue user@host and yellow pwd $
 export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
