@@ -30,6 +30,7 @@ export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 # ls macros
 alias ll='ls -alh'
 alias lsa='ls -a --color=auto'
+alias lsn='ls -a --color=no'
 alias lsd="ls -alF | grep /$"
 
 # allow cd.. for cd ..
