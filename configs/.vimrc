@@ -41,11 +41,13 @@ set ignorecase      " Ignore case when searching
 nnoremap gV '[v']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader Shortcuts
+" Key & Leader Shortcuts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","   " leader is comma
 " jk to escape
 inoremap jk <esc>
+" Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " toggle gundo
 nnoremap <leader>u :GundoToggle<CR>
 " save current windows/session
