@@ -23,7 +23,7 @@ syntax enable       " turn on syntax highlighting
 set cindent         " use C-style indenting
 set shiftwidth=2    " indent 2 spaces (instead of 8) for one tab
 set expandtab       " keep Vim from converting 8 spaces into tabs
-set cursorline      " highlight current line horizontally
+" set cursorline      " highlight current line horizontally
 set wildmenu        " visual autocomplete for command menu
 set showmatch       " highlight [{()}] matching
 set visualbell      " turn on visual flashes instead of audible bell
