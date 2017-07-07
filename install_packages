@@ -24,7 +24,17 @@ yum -y install epel-release
 #
 # Install Basic Parts
 #
-yum -y install wget
+yum -y groupinstall "Development Tools"
+yum -y install wget \
+  gcc \
+  g++ \
+  make \
+  automake \
+  autoconf \
+  curl-devel \
+  zlib-devel \
+  apr-devel \
+  apr-util-devel 
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
 tar xvf ranger-stable.tar.gz
 rm ranger-stable.tar.gz
@@ -38,6 +48,9 @@ rm -rf ranger-stable
 #
 echo "Installing server applications"
 yum -y install httpd \
+  httpd-devel \
+  openssl-devel \
+  sqlite-devel \
   nodejs \
   npm
 echo "Configuring firewall to open server ports"

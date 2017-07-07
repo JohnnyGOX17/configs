@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Shell script to install all needed development tools and software
+# Run as intended user
+#
+
+echo "Install started at $(date)"
+
+echo "Installing rbenv and ruby-build"
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+cd ~/.rbenv && src/configure && make -C src
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+exec $SHELL
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+exec $SHELL
+
+echo "Installing Ruby 2.4.1"
+rbenv install -v 2.4.1
+rbenv global 2.2.1
+
+echo "Installing Gems"
+gem install jekyll

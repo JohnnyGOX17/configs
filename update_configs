@@ -9,3 +9,6 @@ cp ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
 cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
 cp ./configs/.tmux.conf ~/.tmux.conf
+pushd ~/.rbenv
+git pull
+popd
