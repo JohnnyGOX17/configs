@@ -4,6 +4,7 @@
 # Run as intended user
 #
 
+cp ./configs/.gitconfig ~/.gitconfig
 cp ./configs/.bashrc ~/.bashrc
 cp ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/

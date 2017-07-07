@@ -1,0 +1,7 @@
+[user]
+	name = John Gentile
+	email = johncgentile17@gmail.com
+[credential]
+	helper = cache
+[push]
+	default = simple
