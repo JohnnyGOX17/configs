@@ -1,8 +1,11 @@
-#!/bin/sh
-# 
+#!/usr/bin/env bash
+#
 # Shell script to update all needed development tools
+# Run as intended user
+#
 
 cp ./configs/.bashrc ~/.bashrc
 cp ./configs/.vimrc ~/.vimrc
+mkdir -p ~/.vim/colors/
 cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
 cp ./configs/.tmux.conf ~/.tmux.conf

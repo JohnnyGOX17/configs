@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# Shell script to install all needed development tools and software
+# Run as root/sudo
+#
+
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root"
+  exit 1
+fi
+
+echo "Install started at $(date)"
+echo "Creating temp directory at /tmp/jginstall/"
+mkdir -p /tmp/jginstall/
+cd /tmp/jginstall/
+
+#
+# Clear the yum cache and upgrade (update and remove obsolete packages)
+#
+yum clean all
+yum -y upgrade
+yum -y install epel-release
+
+#
+# Install Basic Parts
+#
+yum -y install wget
+wget http://nongnu.org/ranger/ranger-stable.tar.gz
+tar xvf ranger-stable.tar.gz
+rm ranger-stable.tar.gz
+pushd ranger-stable
+make install
+popd
+rm -rf ranger-stable
+
+#
+# Server Installation Parts
+#
+echo "Installing server applications"
+yum -y install httpd \
+  nodejs \
+  npm
+echo "Configuring firewall to open server ports"
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
+firewall-cmd --reload
+echo "Starting Apache"
+systemctl start httpd
+systemctl enable httpd
