@@ -18,7 +18,8 @@ exec $SHELL
 
 echo "Installing Ruby 2.4.1"
 rbenv install -v 2.4.1
-rbenv global 2.2.1
+rbenv global 2.4.1
+exec $SHELL
 
 echo "Installing Gems"
 gem install jekyll

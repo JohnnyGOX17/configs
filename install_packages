@@ -28,13 +28,18 @@ yum -y groupinstall "Development Tools"
 yum -y install wget \
   gcc \
   g++ \
+  gcc-c++ \
+  git-core \
   make \
   automake \
   autoconf \
+  curl \
   curl-devel \
+  zlib \
   zlib-devel \
   apr-devel \
-  apr-util-devel 
+  bzip2 \
+  apr-util-cdevel 
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
 tar xvf ranger-stable.tar.gz
 rm ranger-stable.tar.gz
@@ -52,7 +57,14 @@ yum -y install httpd \
   openssl-devel \
   sqlite-devel \
   nodejs \
-  npm
+  npm \
+  patch \
+  readline \
+  readline-devel \
+  libyaml-devel \
+  libffi-devel \
+  libtool \
+  bison
 echo "Configuring firewall to open server ports"
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
