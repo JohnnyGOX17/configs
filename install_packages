@@ -39,6 +39,7 @@ yum -y install wget \
   zlib-devel \
   apr-devel \
   bzip2 \
+  tmux \
   apr-util-cdevel 
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
 tar xvf ranger-stable.tar.gz
