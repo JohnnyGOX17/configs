@@ -22,7 +22,7 @@ yum -y upgrade
 yum -y install epel-release
 
 #
-# Install Basic Parts
+# Install Basic Development Parts & General Tools
 #
 yum -y groupinstall "Development Tools"
 yum -y install wget \
@@ -30,6 +30,7 @@ yum -y install wget \
   g++ \
   gcc-c++ \
   git-core \
+  htop \
   make \
   automake \
   autoconf \
@@ -40,6 +41,7 @@ yum -y install wget \
   apr-devel \
   bzip2 \
   tmux \
+  vim \
   apr-util-cdevel 
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
 tar xvf ranger-stable.tar.gz
@@ -54,6 +56,7 @@ rm -rf ranger-stable
 #
 echo "Installing server applications"
 yum -y install httpd \
+  vsftpd \
   httpd-devel \
   openssl-devel \
   sqlite-devel \
@@ -66,10 +69,20 @@ yum -y install httpd \
   libffi-devel \
   libtool \
   bison
-echo "Configuring firewall to open server ports"
+# Open HTTP port
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
+# Open FTP port
+firewall-cmd --permanent --add-port=21/tcp
 firewall-cmd --reload
 echo "Starting Apache"
 systemctl start httpd
 systemctl enable httpd
+# Configure vsftpd
+sudo sed -i "s/\(anonymous_enable *= *\).*/\1NO/" /etc/vsftpd/vsftpd.conf
+sudo sed -i "s/\(local_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
+sudo sed -i "s/\(write_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
+#sudo sed -i "s/\(chroot_local_user *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
+echo "Starting vsftpd FTP server"
+systemctl restart vsftpd
+systemctl enable vsftpd
