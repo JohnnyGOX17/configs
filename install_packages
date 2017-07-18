@@ -79,9 +79,9 @@ echo "Starting Apache"
 systemctl start httpd
 systemctl enable httpd
 # Configure vsftpd
-sudo sed -i "s/\(anonymous_enable *= *\).*/\1NO/" /etc/vsftpd/vsftpd.conf
-sudo sed -i "s/\(local_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
-sudo sed -i "s/\(write_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
+sed -i "s/\(anonymous_enable *= *\).*/\1NO/" /etc/vsftpd/vsftpd.conf
+sed -i "s/\(local_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
+sed -i "s/\(write_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
 #sudo sed -i "s/\(chroot_local_user *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
 echo "Starting vsftpd FTP server"
 systemctl restart vsftpd
