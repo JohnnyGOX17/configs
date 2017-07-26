@@ -12,13 +12,13 @@ set t_Co=256        " turn on 256 colors
 set number          " turn on line numbering
 set laststatus=2    " always shows status line (usefule for Airline plugin)
 set noshowmode      " turn off default mode indicator since we have plugin
-" NOTE: Powerline fonts might be weird, look at FAQ link below
+" NOTE: Powerline fonts might be weird in some systems, look at FAQ link below
 " https://github.com/vim-airline/vim-airline/wiki/FAQ
-let g:airline_powerline_fonts = 1 " turn on powerline fonts
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
+" let g:airline_powerline_fonts = 1 " turn on powerline fonts
+" if !exists('g:airline_symbols')
+"   let g:airline_symbols = {}
+" endif
+" let g:airline_symbols.space = "\ua0"
 syntax enable       " turn on syntax highlighting
 set cindent         " use C-style indenting
 set shiftwidth=2    " indent 2 spaces (instead of 8) for one tab
