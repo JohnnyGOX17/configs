@@ -50,8 +50,6 @@ inoremap jk <esc>
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " toggle gundo
 nnoremap <leader>u :GundoToggle<CR>
-" save current windows/session
-nnoremap <leader>s :mksession<CR>
 " open ag.vim (the_silver_searcher)
 nnoremap <leader>a :Ag 
 " open CtrlP fuzzy search tool
@@ -60,6 +58,8 @@ nnoremap <leader>p :CtrlP<CR>
 nnoremap <leader>w :w!<CR>
 " turn off search highlighting
 nnoremap <leader><space> :nohlsearch<CR>
+" turn on spell checking
+nnoremap <leader>s :set spell spelllang=en_us
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
