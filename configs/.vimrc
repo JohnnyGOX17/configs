@@ -59,7 +59,7 @@ nnoremap <leader>w :w!<CR>
 " turn off search highlighting
 nnoremap <leader><space> :nohlsearch<CR>
 " turn on spell checking
-nnoremap <leader>s :set spell spelllang=en_us
+nnoremap <leader>s :set spell spelllang=en_us<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
