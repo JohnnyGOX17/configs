@@ -24,25 +24,40 @@ yum -y install epel-release
 #
 # Install Basic Development Parts & General Tools
 #
+yum -y install yum-utils
 yum -y groupinstall "Development Tools"
-yum -y install wget \
-  gcc \
+yum -y install apr-devel \
+  apr-util-cdevel \
+  autoconf \
+  automake \
+  bzip2 \
+  clang \
+  clang-analyzer \
+  clang-devel \
+  cmake \
+  curl \
+  curl-devel \
   g++ \
+  gcc \
   gcc-c++ \
   git-core \
   htop \
+  kernel-devel \
+  llvm \
+  llvm-devel \
+  llvm-libs \
   make \
-  automake \
-  autoconf \
-  curl \
-  curl-devel \
-  zlib \
-  zlib-devel \
-  apr-devel \
-  bzip2 \
+  nano \
+  python-devel \
+  python34 \
+  python34-devel \
   tmux \
   vim \
-  apr-util-cdevel 
+  wget \
+  zlib \
+  zlib-devel
+
+# Ranger file manager
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
 tar xvf ranger-stable.tar.gz
 rm ranger-stable.tar.gz
@@ -51,24 +66,42 @@ make install
 popd
 rm -rf ranger-stable
 
+# Mono-project repo & install
+echo "Installing Mono-Project"
+rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+yum-config-manager --add-repo http://download.mono-project.com/repo/centos7/
+yum install -y mono-devel
+
+# Go- remove older Go 1st (if there) then install (note DL link should be
+# checked for updates)
+echo "Installing go"
+rm -rf /usr/local/go
+wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
+sudo tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
+
+# Install Rust
+echo "Installing Rust"
+curl https://sh.rustup.rs -sSf | sh
+
 #
 # Server Installation Parts
 #
 echo "Installing server applications"
-yum -y install httpd \
-  vsftpd \
+yum -y install bison \
+  httpd \
   httpd-devel \
-  openssl-devel \
-  sqlite-devel \
+  libffi-devel \
+  libtool \
+  libyaml-devel \
   nodejs \
   npm \
+  openssl-devel \
   patch \
   readline \
   readline-devel \
-  libyaml-devel \
-  libffi-devel \
-  libtool \
-  bison
+  sqlite-devel \
+  vsftpd
+
 # Open HTTP port
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
@@ -78,6 +111,7 @@ firewall-cmd --reload
 echo "Starting Apache"
 systemctl start httpd
 systemctl enable httpd
+
 # Configure vsftpd
 sed -i "s/\(anonymous_enable *= *\).*/\1NO/" /etc/vsftpd/vsftpd.conf
 sed -i "s/\(local_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
@@ -86,3 +120,6 @@ sed -i "s/\(write_enable *= *\).*/\1YES/" /etc/vsftpd/vsftpd.conf
 echo "Starting vsftpd FTP server"
 systemctl restart vsftpd
 systemctl enable vsftpd
+
+echo "Cleaning out temp directory..."
+rm -rf /tmp/jginstall/*
