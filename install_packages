@@ -25,12 +25,17 @@ yum -y install epel-release
 # Install Basic Development Parts & General Tools
 #
 yum -y install yum-utils
-yum -y groupinstall "Development Tools"
+yum -y groupinstall "Development Tools" \
+"Compatibility Libraries" \
+"GNOME Desktop" \
+"Security Tools" \
+"System Administration Tools"
 yum -y install apr-devel \
   apr-util-cdevel \
   autoconf \
   automake \
   bzip2 \
+  cifs-utils \
   clang \
   clang-analyzer \
   clang-devel \
@@ -43,6 +48,7 @@ yum -y install apr-devel \
   git-core \
   htop \
   kernel-devel \
+  kernel-doc \
   llvm \
   llvm-devel \
   llvm-libs \
@@ -53,9 +59,24 @@ yum -y install apr-devel \
   python34-devel \
   tmux \
   vim \
+  vnc-server \
   wget \
   zlib \
   zlib-devel
+
+# Install Vim from src
+# yum remove vim-enhanced vim-common vim-minimal
+# git clone https://github.com/vim/vim.git
+# cd vim
+# ./configure --with-features=huge \
+# --enable-multibyte \
+# --enable-rubyinterp=yes \
+# --enable-pythoninterp=yes \
+# --enable-perlinterp=yes
+# make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+# sudo make install
+# yum install -y sudo
+# hash vim
 
 # Ranger file manager
 wget http://nongnu.org/ranger/ranger-stable.tar.gz
@@ -108,6 +129,7 @@ firewall-cmd --permanent --add-port=443/tcp
 # Open FTP port
 firewall-cmd --permanent --add-port=21/tcp
 firewall-cmd --reload
+systemctl enable firewalld
 echo "Starting Apache"
 systemctl start httpd
 systemctl enable httpd
