@@ -27,7 +27,7 @@ yum -y install epel-release
 yum -y install yum-utils
 yum -y groupinstall "Development Tools" \
 "Compatibility Libraries" \
-"GNOME Desktop" \
+#"GNOME Desktop" \
 "Security Tools" \
 "System Administration Tools"
 yum -y install apr-devel \
