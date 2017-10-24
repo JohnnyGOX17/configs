@@ -23,7 +23,7 @@ syntax enable       " turn on syntax highlighting
 set cindent         " use C-style indenting
 set shiftwidth=2    " indent 2 spaces (instead of 8) for one tab
 set expandtab       " keep Vim from converting 8 spaces into tabs
-" set cursorline      " highlight current line horizontally
+set cursorline      " highlight current line horizontally
 set wildmenu        " visual autocomplete for command menu
 set showmatch       " highlight [{()}] matching
 set visualbell      " turn on visual flashes instead of audible bell
@@ -64,12 +64,12 @@ nnoremap <leader>s :set spell spelllang=en_us<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set foldenable      " enable folding
+set foldenable      " enable folding by default
 " Space toggles opening/closing one layer of folds
 nnoremap <space> za
 " Leader_key+Space toggles opening/closing an entire layer of folds
 nnoremap <leader><space> zA
-set foldmethod=indent " fold based on indent level
+set foldmethod=manual " or fold based on indent level
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backups (move '~' appended files to temp dir)
