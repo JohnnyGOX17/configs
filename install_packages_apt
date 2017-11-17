@@ -23,10 +23,12 @@ apt upgrade
 #
 # Install Basic Development Parts & General Tools
 #
+# install Clang 5.0 https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
 apt-get -y install apr-devel \
   apr-util-cdevel \
   autoconf \
   automake \
+  build-essential \
   bzip2 \
   cifs-utils \
   clang \
@@ -47,9 +49,9 @@ apt-get -y install apr-devel \
   llvm-libs \
   make \
   nano \
-  python-devel \
-  python34 \
-  python34-devel \
+  python-dev \
+  python3-dev \
+  ranger \
   tcl \
   tmux \
   vim \
@@ -72,21 +74,13 @@ apt-get -y install apr-devel \
 # yum install -y sudo
 # hash vim
 
-# Ranger file manager
-wget http://nongnu.org/ranger/ranger-stable.tar.gz
-tar xvf ranger-stable.tar.gz
-rm ranger-stable.tar.gz
-pushd ranger-stable
-make install
-popd
-rm -rf ranger-stable
-
 # Go- remove older Go 1st (if there) then install (note DL link should be
 # checked for updates)
 echo "Installing go"
 rm -rf /usr/local/go
 wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
-sudo tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
+tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
+rm -f go1.9.linux-amd64.tar.gz
 
 # Install Rust
 echo "Installing Rust"

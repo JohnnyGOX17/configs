@@ -8,7 +8,9 @@ echo "Install started at $(date)"
 
 echo "Installing rbenv and ruby-build"
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-pushd ~/.rbenv && src/configure && make -C src
+pushd ~/.rbenv
+src/configure
+make -C src
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 exec $SHELL
@@ -23,4 +25,5 @@ exec $SHELL
 
 echo "Installing Gems"
 gem install jekyll
+gem install bundler
 popd
