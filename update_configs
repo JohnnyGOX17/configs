@@ -7,6 +7,7 @@
 cp ./configs/.gitconfig ~/.gitconfig
 cp ./configs/.bashrc ~/.bashrc
 cp ./configs/.bash_profile ~/.bash_profile
+cp ./configs/.inputrc ~/.inputrc
 cp ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
 cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim

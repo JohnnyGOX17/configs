@@ -1,0 +1,40 @@
+###############################################################################
+# General bash settings
+###############################################################################
+
+# Use Vi, not EMacs default, bash key bindings
+set editing-mode vi
+# For bash > 4.3 & readline > 6.3 prompt can reflect vi mode
+set show-mode-in-prompt on
+# Show all completions w/one TAB
+set show-all-if-ambiguous on
+# Use a visible bell if one is available
+set bell-style visible
+# Color files by types
+set colored-stats on
+# Append char to indicate type
+set visible-stats on
+# Mark symlinked directories
+set mark-symlinked-directories on
+# Color the common prefix
+set colored-completion-prefix on
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix on
+
+###############################################################################
+# Command mode keymaps (':')
+###############################################################################
+set keymap vi-command
+
+###############################################################################
+# Insert mode keymaps ('+')
+###############################################################################
+set keymap vi-insert
+
+# Pressing tab will list all completions & select the first one. Pressing it
+# again will cycle through available completions.
+TAB: menu-complete
+# Shift-TAB cycles completions backward
+"\e[Z": menu-complete-backward
+# Similar to .vimrc, map "jk" combo to exit into command mode
+"jk": vi-movement-mode

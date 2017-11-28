@@ -30,6 +30,7 @@ apt-get -y install apr-devel \
   automake \
   build-essential \
   bzip2 \
+  checkinstall \
   cifs-utils \
   clang \
   clang-analyzer \
@@ -37,11 +38,13 @@ apt-get -y install apr-devel \
   cmake \
   curl \
   curl-devel \
+  exuberant-ctags \
   g++ \
   gcc \
   gcc-c++ \
   git-core \
   htop \
+  ike \
   kernel-devel \
   kernel-doc \
   llvm \
