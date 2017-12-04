@@ -89,5 +89,8 @@ rm -f go1.9.linux-amd64.tar.gz
 echo "Installing Rust"
 curl https://sh.rustup.rs -sSf | sh
 
+# Install powerline fonts for Vim plugins
+# https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
+
 echo "Cleaning out temp directory..."
 rm -rf /tmp/jginstall/*
