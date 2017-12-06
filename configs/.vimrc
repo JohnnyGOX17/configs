@@ -1,9 +1,13 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" .vimrc Config File for Vim Text Editor
-"
-" Author: John Gentile
-" Date: 1-11-2017
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" File              : .vimrc
+" Author            : John Gentile <johncgentile17@gmail.com>
+" Date              : 06.12.2017
+" Last Modified Date: 06.12.2017
+" Last Modified By  : John Gentile <johncgentile17@gmail.com>
+" File              : .vimrc
+" Author            : John Gentile <johncgentile17@gmail.com>
+" Date              : 06.12.2017
+" Last Modified Date: 06.12.2017
+" Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Editing Options
@@ -155,5 +159,11 @@ Plug 'tpope/vim-fugitive'
 
 " Git gutter for showing diffs and other features
 Plug 'airblade/vim-gitgutter'
+
+" Auto create headers for source files
+Plug 'alpertuna/vim-header'
+let g:header_field_author = 'John Gentile'
+let g:header_field_author_email = 'johncgentile17@gmail.com'
+map <F4> :AddHeader<CR>
 
 call plug#end()
