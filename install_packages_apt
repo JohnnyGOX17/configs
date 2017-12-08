@@ -28,7 +28,6 @@ apt upgrade
 #
 # Install Basic Development Parts & General Tools
 #
-# install Clang 5.0 https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
 apt-get -y install autoconf \
   automake \
   build-essential \
@@ -51,6 +50,20 @@ apt-get -y install autoconf \
   tcl \
   tmux \
   wget
+
+# Install Clang 5.0
+# from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
+printf "\nInstalling Clang 5.0 from source\n"
+# remove list file if already there
+[ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
+echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
+wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+apt-get update
+apt-get -y install clang-5.0 \
+  clang-5.0-doc \
+  clang-5.0-examples \
+  lldb-5.0 \
+  lld-5.0
 
 # Install Vim from src
 printf "\nInstalling Vim from source\n"
@@ -88,3 +101,4 @@ curl https://sh.rustup.rs -sSf | sh
 printf "Cleaning out temp directory...\n"
 popd
 rm -rf /tmp/jginstall/*
+apt autoremove
