@@ -1,18 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# File              : install_packages_apt
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 08.12.2017
+# Last Modified Date: 08.12.2017
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
 # Run as root/sudo
 #
 
 if [[ $EUID -ne 0 ]]; then
-  echo "This script must be run as root"
+  printf "This script must be run as root\n"
   exit 1
 fi
 
-echo "Install started at $(date)"
-echo "Creating temp directory at /tmp/jginstall/"
+printf "\nInstall started at $(date)\n"
+printf "Creating temp directory at /tmp/jginstall/\n\n"
 mkdir -p /tmp/jginstall/
-cd /tmp/jginstall/
+pushd /tmp/jginstall/
 
 #
 # Update and upgrade
@@ -24,32 +29,20 @@ apt upgrade
 # Install Basic Development Parts & General Tools
 #
 # install Clang 5.0 https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
-apt-get -y install apr-devel \
-  apr-util-cdevel \
-  autoconf \
+apt-get -y install autoconf \
   automake \
   build-essential \
   bzip2 \
   checkinstall \
   cifs-utils \
-  clang \
-  clang-analyzer \
-  clang-devel \
   cmake \
   curl \
-  curl-devel \
   exuberant-ctags \
   g++ \
   gcc \
-  gcc-c++ \
-  git-core \
+  git \
   htop \
   ike \
-  kernel-devel \
-  kernel-doc \
-  llvm \
-  llvm-devel \
-  llvm-libs \
   make \
   nano \
   python-dev \
@@ -57,40 +50,41 @@ apt-get -y install apr-devel \
   ranger \
   tcl \
   tmux \
-  vim \
-  vnc-server \
-  wget \
-  zlib \
-  zlib-devel
+  wget
 
 # Install Vim from src
-# yum remove vim-enhanced vim-common vim-minimal
-# git clone https://github.com/vim/vim.git
-# cd vim
-# ./configure --with-features=huge \
-# --enable-multibyte \
-# --enable-rubyinterp=yes \
-# --enable-pythoninterp=yes \
-# --enable-perlinterp=yes
-# make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
-# sudo make install
-# yum install -y sudo
-# hash vim
+printf "\nInstalling Vim from source\n"
+apt remove vim vim-common vim-runtime gvim
+git clone https://github.com/vim/vim.git
+cd vim
+./configure --with-features=huge \
+  --enable-multibyte \
+  --enable-rubyinterp=yes \
+  --enable-pythoninterp=yes \
+  --enable-perlinterp=yes
+# if weird, run this process as regular user then run `make install` as sudo
+make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+make install
+# sometimes `sudo` is removed with vim
+apt install -y sudo
+hash vim
 
 # Go- remove older Go 1st (if there) then install (note DL link should be
 # checked for updates)
-echo "Installing go"
+printf "\nInstalling go\n"
 rm -rf /usr/local/go
 wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
 tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
 rm -f go1.9.linux-amd64.tar.gz
 
 # Install Rust
-echo "Installing Rust"
+printf "\nInstalling Rust\n"
 curl https://sh.rustup.rs -sSf | sh
 
 # Install powerline fonts for Vim plugins
 # https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
 
-echo "Cleaning out temp directory..."
+# Clean & exit
+printf "Cleaning out temp directory...\n"
+popd
 rm -rf /tmp/jginstall/*
