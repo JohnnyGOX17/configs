@@ -1,7 +1,9 @@
-# .bashrc
-#
-# Author:       John Gentile
-# Date:         1/11/2017
+#!/bin/bash
+# File              : .bashrc
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 12.12.2017
+# Last Modified Date: 12.12.2017
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -14,6 +16,9 @@ fi
 # =============================================================================
 # Path additions/edits
 # =============================================================================
+
+# customize PS1 bash prompt: bold w/blue user@host and yellow pwd $
+export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
 
 # set vim as default editor
 export VISUAL=vim
@@ -28,7 +33,7 @@ export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 # =============================================================================
 
 # ls macros
-alias ll='ls -alh'
+alias ll='ls -lhXG'
 alias ls='ls --color=auto'
 alias lsa='ls -a --color=auto'
 alias lsn='ls -a --color=no'
@@ -50,5 +55,16 @@ alias tmux="tmux -2"
 export HISTSIZE=10000
 export HISTFILESIZE=120000
 
-# customize PS1 bash prompt: bold w/blue user@host and yellow pwd $
-export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
+# create daily logbook
+function lb() {
+  mkdir -p ~/logbook
+  StrDate=$(date '+%m-%d-%Y')
+  StrPath=~/logbook/$StrDate.md
+  touch $StrPath
+  echo "# Logbook for $StrDate" > $StrPath
+  echo "## Problem/Situation" >> $StrPath
+  echo "## Hypothesis" >> $StrPath
+  echo "## Experiment" >> $StrPath
+  echo "## Outcome" >> $StrPath
+  vim $StrPath
+}
