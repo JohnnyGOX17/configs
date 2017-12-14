@@ -98,6 +98,9 @@ curl https://sh.rustup.rs -sSf | sh
 # Install powerline fonts for Vim plugins
 # https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
 
+# Install npm packages
+npm install -g grunt-cli
+
 # Clean & exit
 printf "Cleaning out temp directory...\n"
 popd
