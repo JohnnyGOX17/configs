@@ -50,6 +50,9 @@ apt-get -y install autoconf \
   ranger \
   tcl \
   tmux \
+  virtualbox \
+  visualboyadvance \
+  visualboyadvance-gtk \
   wget
 
 # Install Clang 5.0
@@ -100,6 +103,16 @@ curl https://sh.rustup.rs -sSf | sh
 
 # Install npm packages
 npm install -g grunt-cli
+
+# Install Wine stable 2.0+ and Play on linux
+dpkg --add-architecture i386
+wget -nc https://dl.winehq.org/wine-builds/Release.key
+apt-key add Release.key
+apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+rm Release.key
+apt-get update
+apt-get install --install-recommends winehq-stable
+apt-get install -y playonlinux
 
 # Clean & exit
 printf "Cleaning out temp directory...\n"
