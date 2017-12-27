@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 12.12.2017
+# Last Modified Date: 18.12.2017
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -111,7 +111,7 @@ apt-key add Release.key
 apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
 rm Release.key
 apt-get update
-apt-get install --install-recommends winehq-stable
+apt-get install -y --install-recommends winehq-stable
 apt-get install -y playonlinux
 
 # Clean & exit

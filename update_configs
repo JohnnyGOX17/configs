@@ -1,4 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# File              : update_configs
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 27.12.2017
+# Last Modified Date: 27.12.2017
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to update all needed development tools
 # Run as intended user
@@ -8,6 +13,7 @@ cp ./configs/.gitconfig ~/.gitconfig
 cp ./configs/.bashrc ~/.bashrc
 cp ./configs/.bash_profile ~/.bash_profile
 cp ./configs/.inputrc ~/.inputrc
+cp ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 cp ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
 cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
