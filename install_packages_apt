@@ -1,8 +1,13 @@
 #!/bin/bash
+# File              : src/configs/install_packages_apt
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 29.12.2017
+# Last Modified Date: 29.12.2017
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 18.12.2017
+# Last Modified Date: 28.12.2017
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -44,16 +49,19 @@ apt-get -y install autoconf \
   ike \
   lm-sensors \
   make \
+  mutt \
   nano \
   python-dev \
   python3-dev \
   ranger \
   tcl \
   tmux \
+  urlview \
   virtualbox \
   visualboyadvance \
   visualboyadvance-gtk \
-  wget
+  wget \
+  xclip
 
 # Install Clang 5.0
 # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
@@ -102,7 +110,9 @@ curl https://sh.rustup.rs -sSf | sh
 # https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
 
 # Install npm packages
-npm install -g grunt-cli
+npm install -g grunt-cli \
+  tmux-cpu \
+  tmux-mem
 
 # Install Wine stable 2.0+ and Play on linux
 dpkg --add-architecture i386

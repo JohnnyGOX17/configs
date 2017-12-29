@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 12.12.2017
+# Last Modified Date: 27.12.2017
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -68,3 +68,12 @@ function lb() {
   echo "## Outcome" >> $StrPath
   vim $StrPath
 }
+
+# =============================================================================
+# Cleanup & Launches
+# =============================================================================
+
+# Run tmux automatically
+if [ -z "$TMUX" ]; then
+  tmux
+fi
