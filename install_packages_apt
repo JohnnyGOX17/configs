@@ -1,38 +1,47 @@
 #!/bin/bash
 # File              : src/configs/install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 29.12.2017
-# Last Modified Date: 29.12.2017
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
-# File              : install_packages_apt
-# Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 28.12.2017
+# Last Modified Date: 29.12.2017
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
 # Run as root/sudo
 #
 
+# Colors for printing
+RED='\033[1;31m'
+BLU='\033[1;34m'
+NC='\033[0m'
+
 if [[ $EUID -ne 0 ]]; then
-  printf "This script must be run as root\n"
+  printf "${RED}Error:${NC} This script must be run as ${BLU}root\n"
   exit 1
 fi
 
-printf "\nInstall started at $(date)\n"
-printf "Creating temp directory at /tmp/jginstall/\n\n"
+if [[ $1 = "-h" ]]; then
+  echo "Usage: ./install_packages_apt [-a]"
+  echo -e "\t-a,\tInstall all packages including source based ones that may be redundant"
+  exit 0
+fi
+
+printf "\n${BLU}Install started at:${NC} $(date)\n"
+printf "${BLU}Creating temp directory at: ${NC}/tmp/jginstall/\n\n"
 mkdir -p /tmp/jginstall/
 pushd /tmp/jginstall/
 
 #
 # Update and upgrade
 #
+echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
 apt update
-apt upgrade
+# Use dist-upgrade to smart dependency changing and conflict resolution
+apt dist-upgrade
 
 #
 # Install Basic Development Parts & General Tools
 #
+echo -e "\n${BLU}$(date +"%T"):${NC} Installing any apt applications\n"
 apt-get -y install autoconf \
   automake \
   build-essential \
@@ -63,69 +72,75 @@ apt-get -y install autoconf \
   wget \
   xclip
 
-# Install Clang 5.0
-# from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
-printf "\nInstalling Clang 5.0 from source\n"
-# remove list file if already there
-[ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
-echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
-wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-apt-get update
-apt-get -y install clang-5.0 \
-  clang-5.0-doc \
-  clang-5.0-examples \
-  lldb-5.0 \
-  lld-5.0
-
-# Install Vim from src
-printf "\nInstalling Vim from source\n"
-apt remove vim vim-common vim-runtime gvim
-git clone https://github.com/vim/vim.git
-cd vim
-./configure --with-features=huge \
-  --enable-multibyte \
-  --enable-rubyinterp=yes \
-  --enable-pythoninterp=yes \
-  --enable-perlinterp=yes
-# if weird, run this process as regular user then run `make install` as sudo
-make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
-make install
-# sometimes `sudo` is removed with vim
-apt install -y sudo
-hash vim
-
-# Go- remove older Go 1st (if there) then install (note DL link should be
-# checked for updates)
-printf "\nInstalling go\n"
-rm -rf /usr/local/go
-wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
-tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
-rm -f go1.9.linux-amd64.tar.gz
-
-# Install Rust
-printf "\nInstalling Rust\n"
-curl https://sh.rustup.rs -sSf | sh
-
-# Install powerline fonts for Vim plugins
-# https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
-
-# Install npm packages
+# Install npm packages requiring admin rights
+echo -e "\n${BLU}$(date +"%T"):${NC} Installing npm applications\n"
 npm install -g grunt-cli \
   tmux-cpu \
   tmux-mem
 
-# Install Wine stable 2.0+ and Play on linux
-dpkg --add-architecture i386
-wget -nc https://dl.winehq.org/wine-builds/Release.key
-apt-key add Release.key
-apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
-rm Release.key
-apt-get update
-apt-get install -y --install-recommends winehq-stable
-apt-get install -y playonlinux
+# Source-based installs
+if [[ $1 = "-a" ]]; then
+  # Install Clang 5.0
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Clang 5.0 from source\n"
+  # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
+  # remove list file if already there
+  [ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
+  echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
+  wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+  apt-get update
+  apt-get -y install clang-5.0 \
+    clang-5.0-doc \
+    clang-5.0-examples \
+    lldb-5.0 \
+    lld-5.0
+
+  # Install Vim from src
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Vim from source\n"
+  apt remove vim vim-common vim-runtime gvim
+  git clone https://github.com/vim/vim.git
+  cd vim
+  ./configure --with-features=huge \
+    --enable-multibyte \
+    --enable-rubyinterp=yes \
+    --enable-pythoninterp=yes \
+    --enable-perlinterp=yes
+  # if weird, run this process as regular user then run `make install` as sudo
+  make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+  make install
+  # sometimes `sudo` is removed with vim
+  apt install -y sudo
+  hash vim
+
+  # Go- remove older Go 1st (if there) then install (note DL link should be
+  # checked for updates)
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Go from source\n"
+  rm -rf /usr/local/go
+  wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
+  tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
+  rm -f go1.9.linux-amd64.tar.gz
+
+  # Install Rust
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
+  curl https://sh.rustup.rs -sSf | sh
+
+  # Install powerline fonts for Vim plugins
+  # https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
+
+  # Install Wine stable 2.0+ and Play on linux
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Wine 2.0+\n"
+  dpkg --add-architecture i386
+  wget -nc https://dl.winehq.org/wine-builds/Release.key
+  apt-key add Release.key
+  apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+  rm Release.key
+  apt-get update
+  apt-get install -y --install-recommends winehq-stable
+  apt-get install -y playonlinux
+fi
 
 # Clean & exit
-printf "Cleaning out temp directory...\n"
+printf "${BLU}Deleting temp directory at ${NC}/tmp/jginstall/\n\n"
 popd
 rm -rf /tmp/jginstall/*
 apt autoremove
+printf "${BLU}DONE!... Installs and updates successful${NC}\n"

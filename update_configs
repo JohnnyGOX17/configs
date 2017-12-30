@@ -9,15 +9,22 @@
 # Run as intended user
 #
 
-cp ./configs/.gitconfig ~/.gitconfig
-cp ./configs/.bashrc ~/.bashrc
-cp ./configs/.bash_profile ~/.bash_profile
-cp ./configs/.inputrc ~/.inputrc
-cp ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
-cp ./configs/.vimrc ~/.vimrc
+# First copy local files over if they're newer
+cp -u ~/.gitconfig ./configs/.gitconfig 
+cp -u ~/.bashrc ./configs/.bashrc
+cp -u ~/.bash_profile ./configs/.bash_profile 
+cp -u ~/.inputrc ./configs/.inputrc 
+cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.profile 
+cp -u ~/.vimrc ./configs/.vimrc 
+cp -u ~/.vim/colors/gmonokai.vim ./configs/gmonokai.vim 
+cp -u ~/.tmux.conf ./configs/.tmux.conf 
+# Then copy remote files over if they're newer
+cp -u ./configs/.gitconfig ~/.gitconfig
+cp -u ./configs/.bashrc ~/.bashrc
+cp -u ./configs/.bash_profile ~/.bash_profile
+cp -u ./configs/.inputrc ~/.inputrc
+cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
+cp -u ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
-cp ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
-cp ./configs/.tmux.conf ~/.tmux.conf
-pushd ~/.rbenv
-git pull
-popd
+cp -u ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
+cp -u ./configs/.tmux.conf ~/.tmux.conf
