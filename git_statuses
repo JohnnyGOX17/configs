@@ -1,0 +1,40 @@
+#!/bin/bash
+# Automate checking git status of `src` directories
+
+# Colors for printing
+BLU='\033[1;34m'
+NC='\033[0m'
+
+pushd ~/src
+pushd c-examples/
+echo -e "\n${BLU}[c-examples]${NC}"
+git status
+popd
+pushd configs/
+echo -e "\n${BLU}[configs]${NC}"
+git status
+popd
+pushd cpp-examples/
+echo -e "\n${BLU}[cpp-examples]${NC}"
+git status
+popd
+pushd crypto-challenge/
+echo -e "\n${BLU}[crypto-challenge]${NC}"
+git status
+popd
+pushd FlexRIO-P2P-GPU/
+echo -e "\n${BLU}[FlexRIO-P2P-GPU]${NC}"
+git status
+popd
+pushd gent-systems-website/
+echo -e "\n${BLU}[gent-systems-website]${NC}"
+git status
+popd
+pushd prometheus/
+echo -e "\n${BLU}[prometheus]${NC}"
+git status
+popd
+pushd scripts/
+echo -e "\n${BLU}[scripts]${NC}"
+git status
+popd
