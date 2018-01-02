@@ -29,3 +29,6 @@ echo -e "${BLU}[vim color schemes]${NC}"
 diff ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
 echo -e "${BLU}[.tmux.conf]${NC}"
 diff ./configs/.tmux.conf ~/.tmux.conf
+echo -e "${BLU}[Ranger rc.conf]${NC}"
+diff ./configs/rc.conf ~/.config/ranger/rc.conf
+diff ./configs/scope.sh ~/.config/ranger/scope.sh

@@ -18,6 +18,8 @@ cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.pro
 cp -u ~/.vimrc ./configs/.vimrc 
 cp -u ~/.vim/colors/gmonokai.vim ./configs/gmonokai.vim 
 cp -u ~/.tmux.conf ./configs/.tmux.conf 
+cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
+cp -u ~/.config/ranger/scope.sh ./configs/scope.sh
 # Then copy remote files over if they're newer
 cp -u ./configs/.gitconfig ~/.gitconfig
 cp -u ./configs/.bashrc ~/.bashrc
@@ -28,3 +30,5 @@ cp -u ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
 cp -u ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
 cp -u ./configs/.tmux.conf ~/.tmux.conf
+cp -u ./configs/rc.conf ~/.config/ranger/rc.conf 
+cp -u ./configs/scope.sh ~/.config/ranger/scope.sh 

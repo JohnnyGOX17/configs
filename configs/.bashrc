@@ -42,6 +42,11 @@ alias lsd="ls -alF | grep /$"
 # allow cd.. for cd ..
 alias cd..='cd ..'
 
+# type less for faster push/pop dirs
+alias p='pushd'
+alias o='popd'
+alias d='dirs -v'
+
 # clear screen and ls with one command
 alias cls='clear && ls'
 

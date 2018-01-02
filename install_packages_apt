@@ -51,9 +51,11 @@ apt-get -y install autoconf \
   cmake \
   curl \
   exuberant-ctags \
+  ffmpegthumbnailer \
   g++ \
   gcc \
   git \
+  highlight \
   htop \
   ike \
   lm-sensors \
@@ -65,10 +67,12 @@ apt-get -y install autoconf \
   ranger \
   tcl \
   tmux \
+  unrar \
   urlview \
-  virtualbox \
   visualboyadvance \
   visualboyadvance-gtk \
+  w3m \
+  w3m-img \
   wget \
   xclip
 
@@ -136,6 +140,25 @@ if [[ $1 = "-a" ]]; then
   apt-get update
   apt-get install -y --install-recommends winehq-stable
   apt-get install -y playonlinux
+
+  # Install VirtualBox 5.2 from repo
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing VirtualBox 5.2.x for Ubuntu 16.04 (Xenial)\n"
+  # Use repo for Ubuntu 16.04 (Xenial); remove list file if already there
+  [ -e /etc/apt/sources.list.d/virtualbox.list ] && rm /etc/apt/sources.list.d/virtualbox.list
+  echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
+  wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  apt-get update
+  apt-get install virtualbox-5.2 dkms
+  echo -e "Install success but ${RED}VirtualBox Extension Pack may need to be installed still${NC}"
+
+  # Install facebook PathPicker
+  # Note: this app install location can change
+  pushd /usr/local/
+  git clone https://github.com/facebook/PathPicker.git
+  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
+  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
+  popd
+  
 fi
 
 # Clean & exit
