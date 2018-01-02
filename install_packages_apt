@@ -14,8 +14,11 @@ RED='\033[1;31m'
 BLU='\033[1;34m'
 NC='\033[0m'
 
+# Path to temporary installation directory
+InsPath=/tmp/jginstall/
+
 if [[ $EUID -ne 0 ]]; then
-  printf "${RED}Error:${NC} This script must be run as ${BLU}root\n"
+  printf "${RED}Error: This script must be run as root${NC}\n"
   exit 1
 fi
 
@@ -26,9 +29,9 @@ if [[ $1 = "-h" ]]; then
 fi
 
 printf "\n${BLU}Install started at:${NC} $(date)\n"
-printf "${BLU}Creating temp directory at: ${NC}/tmp/jginstall/\n\n"
-mkdir -p /tmp/jginstall/
-pushd /tmp/jginstall/
+printf "${BLU}Creating temp directory at: ${NC}$InsPath\n\n"
+mkdir -p $InsPath
+pushd $InsPath
 
 #
 # Update and upgrade
@@ -36,7 +39,7 @@ pushd /tmp/jginstall/
 echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
 apt update
 # Use dist-upgrade to smart dependency changing and conflict resolution
-apt dist-upgrade
+apt -y dist-upgrade
 
 #
 # Install Basic Development Parts & General Tools
@@ -162,8 +165,8 @@ if [[ $1 = "-a" ]]; then
 fi
 
 # Clean & exit
-printf "${BLU}Deleting temp directory at ${NC}/tmp/jginstall/\n\n"
+printf "\n${BLU}$(date +"%T"):${NC} Deleting temp directory at $InsPath\n"
 popd
-rm -rf /tmp/jginstall/*
+rm -rf $InsPath*
 apt autoremove
-printf "${BLU}DONE!... Installs and updates successful${NC}\n"
+printf "\n${BLU}$(date +"%T"):${NC} DONE!... Installs and updates successful${NC}\n\n"
