@@ -1,0 +1,45 @@
+#!/bin/bash
+# File              : git_pulls
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 02.01.2018
+# Last Modified Date: 02.01.2018
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
+# Automate checking git pull of `src` directories
+
+# Colors for printing
+BLU='\033[1;34m'
+NC='\033[0m'
+
+pushd ~/src
+pushd c-examples/
+echo -e "\n${BLU}[c-examples]${NC}"
+git pull
+popd
+pushd configs/
+echo -e "\n${BLU}[configs]${NC}"
+git pull
+popd
+pushd cpp-examples/
+echo -e "\n${BLU}[cpp-examples]${NC}"
+git pull
+popd
+pushd crypto-challenge/
+echo -e "\n${BLU}[crypto-challenge]${NC}"
+git pull
+popd
+pushd FlexRIO-P2P-GPU/
+echo -e "\n${BLU}[FlexRIO-P2P-GPU]${NC}"
+git pull
+popd
+pushd gent-systems-website/
+echo -e "\n${BLU}[gent-systems-website]${NC}"
+git pull
+popd
+pushd prometheus/
+echo -e "\n${BLU}[prometheus]${NC}"
+git pull
+popd
+pushd scripts/
+echo -e "\n${BLU}[scripts]${NC}"
+git pull
+popd
