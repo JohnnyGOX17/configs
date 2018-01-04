@@ -1,8 +1,8 @@
 #!/bin/bash
-# File              : src/configs/install_packages_apt
+# File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 29.12.2017
+# Last Modified Date: 03.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -61,6 +61,7 @@ apt-get -y install autoconf \
   highlight \
   htop \
   ike \
+  irssi \
   lm-sensors \
   make \
   mutt \

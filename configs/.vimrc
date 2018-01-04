@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 29.12.2017
+" Last Modified Date: 03.01.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -13,7 +13,7 @@ set hidden          " hide buffers instead of closing them
 syntax enable       " turn on syntax highlighting
 set cindent         " use C-style indenting
 set shiftwidth=2    " indent 2 spaces (instead of 8) for one tab
-set expandtab       " keep Vim from converting 8 spaces into tabs
+set expandtab       " make sure tabs expand to spaces
 set backspace=2     " make backspace work like most other text editors
 set cursorline      " highlight current line horizontally
 set wildmenu        " visual autocomplete for command menu
@@ -21,14 +21,46 @@ set showmatch       " highlight [{()}] matching
 set visualbell      " turn on visual flashes instead of audible bell
 set laststatus=2    " always shows status line (usefule for Airline plugin)
 set noshowmode      " turn off default mode indicator since we have plugin
-" Autoload changes to file whenever switching buffers or gaining focus
-set autoread
-au FocusGained, BufEnter * :silent! !
-" Autosave when leaving a buffer or vim (but run no save hooks to be faster)
-au FocusLost, WinLeave * :silent! noautocmd w
-" automatically associate *.md files with Markdown syntax
-au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+set autoread        " Autoload changes when switching buffers or gaining focus
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme gmonokai
+highlight ExtraWhitespace ctermbg=red guibg=red
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autocommands
+"
+" Use autocommand enclosures to prevent double-loading of autocommands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" DEBUG: Be verbose when executing autocommands (mostly keep commented out)
+"set verbose=9
+
+augroup multi_buffer
+  au!
+  au FocusGained, BufEnter * :silent! !
+  " Autosave when leaving a buffer or vim (but run no save hooks to be faster)
+  au FocusLost, WinLeave * :silent! noautocmd w
+augroup END
+
+augroup code_extensions_and_syntax
+  au!
+  " automatically associate *.md files with Markdown syntax (maybe NA for newer
+  " versions of Vim)
+  au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+  " Automatically remove all trailing whitespace when buffer is saved for
+  " certain text-based programming file extensions
+  au BufWritePre *.{c,cpp,h,hpp,sh,vhd} %s/\s\+$//e
+  " Matching autocommand for highlighting extra whitespace in red
+  " Uncomment below to match while typing (little aggressive)
+  "match ExtraWhitespace /\s\+$/
+  au BufWinEnter *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+$/
+  au InsertEnter *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+\%#\@<!$/
+  au InsertLeave *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+$/
+  " Clear when leaving for performance issues
+  au BufWinLeave * call clearmatches()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching & Movement
@@ -40,39 +72,41 @@ set ignorecase      " Ignore case when searching
 nnoremap gV '[v']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Key & Leader Shortcuts
+" Key & Leader Shortcuts/Remapping
+"
+" ALWAYS use nonrecursive mapping to prevent unintended consequences
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader=" "   " leader is comma
-" jk to escape
+let mapleader=" "
+" `jk` to escape
 inoremap jk <esc>
-" Remove all trailing whitespace by pressing F5
+" Remove all trailing whitespace by pressing F5 (also see above for autoremove
+" trailing whitespace on buffer save for specific filetypes)j
 nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-" Fast saving
-nnoremap <leader>w :w!<CR>
-" turn off search highlighting
-nnoremap <leader><space> :nohlsearch<CR>
-" turn on spell checking
-nnoremap <F5> :set spell spelllang=en_us<CR>
+" Fast save & quit
+nnoremap <leader>q :wq<CR>
+" Toggle spell checking (default off)
+nnoremap <F5> :set spell! spelllang=en_us<CR>
 " Open new empty buffer
-nmap <leader>n :enew<CR>
+nnoremap <leader>n :enew<CR>
 " Move to next open buffer
-nmap <leader>l :bnext<CR>
+nnoremap <leader>l :bnext<CR>
 " Move to previous buffer
-nmap <leader>h :bprevious<CR>
+nnoremap <leader>h :bprevious<CR>
 " Close current buffer and move to previous one (similar to closing tab)
-nmap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <leader>bq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
-nmap <leader>bl :ls<CR>
+nnoremap <leader>bl :ls<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set foldenable      " enable folding by default
+" Enable folding by default
+set foldenable
 " Space toggles opening/closing one layer of folds
 nnoremap <space> za
 " Leader_key+Space toggles opening/closing an entire layer of folds
 nnoremap <leader><space> zA
-set foldmethod=manual " or fold based on indent level
+set foldmethod=manual
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backups (move '~' appended files to temp dir)
@@ -91,8 +125,18 @@ func! WordProcessorMode()
   setlocal smartindent
   setlocal spell spelllang=en_us
   setlocal noexpandtab
+  setlocal nonumber
+  syntax off
 endfu
 com! WP call WordProcessorMode()
+
+" Apply Linux C Style guidelines
+func! LinuxCStyle()
+  setlocal shiftwidth=8
+  " Re-indent file to new shiftwidth and keep cursor position
+  normal mzgg=G`z
+endfu
+com! LinuxC call LinuxCStyle()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM-Plug Commands
@@ -154,5 +198,11 @@ Plug 'tpope/vim-fugitive'
 
 " Git gutter for showing diffs and other features
 Plug 'airblade/vim-gitgutter'
+
+" Header generator
+Plug 'alpertuna/vim-header'
+let g:header_field_author = 'John Gentile'
+let g:header_field_author_email = 'johncgentile17@gmail.com'
+nnoremap <F4> :AddHeader<CR>
 
 call plug#end()
