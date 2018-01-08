@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 03.01.2018
+# Last Modified Date: 05.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -69,6 +69,7 @@ apt-get -y install autoconf \
   python-dev \
   python3-dev \
   ranger \
+  shellcheck \
   tcl \
   tmux \
   unrar \
@@ -162,6 +163,13 @@ if [[ $1 = "-a" ]]; then
   # Note: absolute path could be changed to relative $(pwd) to be more dynamic
   ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
   popd
+
+  # Create (if needed) mutt dirs & other files
+  mkdir -p ~/.mutt/jgentile/headers
+  mkdir -p ~/.mutt/jgentile/bodies
+  touch ~/.mutt/certificates
+  # get solarized color scheme
+  wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-dark-256.muttrc
   
 fi
 
@@ -169,5 +177,5 @@ fi
 printf "\n${BLU}$(date +"%T"):${NC} Deleting temp directory at $InsPath\n"
 popd
 rm -rf $InsPath*
-apt autoremove
+apt -y autoremove
 printf "\n${BLU}$(date +"%T"):${NC} DONE!... Installs and updates successful${NC}\n\n"

@@ -2,7 +2,7 @@
 # File              : diff_configs
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 29.12.2017
-# Last Modified Date: 29.12.2017
+# Last Modified Date: 05.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to update all needed development tools
@@ -32,3 +32,5 @@ diff ./configs/.tmux.conf ~/.tmux.conf
 echo -e "${BLU}[Ranger rc.conf]${NC}"
 diff ./configs/rc.conf ~/.config/ranger/rc.conf
 diff ./configs/scope.sh ~/.config/ranger/scope.sh
+echo -e "${BLU}[.muttrc]${NC}"
+diff ./configs/.muttrc ~/.muttrc
