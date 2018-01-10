@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 05.01.2018
+# Last Modified Date: 09.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -132,9 +132,6 @@ if [[ $1 = "-a" ]]; then
   echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
   curl https://sh.rustup.rs -sSf | sh
 
-  # Install powerline fonts for Vim plugins
-  # https://powerline.readthedocs.io/en/master/installation/linux.html#fonts-installation
-
   # Install Wine stable 2.0+ and Play on linux
   echo -e "\n${BLU}$(date +"%T"):${NC} Installing Wine 2.0+\n"
   dpkg --add-architecture i386
@@ -163,13 +160,6 @@ if [[ $1 = "-a" ]]; then
   # Note: absolute path could be changed to relative $(pwd) to be more dynamic
   ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
   popd
-
-  # Create (if needed) mutt dirs & other files
-  mkdir -p ~/.mutt/jgentile/headers
-  mkdir -p ~/.mutt/jgentile/bodies
-  touch ~/.mutt/certificates
-  # get solarized color scheme
-  wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-dark-256.muttrc
   
 fi
 

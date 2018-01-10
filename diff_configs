@@ -2,7 +2,7 @@
 # File              : diff_configs
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 29.12.2017
-# Last Modified Date: 05.01.2018
+# Last Modified Date: 09.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to update all needed development tools
@@ -26,7 +26,7 @@ diff ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.prof
 echo -e "${BLU}[.vimrc]${NC}"
 diff ./configs/.vimrc ~/.vimrc
 echo -e "${BLU}[vim color schemes]${NC}"
-diff ./configs/gmonokai.vim ~/.vim/colors/gmonokai.vim
+diff ./configs/monokai.vim ~/.vim/colors/monokai.vim
 echo -e "${BLU}[.tmux.conf]${NC}"
 diff ./configs/.tmux.conf ~/.tmux.conf
 echo -e "${BLU}[Ranger rc.conf]${NC}"

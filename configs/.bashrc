@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 28.12.2017
+# Last Modified Date: 05.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -35,7 +35,7 @@ export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 # ls macros
 alias ll='ls -lhXG'
 alias ls='ls --color=auto'
-alias lsa='ls -a --color=auto'
+alias lsa='ls -A --color=auto'
 alias lsn='ls -a --color=no'
 alias lsd="ls -alF | grep /$"
 

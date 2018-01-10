@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 03.01.2018
+" Last Modified Date: 09.01.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -26,7 +26,7 @@ set autoread        " Autoload changes when switching buffers or gaining focus
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme gmonokai
+colorscheme monokai
 highlight ExtraWhitespace ctermbg=red guibg=red
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -60,6 +60,9 @@ augroup code_extensions_and_syntax
   au InsertLeave *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+$/
   " Clear when leaving for performance issues
   au BufWinLeave * call clearmatches()
+
+  " Close vim automatically if the only window left open is `NERDTree` plugin
+  au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -79,7 +82,7 @@ nnoremap gV '[v']
 let mapleader=" "
 " `jk` to escape
 inoremap jk <esc>
-" Remove all trailing whitespace by pressing F5 (also see above for autoremove
+" Remove all trailing whitespace by pressing F7 (also see above for autoremove
 " trailing whitespace on buffer save for specific filetypes)j
 nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " Fast save & quit
@@ -96,6 +99,14 @@ nnoremap <leader>h :bprevious<CR>
 nnoremap <leader>bq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
 nnoremap <leader>bl :ls<CR>
+" Open/toggle `NERDTree` file viewer plugin
+nnoremap <leader>t :NERDTreeToggle<CR>
+" Toggle `gundo` undo search plugin
+nnoremap <leader>u :GundoToggle<CR>
+" Open `CtrlP` plugin fuzzy search tool
+nnoremap <leader>p :CtrlP<CR>
+" Add Header to top of file with `vim-header` plugin
+nnoremap <F4> :AddHeader<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -103,10 +114,11 @@ nnoremap <leader>bl :ls<CR>
 " Enable folding by default
 set foldenable
 " Space toggles opening/closing one layer of folds
-nnoremap <space> za
+nnoremap <leader>kj za
 " Leader_key+Space toggles opening/closing an entire layer of folds
-nnoremap <leader><space> zA
-set foldmethod=manual
+nnoremap <leader>KJ zA
+set foldmethod=syntax
+set foldlevel=99
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Backups (move '~' appended files to temp dir)
@@ -148,13 +160,9 @@ call plug#begin('~/.vim/plugged')
 
 " Visual 'Undo' Tree
 Plug 'sjl/gundo.vim'
-" toggle gundo
-nnoremap <leader>u :GundoToggle<CR>
 
 " Full path fuzzy file, buffer, mru, tag... finder
 Plug 'ctrlpvim/ctrlp.vim'
-" open CtrlP fuzzy search tool
-nnoremap <leader>p :CtrlP<CR>
 " Set cwd as top level of source control if available
 let g:ctrlp_working_path_mode = 'r'
 " Setup file ignores
@@ -187,6 +195,11 @@ let g:airline_powerline_fonts = 1 " turn on powerline fonts
 " endif
 " let g:airline_symbols.space = "\ua0"
 
+" Filesystem explorer for vim
+Plug 'scrooloose/nerdtree'
+" Plugin to NERDTree showing `git` status flags to files
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " Plugin for snippets
 Plug 'SirVer/ultisnips'
 
@@ -203,6 +216,5 @@ Plug 'airblade/vim-gitgutter'
 Plug 'alpertuna/vim-header'
 let g:header_field_author = 'John Gentile'
 let g:header_field_author_email = 'johncgentile17@gmail.com'
-nnoremap <F4> :AddHeader<CR>
 
 call plug#end()

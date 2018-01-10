@@ -1,14 +1,7 @@
-" =============================================================================
 " Vim color file
-"
 " Converted from Textmate theme Monokai using Coloration v0.3.2 (http://github.com/sickill/coloration)
-" Edits for transparent backgrounds and 256 color terminal
-" To help with further 8-bit color edits, a useful tool is a color pallette
-" such as:
-" https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-" Place in ~/.vim/colors/
-" =============================================================================
 
+set background=dark
 highlight clear
 
 if exists("syntax_on")
@@ -35,7 +28,7 @@ hi Search ctermfg=NONE ctermbg=NONE cterm=underline guifg=NONE guibg=NONE gui=un
 hi Directory ctermfg=141 ctermbg=NONE cterm=NONE guifg=#ae81ff guibg=NONE gui=NONE
 hi Folded ctermfg=242 ctermbg=235 cterm=NONE guifg=#75715e guibg=#272822 gui=NONE
 hi SignColumn ctermfg=NONE ctermbg=237 cterm=NONE guifg=NONE guibg=#3c3d37 gui=NONE
-hi Normal ctermfg=231  cterm=NONE guifg=#f8f8f2 guibg=#272822 gui=NONE
+hi Normal ctermfg=231 ctermbg=235 cterm=NONE guifg=#f8f8f2 guibg=#272822 gui=NONE
 hi Boolean ctermfg=141 ctermbg=NONE cterm=NONE guifg=#ae81ff guibg=NONE gui=NONE
 hi Character ctermfg=141 ctermbg=NONE cterm=NONE guifg=#ae81ff guibg=NONE gui=NONE
 hi Comment ctermfg=242 ctermbg=NONE cterm=NONE guifg=#75715e guibg=NONE gui=NONE

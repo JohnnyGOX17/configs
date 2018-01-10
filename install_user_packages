@@ -1,12 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# File              : install_user_packages
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 09.01.2018
+# Last Modified Date: 09.01.2018
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
 # Run as intended user
 #
 
 echo "Install started at $(date)"
+pushd /tmp/
 
 echo "Installing rbenv and ruby-build"
+mkdir -p ~/.rbenv
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 pushd ~/.rbenv
 src/configure
@@ -26,4 +33,37 @@ exec $SHELL
 echo "Installing Gems"
 gem install jekyll
 gem install bundler
+popd
+
+# Create (if needed) mutt dirs & other files
+echo "Installing mutt"
+mkdir -p ~/.mutt/jgentile/headers
+mkdir -p ~/.mutt/jgentile/bodies
+touch ~/.mutt/certificates
+# get solarized color scheme
+wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-      dark-256.muttrc
+
+echo "Installing vim components..."
+
+echo "Installing vim-plug"
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+echo "Installing vim-colorschemes"
+git clone https://github.com/flazz/vim-colorschemes.git
+mkdir -p ~/.vim/colors/
+cp vim-colorschemes/colors/* ~/.vim/colors/
+rm -rf vim-colorschemes/
+
+echo "Installing Powerline fonts"
+wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+# check this is valid path to fonts by `$ xset q`
+mv PowerlineSymbols.otf /usr/share/fonts/X11/misc/
+# `$ fc-cache` may need sudo rights
+fc-cache -vf /usr/share/fonts/X11/misc/
+mkdir -p ~/.config/fontconfig/conf.d/
+mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+
+# leave /tmp/
 popd
