@@ -2,7 +2,7 @@
 # File              : git_pulls
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 02.01.2018
-# Last Modified Date: 02.01.2018
+# Last Modified Date: 14.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 # Automate checking git pull of `src` directories
 
@@ -33,6 +33,10 @@ git pull
 popd
 pushd gent-systems-website/
 echo -e "\n${BLU}[gent-systems-website]${NC}"
+git pull
+popd
+pushd john-gentile-website/
+echo -e "\n${BLU}[john-gentile-website]${NC}"
 git pull
 popd
 pushd prometheus/

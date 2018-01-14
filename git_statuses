@@ -1,4 +1,9 @@
 #!/bin/bash
+# File              : git_statuses
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 14.01.2018
+# Last Modified Date: 14.01.2018
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 # Automate checking git status of `src` directories
 
 # Colors for printing
@@ -28,6 +33,10 @@ git status
 popd
 pushd gent-systems-website/
 echo -e "\n${BLU}[gent-systems-website]${NC}"
+git status
+popd
+pushd john-gentile-website/
+echo -e "\n${BLU}[john-gentile-website]${NC}"
 git status
 popd
 pushd prometheus/
