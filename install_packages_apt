@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 09.01.2018
+# Last Modified Date: 12.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -34,9 +34,11 @@ mkdir -p $InsPath
 pushd $InsPath
 
 #
-# Update and upgrade
+# Add Optional Repos: Update and upgrade
 #
 echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
+# Repo for Brackets editor
+add-apt-repository ppa:webupd8team/brackets
 apt update
 # Use dist-upgrade to smart dependency changing and conflict resolution
 apt -y dist-upgrade
@@ -47,6 +49,7 @@ apt -y dist-upgrade
 echo -e "\n${BLU}$(date +"%T"):${NC} Installing any apt applications\n"
 apt-get -y install autoconf \
   automake \
+  brackets \
   build-essential \
   bzip2 \
   checkinstall \
@@ -160,6 +163,8 @@ if [[ $1 = "-a" ]]; then
   # Note: absolute path could be changed to relative $(pwd) to be more dynamic
   ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
   popd
+
+  #TODO: add custom Google Fonts from www.fonts.google.com
   
 fi
 
