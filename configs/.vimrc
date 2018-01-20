@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 09.01.2018
+" Last Modified Date: 17.01.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -85,8 +85,6 @@ inoremap jk <esc>
 " Remove all trailing whitespace by pressing F7 (also see above for autoremove
 " trailing whitespace on buffer save for specific filetypes)j
 nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-" Fast save & quit
-nnoremap <leader>q :wq<CR>
 " Toggle spell checking (default off)
 nnoremap <F5> :set spell! spelllang=en_us<CR>
 " Open new empty buffer
@@ -96,7 +94,7 @@ nnoremap <leader>l :bnext<CR>
 " Move to previous buffer
 nnoremap <leader>h :bprevious<CR>
 " Close current buffer and move to previous one (similar to closing tab)
-nnoremap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <leader>q :bp <BAR> bd #<CR>
 " Show all open buffers and their status
 nnoremap <leader>bl :ls<CR>
 " Open/toggle `NERDTree` file viewer plugin
@@ -202,6 +200,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Plugin for snippets
 Plug 'SirVer/ultisnips'
+" set ultisnips to use a key that doesn't conflict with YCM
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " Sublime-text like multiple-cursor use
 Plug 'terryma/vim-multiple-cursors'
@@ -211,6 +213,14 @@ Plug 'tpope/vim-fugitive'
 
 " Git gutter for showing diffs and other features
 Plug 'airblade/vim-gitgutter'
+" Only check on file save/load
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+" unmap git gutter keys so that <leader>h works faster
+autocmd VimEnter * unmap <leader>hp
+autocmd VimEnter * unmap <leader>hr
+autocmd VimEnter * unmap <leader>hu
+autocmd VimEnter * unmap <leader>hs
 
 " Header generator
 Plug 'alpertuna/vim-header'
