@@ -2,23 +2,29 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 05.01.2018
+# Last Modified Date: 22.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+  . /etc/bashrc
 fi
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
 # =============================================================================
-# Path additions/edits
+# Terminal & Path additions/edits
 # =============================================================================
 
-# customize PS1 bash prompt: bold w/blue user@host and yellow pwd $
-export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
+# customize PS1 bash prompt and change if on remote machine over SSH: 
+#   Local: bold w/blue user@host and yellow pwd $
+#   SSH: bold w/red user@host and yellow pwd $
+if [ -n "$SSH_CLIENT" ]; then
+  export PS1="\[\e[1;31m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
+else
+  export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
+fi
 
 # set vim as default editor
 export VISUAL=vim
@@ -78,7 +84,7 @@ function lb() {
 # Cleanup & Launches
 # =============================================================================
 
-# Run tmux automatically
-if [ -z "$TMUX" ]; then
+# Run tmux automatically if not in SSH session
+if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
   tmux new -s dev
 fi
