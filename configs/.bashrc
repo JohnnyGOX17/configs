@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 22.01.2018
+# Last Modified Date: 23.01.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -37,6 +37,9 @@ export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 # =============================================================================
 # User specific aliases and functions
 # =============================================================================
+
+# easy updating for debian/apt-based package management
+alias update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y'
 
 # ls macros
 alias ll='ls -lhXG'
