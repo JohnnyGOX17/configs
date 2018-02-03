@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 29.01.2018
+# Last Modified Date: 01.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -38,7 +38,8 @@ pushd $InsPath
 #
 echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
 # Repo for Brackets editor
-add-apt-repository ppa:webupd8team/brackets
+add-apt-repository --yes ppa:webupd8team/brackets
+add-apt-repository --yes ppa:js-reynaud/kicad-4
 apt update
 # Use dist-upgrade to smart dependency changing and conflict resolution
 apt -y dist-upgrade
@@ -65,6 +66,7 @@ apt-get -y install autoconf \
   htop \
   ike \
   irssi \
+  kicad \
   lm-sensors \
   make \
   mutt \
