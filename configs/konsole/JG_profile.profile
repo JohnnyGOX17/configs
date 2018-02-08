@@ -1,10 +1,13 @@
 [Appearance]
+AntiAliasFonts=true
+BoldIntense=true
 ColorScheme=DarkPastels
-Font=Ubuntu Mono,12,-1,0,50,0,0,0,0,0,Regular
+Font=Monospace,10,-1,5,50,0,0,0,0,0,Regular
+UseFontLineChararacters=false
 
 [Cursor Options]
 CursorShape=1
-CustomCursorColor=221,153,51
+CustomCursorColor=255,85,0
 UseCustomCursorColor=true
 
 [General]
