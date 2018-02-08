@@ -2,7 +2,7 @@
 # File              : install_user_packages
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 09.01.2018
-# Last Modified Date: 07.02.2018
+# Last Modified Date: 08.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -72,11 +72,5 @@ pip install awscli --upgrade --user
 popd
 
 # Add `tmux` terminal types to support italic/bold in tmux
-cat <<EOF|tic -x -
-tmux|tmux terminal multiplexer,
-  ritm=\E[23m, rmso=\E[27m, sitm=\E[3m, smso=\E[7m, Ms@,
-  use=xterm+tmux, use=screen,
-
-tmux-256color|tmux with 256 colors,
-  use=xterm+256setaf, use=tmux,
-EOF
+tic -x ./configs/xterm-256color-italic.terminfo
+tic -x ./configs/tmux-256color.terminfo

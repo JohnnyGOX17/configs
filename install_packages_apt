@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 01.02.2018
+# Last Modified Date: 08.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -67,6 +67,7 @@ apt-get -y install autoconf \
   ike \
   irssi \
   kicad \
+  libevent-dev \
   lm-sensors \
   make \
   mutt \
@@ -76,7 +77,6 @@ apt-get -y install autoconf \
   ranger \
   shellcheck \
   tcl \
-  tmux \
   tree \
   unrar \
   urlview \
@@ -110,11 +110,19 @@ if [[ $1 = "-a" ]]; then
     lldb-5.0 \
     lld-5.0
 
+  # Install tmux 2.6 from src
+  wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
+  tar -xzf tmux-2.6.tar.gz
+  pushd tmux-2.6
+  ./configure && make
+  make install
+  popd
+
   # Install Vim from src
   echo -e "\n${BLU}$(date +"%T"):${NC} Installing Vim from source\n"
   apt remove vim vim-common vim-runtime gvim
   git clone https://github.com/vim/vim.git
-  cd vim
+  pushd vim
   ./configure --with-features=huge \
     --enable-multibyte \
     --enable-rubyinterp=yes \
@@ -126,6 +134,7 @@ if [[ $1 = "-a" ]]; then
   # sometimes `sudo` is removed with vim
   apt install -y sudo
   hash vim
+  popd
 
   # Go- remove older Go 1st (if there) then install (note DL link should be
   # checked for updates)
