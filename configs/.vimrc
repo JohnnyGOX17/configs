@@ -1,12 +1,13 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 20.01.2018
+" Last Modified Date: 07.02.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Editing Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible    " noop when loading from ~/ but needed when $ vim -u .vimrc
 set t_Co=256        " turn on 256 colors
 set number          " turn on line numbering
 set hidden          " hide buffers instead of closing them
@@ -47,8 +48,9 @@ augroup END
 augroup code_extensions_and_syntax
   au!
   " automatically associate *.md files with Markdown syntax (maybe NA for newer
-  " versions of Vim)
+  " versions of Vim) and launch `Goyo` plugin automatically
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+  au BufNewFile,BufFilePre,BufRead *.md Goyo
   " Automatically remove all trailing whitespace when buffer is saved for
   " certain text-based programming file extensions
   au BufWritePre *.{c,cpp,h,hpp,sh,vhd} %s/\s\+$//e
@@ -136,6 +138,8 @@ func! WordProcessorMode()
   setlocal spell spelllang=en_us
   setlocal noexpandtab
   setlocal nonumber
+  setlocal tw=79
+  setlocal background=light
   syntax off
 endfu
 com! WP call WordProcessorMode()
@@ -147,6 +151,27 @@ func! LinuxCStyle()
   normal mzgg=G`z
 endfu
 com! LinuxC call LinuxCStyle()
+
+" Functions for `Goyo` plugin to quit even when `:q` is called
+function! s:goyo_enter()
+  silent !tmux set status off
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! s:goyo_leave()
+  silent !tmux set status on
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM-Plug Commands
@@ -228,4 +253,20 @@ let g:header_field_author = 'John Gentile'
 let g:header_field_author_email = 'johncgentile17@gmail.com'
 let g:header_max_size = 12
 
+" Markdown highlighting
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+set conceallevel=2
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 2
+
+" Distraction free writing
+Plug 'junegunn/goyo.vim'
+autocmd! User GoyoEnter call <SID>goyo_enter()
+autocmd! User GoyoLeave call <SID>goyo_leave()
+
 call plug#end()
+
+" Applied last to override any comment settings
+highlight Comment cterm=italic
