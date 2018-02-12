@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 07.02.2018
+" Last Modified Date: 11.02.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -51,6 +51,7 @@ augroup code_extensions_and_syntax
   " versions of Vim) and launch `Goyo` plugin automatically
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   au BufNewFile,BufFilePre,BufRead *.md Goyo
+  au BufNewFile,BufFilePre,BufRead *.{md,txt} setlocal spell spelllang=en_us
   " Automatically remove all trailing whitespace when buffer is saved for
   " certain text-based programming file extensions
   au BufWritePre *.{c,cpp,h,hpp,sh,vhd} %s/\s\+$//e
@@ -259,7 +260,7 @@ Plug 'plasticboy/vim-markdown'
 set conceallevel=2
 let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_new_list_item_indent = 0
 
 " Distraction free writing
 Plug 'junegunn/goyo.vim'
