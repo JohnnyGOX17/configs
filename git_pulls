@@ -2,48 +2,139 @@
 # File              : git_pulls
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 02.01.2018
-# Last Modified Date: 14.01.2018
+# Last Modified Date: 13.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
-# Automate checking git pull of `src` directories
+#
+# Automate checking `git pull` of `src` directories
 
 # Colors for printing
 BLU='\033[1;34m'
 NC='\033[0m'
 
+# Find if ssh-agent process is already running. If not, start it and auto add
+# private key from default location. If running do nothing. If more than one
+# process running, kill last one
+case "$(pidof ssh-agent | wc -w)" in
+  0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
+    eval 'ssh-agent'
+    echo "Adding private key from default location:"
+    ssh-add
+    ;;
+  1) echo -e "\n${BLU}ssh-agent already running $(pidof ssh-agent)${NC}"
+    ;;
+  *) echo -e "\n${BLU}Removed double process of ssh-agent${NC}"
+    kill $(pidof ssh-agent | awk '{print $1}')
+    ;;
+esac
+
+mkdir -p ~/src
 pushd ~/src
-pushd c-examples/
+
+# if local repos don't exist create them, else pull any updates
 echo -e "\n${BLU}[c-examples]${NC}"
-git pull
-popd
-pushd configs/
+if [ -d "c-examples/" ]; then
+  pushd c-examples/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/c-examples.git
+fi
+
 echo -e "\n${BLU}[configs]${NC}"
-git pull
-popd
-pushd cpp-examples/
+if [ -d "configs/" ]; then
+  pushd configs/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/configs.git
+fi
+
 echo -e "\n${BLU}[cpp-examples]${NC}"
-git pull
-popd
-pushd crypto-challenge/
+if [ -d "cpp-examples/" ]; then
+  pushd cpp-examples/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/cpp-examples.git
+fi
+
 echo -e "\n${BLU}[crypto-challenge]${NC}"
-git pull
-popd
-pushd FlexRIO-P2P-GPU/
+if [ -d "crypto-challenge/" ]; then
+  pushd crypto-challenge/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/crypto-challenge.git
+fi
+
 echo -e "\n${BLU}[FlexRIO-P2P-GPU]${NC}"
-git pull
-popd
-pushd gent-systems-website/
+if [ -d "FlexRIO-P2P-GPU/" ]; then
+  pushd FlexRIO-P2P-GPU/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/FlexRIO-P2P-GPU.git
+fi
+
+echo -e "\n${BLU}[FoC]${NC}"
+if [ -d "FoC/" ]; then
+  pushd FoC/
+  git pull
+  popd
+else
+  git clone git@github.com:Gent-Systems/FoC.git
+fi
+
 echo -e "\n${BLU}[gent-systems-website]${NC}"
-git pull
-popd
-pushd john-gentile-website/
+if [ -d "gent-systems-website/" ]; then
+  pushd gent-systems-website/
+  git pull
+  popd
+else
+  git@github.com:Gent-Systems/gent-systems-website.git
+fi
+
 echo -e "\n${BLU}[john-gentile-website]${NC}"
-git pull
-popd
-pushd prometheus/
+if [ -d "john-gentile-website/" ]; then
+  pushd john-gentile-website/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/john-gentile-website.git
+fi
+
 echo -e "\n${BLU}[prometheus]${NC}"
-git pull
-popd
-pushd scripts/
+if [ -d "prometheus/" ]; then
+  pushd prometheus/
+  git pull
+  popd
+else
+  git clone git@github.com:Gent-Systems/prometheus.git
+fi
+
+echo -e "\n${BLU}[ldd3-examples]${NC}"
+if [ -d "ldd3-examples/" ]; then
+  pushd ldd3-examples/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/ldd3-examples.git
+fi
+
 echo -e "\n${BLU}[scripts]${NC}"
-git pull
-popd
+if [ -d "scripts/" ]; then
+  pushd scripts/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/scripts.git
+fi
+
+echo -e "\n${BLU}[vhdl-examples]${NC}"
+if [ -d "vhdl-examples/" ]; then
+  pushd vhdl-examples/
+  git pull
+  popd
+else
+  git clone git@github.com:JohnnyGOX17/vhdl-examples.git
+fi
