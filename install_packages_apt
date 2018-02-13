@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 08.02.2018
+# Last Modified Date: 12.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -76,6 +76,7 @@ apt-get -y install autoconf \
   python3-dev \
   ranger \
   shellcheck \
+  silversearcher-ag \
   tcl \
   tree \
   unrar \
