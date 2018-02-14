@@ -2,7 +2,7 @@
 # File              : git_pulls
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 02.01.2018
-# Last Modified Date: 13.02.2018
+# Last Modified Date: 14.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Automate checking `git pull` of `src` directories
@@ -17,8 +17,6 @@ NC='\033[0m'
 case "$(pidof ssh-agent | wc -w)" in
   0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
     eval 'ssh-agent'
-    echo "Adding private key from default location:"
-    ssh-add
     ;;
   1) echo -e "\n${BLU}ssh-agent already running $(pidof ssh-agent)${NC}"
     ;;
@@ -26,6 +24,9 @@ case "$(pidof ssh-agent | wc -w)" in
     kill $(pidof ssh-agent | awk '{print $1}')
     ;;
 esac
+
+echo "Adding private key from default location:"
+ssh-add
 
 mkdir -p ~/src
 pushd ~/src
