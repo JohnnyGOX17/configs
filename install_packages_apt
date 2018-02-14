@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 12.02.2018
+# Last Modified Date: 14.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -33,45 +33,88 @@ printf "${BLU}Creating temp directory at: ${NC}$InsPath\n\n"
 mkdir -p $InsPath
 pushd $InsPath
 
-#
+
+###############################################################################
 # Add Optional Repos: Update and upgrade
-#
+###############################################################################
+
 echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
+
+# Install Clang 5.0 repo
+# from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
+# remove list file if already there
+[ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
+echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
+wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+
+# Install VirtualBox 5.2 from repo
+# Use repo for Ubuntu 16.04 (Xenial); remove list file if already there
+[ -e /etc/apt/sources.list.d/virtualbox.list ] && rm /etc/apt/sources.list.d/virtualbox.list
+echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
+wget -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+
+# Repo for Perforce- see https://www.perforce.com/perforce/doc.current/user/p4vnotes.txt
+# remove list if already there
+[ -e /etc/apt/sources.list.d/perforce.list ] && rm /etc/apt/sources.list.d/perforce.list
+echo "deb http://package.perforce.com/apt/ubuntu/ xenial release" > /etc/apt/sources.list.d/perforce.list
+wget -O - https://package.perforce.com/perforce.pubkey | sudo apt-key add -
+
 # Repo for Brackets editor
 add-apt-repository --yes ppa:webupd8team/brackets
 add-apt-repository --yes ppa:js-reynaud/kicad-4
+
+# Install Wine stable 2.0+ and Play on linux
+dpkg --add-architecture i386
+wget -nc https://dl.winehq.org/wine-builds/Release.key
+apt-key add Release.key
+apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+rm Release.key
+
+# Update and pull in all new repos
 apt update
 # Use dist-upgrade to smart dependency changing and conflict resolution
 apt -y dist-upgrade
 
-#
+
+###############################################################################
 # Install Basic Development Parts & General Tools
-#
+###############################################################################
+
 echo -e "\n${BLU}$(date +"%T"):${NC} Installing any apt applications\n"
-apt-get -y install autoconf \
+# If certain programs/packages are not wanted they can be easily commented out
+apt-get -y --install-recommends install autoconf \
   automake \
   brackets \
   build-essential \
   bzip2 \
   checkinstall \
   cifs-utils \
+  clang-5.0 \
+  clang-5.0-doc \
+  clang-5.0-examples \
   cmake \
   curl \
+  dkms \
   exuberant-ctags \
   ffmpegthumbnailer \
   g++ \
   gcc \
   git \
+  helix-cli \
+  helix-p4d \
   highlight \
   htop \
   ike \
   irssi \
   kicad \
   libevent-dev \
+  lldb-5.0 \
+  lld-5.0 \
   lm-sensors \
   make \
   mutt \
   nano \
+  playonlinux \
   python-dev \
   python3-dev \
   ranger \
@@ -81,11 +124,13 @@ apt-get -y install autoconf \
   tree \
   unrar \
   urlview \
+  virtualbox-5.2 \
   visualboyadvance \
   visualboyadvance-gtk \
   w3m \
   w3m-img \
   wget \
+  winehq-stable \
   xclip
 
 # Install npm packages requiring admin rights
@@ -95,21 +140,12 @@ npm install -g grunt-cli \
   tmux-cpu \
   tmux-mem
 
+
+###############################################################################
 # Source-based installs
+###############################################################################
+
 if [[ $1 = "-a" ]]; then
-  # Install Clang 5.0
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Clang 5.0 from source\n"
-  # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
-  # remove list file if already there
-  [ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
-  echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
-  wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-  apt-get update
-  apt-get -y install clang-5.0 \
-    clang-5.0-doc \
-    clang-5.0-examples \
-    lldb-5.0 \
-    lld-5.0
 
   # Install tmux 2.6 from src
   wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
@@ -149,26 +185,6 @@ if [[ $1 = "-a" ]]; then
   echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
   curl https://sh.rustup.rs -sSf | sh
 
-  # Install Wine stable 2.0+ and Play on linux
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Wine 2.0+\n"
-  dpkg --add-architecture i386
-  wget -nc https://dl.winehq.org/wine-builds/Release.key
-  apt-key add Release.key
-  apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
-  rm Release.key
-  apt-get update
-  apt-get install -y --install-recommends winehq-stable
-  apt-get install -y playonlinux
-
-  # Install VirtualBox 5.2 from repo
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing VirtualBox 5.2.x for Ubuntu 16.04 (Xenial)\n"
-  # Use repo for Ubuntu 16.04 (Xenial); remove list file if already there
-  [ -e /etc/apt/sources.list.d/virtualbox.list ] && rm /etc/apt/sources.list.d/virtualbox.list
-  echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
-  wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-  apt-get update
-  apt-get install virtualbox-5.2 dkms
-  echo -e "Install success but ${RED}VirtualBox Extension Pack may need to be installed still${NC}"
 
   # Install facebook PathPicker
   # Note: this app install location can change
@@ -182,7 +198,11 @@ if [[ $1 = "-a" ]]; then
   
 fi
 
+
+###############################################################################
 # Clean & exit
+###############################################################################
+
 printf "\n${BLU}$(date +"%T"):${NC} Deleting temp directory at $InsPath\n"
 popd
 rm -rf $InsPath*

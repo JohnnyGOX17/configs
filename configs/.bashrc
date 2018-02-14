@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 12.02.2018
+# Last Modified Date: 14.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -31,7 +31,7 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # add paths for NVCC (NVIDIA CUDA Compiler)
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 
 # =============================================================================
