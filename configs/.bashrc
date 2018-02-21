@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 14.02.2018
+# Last Modified Date: 21.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -35,6 +35,21 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 
 # =============================================================================
+# NI Perforce Environment Variables
+# =============================================================================
+
+export MAKE_NUMBER_OF_JOBS=8
+export MAKEFILTER_WARNINGS_STOP_BUILD=1
+export nibuild_perforce_clientspec="jgentile_jg-neon_7037"
+export nibuild_perforce_root="/home/jgentile/Perforce/jgentile_jg-neon_7037"
+export nibuild_penguin_clientspec="jgentile_jg-neon_2818"
+export nibuild_penguin_root="/home/jgentile/Perforce/jgentile_jg-neon_2818"   
+export P4CLIENT="jg-neon"
+export P4CONFIG=.p4config
+export P4PORT=perforce.natinst.com:1666
+export P4USER="jgentile"
+
+# =============================================================================
 # User specific aliases and functions
 # =============================================================================
 
@@ -43,6 +58,9 @@ alias ssh='TERM=xterm-256color ssh'
 
 # explicitly alias vi->vim
 alias vi='vim'
+
+# useful for simple projects looking to add->commit->push in one step
+alias gitacp='git add -A && git commit -s && git push'
 
 # easy updating for debian/apt-based package management
 alias update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y'
@@ -70,6 +88,9 @@ alias bc='bc -l'
 
 # tmux should assume 256 color terminal support
 alias tmux="tmux -2"
+
+# enable more advanced globbing in bash
+shopt -s globstar
 
 # keep more bash history
 export HISTSIZE=10000

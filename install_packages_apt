@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 14.02.2018
+# Last Modified Date: 18.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -17,9 +17,14 @@ NC='\033[0m'
 # Path to temporary installation directory
 InsPath=/tmp/jginstall/
 
-if [[ $EUID -ne 0 ]]; then
-  printf "${RED}Error: This script must be run as root${NC}\n"
+# Simple error handler function to print to stderr
+err() {
+  echo -e "${RED}[$(date +"%T")]: $@ ${NC}" >&2
   exit 1
+}
+
+if [[ $EUID -ne 0 ]]; then
+  err "This script must be run as root"
 fi
 
 if [[ $1 = "-h" ]]; then

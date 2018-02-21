@@ -2,8 +2,10 @@
 # File              : term_test
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 07.02.2018
-# Last Modified Date: 07.02.2018
+# Last Modified Date: 19.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
+#
+# Tests terminal for formatting styles
 
 echo -e "\e[1mbold\e[0m"
 echo -e "\e[3mitalic\e[0m"
@@ -11,3 +13,5 @@ echo -e "\e[4munderline\e[0m"
 echo -e "\e[9mstrikethrough\e[0m"
 echo -e "\e[31mHello World\e[0m"
 echo -e "\x1B[31mHello World\e[0m"
+echo -e "\033[1;31mRed Text\033[0m"
+echo -e "\033[1;34mBlue Text\033[0m"
