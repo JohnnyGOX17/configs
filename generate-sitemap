@@ -2,7 +2,7 @@
 # File              : generate-sitemap
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 20.02.2018
-# Last Modified Date: 20.02.2018
+# Last Modified Date: 21.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Simple bash script to generate `sitemap.xml` for a website given a certain
@@ -60,7 +60,7 @@ for file in $searchDir; do
   #$(basename "$file")
 
   # Reformat output of `stat` for file of interest to time standard
-  printf "\t\t<lastmod>%s</lastmod>\n" "$( stat $file | awk '/^Modify/ {split($3, a, ".", seps); print $2 "T" a[1] substr($4, 1, 3) ":" substr($4, 4, 4)}' - )"
+  printf "\t\t<lastmod>%s</lastmod>\n" "$( stat $file | awk '/^Modify/ {split($3, a, "."); print $2 "T" a[1] substr($4, 1, 3) ":" substr($4, 4, 4)}' - )"
 
   printf "\t\t<changefreq>%s</changefreq>\n" "$changeFrequency"
   printf "\t</url>\n"
