@@ -2,7 +2,7 @@
 # File              : generate-sitemap
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 20.02.2018
-# Last Modified Date: 21.02.2018
+# Last Modified Date: 22.02.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Simple bash script to generate `sitemap.xml` for a website given a certain
