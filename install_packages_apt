@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 18.02.2018
+# Last Modified Date: 02.03.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -45,35 +45,43 @@ pushd $InsPath
 
 echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
 
-# Install Clang 5.0 repo
+# Brackets editor
+apt-add-repository --yes ppa:webupd8team/brackets
+
+# Clang 5.0 repo
 # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
-# remove list file if already there
-[ -e /etc/apt/sources.list.d/llvm.list ] && rm /etc/apt/sources.list.d/llvm.list 
 echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
-wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
-# Install VirtualBox 5.2 from repo
-# Use repo for Ubuntu 16.04 (Xenial); remove list file if already there
-[ -e /etc/apt/sources.list.d/virtualbox.list ] && rm /etc/apt/sources.list.d/virtualbox.list
-echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
-wget -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+# Google Chrome repo
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+wget -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 
-# Repo for Perforce- see https://www.perforce.com/perforce/doc.current/user/p4vnotes.txt
-# remove list if already there
-[ -e /etc/apt/sources.list.d/perforce.list ] && rm /etc/apt/sources.list.d/perforce.list
+# KiCAD schematic & layout editor
+apt-add-repository --yes ppa:js-reynaud/kicad-4
+
+# Perforce- see https://www.perforce.com/perforce/doc.current/user/p4vnotes.txt
 echo "deb http://package.perforce.com/apt/ubuntu/ xenial release" > /etc/apt/sources.list.d/perforce.list
-wget -O - https://package.perforce.com/perforce.pubkey | sudo apt-key add -
+wget -O - https://package.perforce.com/perforce.pubkey | apt-key add -
 
-# Repo for Brackets editor
-add-apt-repository --yes ppa:webupd8team/brackets
-add-apt-repository --yes ppa:js-reynaud/kicad-4
+# Remmina Remote Desktop
+apt-add-repository --yes ppa:remmina-ppa-team/remmina-next
 
-# Install Wine stable 2.0+ and Play on linux
+# Spotify music player repo
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list.d/spotify.list
+
+# VirtualBox 5.x- use repo for Ubuntu 16.04 (Xenial)
+echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
+wget -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add -
+
+# Wine stable 2.0+ and Play on linux
 dpkg --add-architecture i386
 wget -nc https://dl.winehq.org/wine-builds/Release.key
 apt-key add Release.key
-apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+apt-add-repository --yes https://dl.winehq.org/wine-builds/ubuntu/
 rm Release.key
+
 
 # Update and pull in all new repos
 apt update
@@ -87,7 +95,8 @@ apt -y dist-upgrade
 
 echo -e "\n${BLU}$(date +"%T"):${NC} Installing any apt applications\n"
 # If certain programs/packages are not wanted they can be easily commented out
-apt-get -y --install-recommends install autoconf \
+apt-get -y --install-recommends install \
+  autoconf \
   automake \
   brackets \
   build-essential \
@@ -105,6 +114,7 @@ apt-get -y --install-recommends install autoconf \
   g++ \
   gcc \
   git \
+  google-chrome-stable \
   helix-cli \
   helix-p4d \
   highlight \
@@ -123,8 +133,12 @@ apt-get -y --install-recommends install autoconf \
   python-dev \
   python3-dev \
   ranger \
+  remmina \
+  remmina-plugin-rdp \
+  remmina-plugin-secret \
   shellcheck \
   silversearcher-ag \
+  spotify-client \
   tcl \
   tree \
   unrar \
@@ -132,6 +146,7 @@ apt-get -y --install-recommends install autoconf \
   virtualbox-5.2 \
   visualboyadvance \
   visualboyadvance-gtk \
+  vlc \
   w3m \
   w3m-img \
   wget \
@@ -140,7 +155,8 @@ apt-get -y --install-recommends install autoconf \
 
 # Install npm packages requiring admin rights
 echo -e "\n${BLU}$(date +"%T"):${NC} Installing npm applications\n"
-npm install -g grunt-cli \
+npm install -g \
+  grunt-cli \
   gulp-cli \
   tmux-cpu \
   tmux-mem
@@ -152,7 +168,27 @@ npm install -g grunt-cli \
 
 if [[ $1 = "-a" ]]; then
 
-  # Install tmux 2.6 from src
+  # Facebook PathPicker install
+  # Note: this app install location can change
+  pushd /usr/local/
+  git clone https://github.com/facebook/PathPicker.git
+  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
+  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
+  popd
+
+  # Go- remove older Go 1st (if there) then install (note DL link should be
+  # checked for updates)
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Go from source\n"
+  rm -rf /usr/local/go
+  wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
+  tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
+  rm -f go1.9.linux-amd64.tar.gz
+
+  # Rust install
+  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
+  curl https://sh.rustup.rs -sSf | sh
+
+  # tmux 2.6 install from src
   wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
   tar -xzf tmux-2.6.tar.gz
   pushd tmux-2.6
@@ -160,7 +196,7 @@ if [[ $1 = "-a" ]]; then
   make install
   popd
 
-  # Install Vim from src
+  # Vim install from src
   echo -e "\n${BLU}$(date +"%T"):${NC} Installing Vim from source\n"
   apt remove vim vim-common vim-runtime gvim
   git clone https://github.com/vim/vim.git
@@ -178,27 +214,6 @@ if [[ $1 = "-a" ]]; then
   hash vim
   popd
 
-  # Go- remove older Go 1st (if there) then install (note DL link should be
-  # checked for updates)
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Go from source\n"
-  rm -rf /usr/local/go
-  wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
-  tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
-  rm -f go1.9.linux-amd64.tar.gz
-
-  # Install Rust
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
-  curl https://sh.rustup.rs -sSf | sh
-
-
-  # Install facebook PathPicker
-  # Note: this app install location can change
-  pushd /usr/local/
-  git clone https://github.com/facebook/PathPicker.git
-  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
-  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
-  popd
-
   #TODO: add custom Google Fonts from www.fonts.google.com
   
 fi
@@ -211,5 +226,7 @@ fi
 printf "\n${BLU}$(date +"%T"):${NC} Deleting temp directory at $InsPath\n"
 popd
 rm -rf $InsPath*
+
 apt -y autoremove
+
 printf "\n${BLU}$(date +"%T"):${NC} DONE!... Installs and updates successful${NC}\n\n"

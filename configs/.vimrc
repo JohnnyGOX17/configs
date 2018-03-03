@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 11.02.2018
+" Last Modified Date: 27.02.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -108,6 +108,9 @@ nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>p :CtrlP<CR>
 " Add Header to top of file with `vim-header` plugin
 nnoremap <F4> :AddHeader<CR>
+" Map arrow keys to graphical movements
+nnoremap <Up> gk
+nnoremap <Down> gj
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
