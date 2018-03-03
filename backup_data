@@ -1,0 +1,25 @@
+#!/bin/bash
+# File              : backup_data
+# Author            : John Gentile <johncgentile17@gmail.com>
+# Date              : 02.03.2018
+# Last Modified Date: 02.03.2018
+# Last Modified By  : John Gentile <johncgentile17@gmail.com>
+#
+# Uses rsync to synchronize data drive to backup drive
+#       -a, archive equals -rlptgoD
+#       -v, verbose output
+#       -u, skip objects that are newer on the receiver
+#       --delete, delete extra objects from destination
+#       --exclude './*.txt', excludes file pattern glob
+#       --progress, show progress during transfer
+#       --rsh=COMMAND, specify remote shell to use
+#               (i.e. --rsh=ssh host::module /dest)
+#
+# `$ man rsync` for more options
+
+# rsync from data drive
+rsync -av --delete --progress --exclude '/media/data_drive_2TB/Videos/*' \
+  /media/data_drive_2TB/ /media/backup_drive_1TB/
+
+# rsync source dir (assuming src in home dir)
+rsync -av --delete --progress ~/src /media/backup_drive_1TB/src/
