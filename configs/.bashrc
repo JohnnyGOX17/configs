@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 21.02.2018
+# Last Modified Date: 03.03.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -18,10 +18,10 @@ fi
 # =============================================================================
 
 # customize PS1 bash prompt and change if on remote machine over SSH: 
-#   Local: bold w/blue user@host and yellow pwd $
 #   SSH: bold w/red user@host and yellow pwd $
+#   Local: bold w/blue user@host and yellow pwd $
 if [ -n "$SSH_CLIENT" ]; then
-  export PS1="\[\e[1;31m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
+  export PS1="\[\e[1;31m\][SSH]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
 else
   export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
 fi

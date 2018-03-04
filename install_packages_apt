@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 02.03.2018
+# Last Modified Date: 03.03.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -19,8 +19,13 @@ InsPath=/tmp/jginstall/
 
 # Simple error handler function to print to stderr
 err() {
-  echo -e "${RED}[$(date +"%T")]: $@ ${NC}" >&2
+  echo -e "${RED}[$(date +"%T")] ERROR:${NC} $@" >&2
   exit 1
+}
+
+# Simple message handler function
+msg() {
+  echo -e "\n${BLU}[$(date +"%T")]:${NC} $@\n"
 }
 
 if [[ $EUID -ne 0 ]]; then
@@ -43,7 +48,7 @@ pushd $InsPath
 # Add Optional Repos: Update and upgrade
 ###############################################################################
 
-echo -e "\n${BLU}$(date +"%T"):${NC} Updating and Upgrading current apt repos\n"
+msg "Updating and Upgrading current apt repos"
 
 # Brackets editor
 apt-add-repository --yes ppa:webupd8team/brackets
@@ -93,7 +98,7 @@ apt -y dist-upgrade
 # Install Basic Development Parts & General Tools
 ###############################################################################
 
-echo -e "\n${BLU}$(date +"%T"):${NC} Installing any apt applications\n"
+msg "Installing applications from apt"
 # If certain programs/packages are not wanted they can be easily commented out
 apt-get -y --install-recommends install \
   autoconf \
@@ -111,6 +116,7 @@ apt-get -y --install-recommends install \
   dkms \
   exuberant-ctags \
   ffmpegthumbnailer \
+  filezilla \
   g++ \
   gcc \
   git \
@@ -154,7 +160,7 @@ apt-get -y --install-recommends install \
   xclip
 
 # Install npm packages requiring admin rights
-echo -e "\n${BLU}$(date +"%T"):${NC} Installing npm applications\n"
+msg "Installing npm applications"
 npm install -g \
   grunt-cli \
   gulp-cli \
@@ -170,6 +176,7 @@ if [[ $1 = "-a" ]]; then
 
   # Facebook PathPicker install
   # Note: this app install location can change
+  msg "Installing Facebook PathPicker"
   pushd /usr/local/
   git clone https://github.com/facebook/PathPicker.git
   # Note: absolute path could be changed to relative $(pwd) to be more dynamic
@@ -178,17 +185,18 @@ if [[ $1 = "-a" ]]; then
 
   # Go- remove older Go 1st (if there) then install (note DL link should be
   # checked for updates)
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Go from source\n"
+  msg "Installing Go from source"
   rm -rf /usr/local/go
   wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
   tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
   rm -f go1.9.linux-amd64.tar.gz
 
   # Rust install
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Rust from source\n"
+  msg "Installing Rust from source"
   curl https://sh.rustup.rs -sSf | sh
 
   # tmux 2.6 install from src
+  msg "Installing tmux from source"
   wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
   tar -xzf tmux-2.6.tar.gz
   pushd tmux-2.6
@@ -197,7 +205,7 @@ if [[ $1 = "-a" ]]; then
   popd
 
   # Vim install from src
-  echo -e "\n${BLU}$(date +"%T"):${NC} Installing Vim from source\n"
+  msg "Installing Vim from source"
   apt remove vim vim-common vim-runtime gvim
   git clone https://github.com/vim/vim.git
   pushd vim
@@ -223,10 +231,10 @@ fi
 # Clean & exit
 ###############################################################################
 
-printf "\n${BLU}$(date +"%T"):${NC} Deleting temp directory at $InsPath\n"
+msg "Deleting temp directory at $InsPath"
 popd
 rm -rf $InsPath*
 
 apt -y autoremove
 
-printf "\n${BLU}$(date +"%T"):${NC} DONE!... Installs and updates successful${NC}\n\n"
+msg "DONE!... Installs and updates successful\n"
