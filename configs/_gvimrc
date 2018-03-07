@@ -1,0 +1,21 @@
+" File              : _gvimrc
+" Author            : John Gentile <johncgentile17@gmail.com>
+" Date              : 07.03.2018
+" Last Modified Date: 07.03.2018
+" Last Modified By  : John Gentile <johncgentile17@gmail.com>
+"
+" Windows visual/gVim related configurations
+" See _vimrc for key mapping/operation related configurations
+syntax on
+colorscheme monokai
+highlight ExtraWhitespace ctermbg=red guibg=red
+" Install powerline fonts from https://github.com/powerline/fonts
+set guifont=Noto_Mono_for_Powerline:h10:cDEFAULT
+" Hide menubar
+set guioptions-=m
+" Hide toolbar
+set guioptions-=T
+" Hide scrollbar
+set guioptions-=r
+" Applied last to overwrite any colorscheme edits
+highlight Comment cterm=italic gui=italic
