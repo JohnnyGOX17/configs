@@ -4,7 +4,7 @@
 " Last Modified Date: 13.03.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 "
-" Windows vimrc config File              : _vimrc
+" Windows vimrc config
 " see _gvimrc for visual related configurations
 
 source $VIMRUNTIME/vimrc_example.vim
@@ -166,11 +166,12 @@ set foldlevel=99
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Backup Directories to put swap & backup files in
+" Backup Directories to put swap, undo & backup files in
 " Note: make sure directories exist or else current directory will be used
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set dir=C:\\temp\\vim,C:\\temp,C:\\tmp
 set backupdir=C:\\temp\\vim,C:\\temp,C:\\tmp
+set udir=C:\\temp\\vim,C:\\temp,C:\\tmp
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions
