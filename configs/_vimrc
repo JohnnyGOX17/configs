@@ -1,7 +1,7 @@
 " File              : _vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 07.03.2018
-" Last Modified Date: 07.03.2018
+" Last Modified Date: 13.03.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 "
 " Windows vimrc config File              : _vimrc
@@ -62,6 +62,7 @@ set laststatus=2    " always shows status line (usefule for Airline plugin)
 set noshowmode      " turn off default mode indicator since we have plugin
 set autoread        " Autoload changes when switching buffers or gaining focus
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors- see _gvimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -104,6 +105,7 @@ augroup code_extensions_and_syntax
   au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching & Movement
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -112,6 +114,7 @@ set hlsearch        " highlight matches
 set ignorecase      " Ignore case when searching
 " highlight last inserted text
 nnoremap gV '[v']
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key & Leader Shortcuts/Remapping
@@ -148,6 +151,7 @@ nnoremap <F4> :AddHeader<CR>
 nnoremap <Up> gk
 nnoremap <Down> gj
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -159,6 +163,14 @@ nnoremap <leader>kj za
 nnoremap <leader>KJ zA
 set foldmethod=syntax
 set foldlevel=99
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Backup Directories to put swap & backup files in
+" Note: make sure directories exist or else current directory will be used
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set dir=C:\\temp\\vim,C:\\temp,C:\\tmp
+set backupdir=C:\\temp\\vim,C:\\temp,C:\\tmp
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Functions
