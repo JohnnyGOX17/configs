@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 03.03.2018
+# Last Modified Date: 04.04.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -108,6 +108,7 @@ apt-get -y --install-recommends install \
   bzip2 \
   checkinstall \
   cifs-utils \
+  clang \
   clang-5.0 \
   clang-5.0-doc \
   clang-5.0-examples \
@@ -120,7 +121,9 @@ apt-get -y --install-recommends install \
   g++ \
   gcc \
   git \
+  gnat-5 \
   google-chrome-stable \
+  gtkwave \
   helix-cli \
   helix-p4d \
   highlight \
@@ -131,6 +134,7 @@ apt-get -y --install-recommends install \
   libevent-dev \
   lldb-5.0 \
   lld-5.0 \
+  llvm \
   lm-sensors \
   make \
   mutt \
@@ -138,6 +142,7 @@ apt-get -y --install-recommends install \
   playonlinux \
   python-dev \
   python3-dev \
+  python-sphinx \
   ranger \
   remmina \
   remmina-plugin-rdp \
@@ -176,27 +181,36 @@ if [[ $1 = "-a" ]]; then
 
   # Facebook PathPicker install
   # Note: this app install location can change
-  msg "Installing Facebook PathPicker"
+  msg "Installing Facebook PathPicker from source..."
   pushd /usr/local/
   git clone https://github.com/facebook/PathPicker.git
   # Note: absolute path could be changed to relative $(pwd) to be more dynamic
   ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
   popd
 
+  # GHDL- FOSS VHDL compiler & simulator
+  msg "Installing GHDL from source..."
+  git clone https://github.com/ghdl/ghdl.git
+  mkdir ./ghdl/build
+  pushd ./ghdl/build
+  ../configure --with-llvm-config --prefix=/usr/local
+  make && make install
+  popd
+
   # Go- remove older Go 1st (if there) then install (note DL link should be
   # checked for updates)
-  msg "Installing Go from source"
+  msg "Installing Go from source..."
   rm -rf /usr/local/go
   wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
   tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
   rm -f go1.9.linux-amd64.tar.gz
 
   # Rust install
-  msg "Installing Rust from source"
+  msg "Installing Rust from source..."
   curl https://sh.rustup.rs -sSf | sh
 
   # tmux 2.6 install from src
-  msg "Installing tmux from source"
+  msg "Installing tmux from source..."
   wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
   tar -xzf tmux-2.6.tar.gz
   pushd tmux-2.6
@@ -205,7 +219,7 @@ if [[ $1 = "-a" ]]; then
   popd
 
   # Vim install from src
-  msg "Installing Vim from source"
+  msg "Installing Vim from source..."
   apt remove vim vim-common vim-runtime gvim
   git clone https://github.com/vim/vim.git
   pushd vim
@@ -223,6 +237,9 @@ if [[ $1 = "-a" ]]; then
   popd
 
   #TODO: add custom Google Fonts from www.fonts.google.com
+
+  # Need to manually install Foxit PDF Reader from website
+  msg "Install Foxit PDF Reader by DL'ing from https://www.foxitsoftware.com/pdf-reader/"
   
 fi
 
