@@ -2,7 +2,7 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=DarkPastels
-Font=Monospace,10,-1,5,50,0,0,0,0,0,Regular
+Font=Monospace,8,-1,5,50,0,0,0,0,0,Regular
 UseFontLineChararacters=false
 
 [Cursor Options]

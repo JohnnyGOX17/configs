@@ -2,7 +2,7 @@
 # File              : .bashrc
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 03.03.2018
+# Last Modified Date: 04.03.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
@@ -12,6 +12,31 @@ fi
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
+
+# =============================================================================
+# NI Perforce Environment Variables
+# =============================================================================
+
+nodeName=$(uname -n)
+userName=$(whoami)
+P4DIR="/home/${userName}/Perforce/"
+if [ "$nodeName" == 'jg-neon' ]; then
+  export nibuild_perforce_clientspec="${userName}_${nodeName}_7037"
+  export nibuild_penguin_clientspec="${userName}_${nodeName}_2818"
+elif [ "$nodeName" == 'gentsysserv' ]; then
+  export nibuild_perforce_clientspec="${userName}_${nodeName}_9809"
+  export nibuild_penguin_clientspec="${userName}_${nodeName}_7143"
+fi
+
+export nibuild_perforce_root="${P4DIR}${nibuild_perforce_clientspec}"
+export nibuild_penguin_root="${P4DIR}${nibuild_penguin_clientspec}" 
+export P4CLIENT="$nodeName"
+export MAKE_NUMBER_OF_JOBS=8
+export MAKEFILTER_WARNINGS_STOP_BUILD=1
+export P4CONFIG=.p4config
+# ensure DNS suffixes are setup correctly for this to work
+export P4PORT=perforce.natinst.com:1666
+export P4USER="$userName"
 
 # =============================================================================
 # Terminal & Path additions/edits
@@ -30,24 +55,9 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-# add paths for NVCC (NVIDIA CUDA Compiler)
+# add paths for NVCC (NVIDIA CUDA Compiler) and NI build tools
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
-
-# =============================================================================
-# NI Perforce Environment Variables
-# =============================================================================
-
-export MAKE_NUMBER_OF_JOBS=8
-export MAKEFILTER_WARNINGS_STOP_BUILD=1
-export nibuild_perforce_clientspec="jgentile_jg-neon_7037"
-export nibuild_perforce_root="/home/jgentile/Perforce/jgentile_jg-neon_7037"
-export nibuild_penguin_clientspec="jgentile_jg-neon_2818"
-export nibuild_penguin_root="/home/jgentile/Perforce/jgentile_jg-neon_2818"   
-export P4CLIENT="jg-neon"
-export P4CONFIG=.p4config
-export P4PORT=perforce.natinst.com:1666
-export P4USER="jgentile"
+export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:${nibuild_perforce_root}/ASIC/Tools/HwCommon/trunk/1.0
 
 # =============================================================================
 # User specific aliases and functions

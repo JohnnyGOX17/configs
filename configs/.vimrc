@@ -1,7 +1,7 @@
 " File              : .vimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 06.12.2017
-" Last Modified Date: 27.02.2018
+" Last Modified Date: 22.04.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -255,7 +255,7 @@ autocmd VimEnter * unmap <leader>hs
 Plug 'alpertuna/vim-header'
 let g:header_field_author = 'John Gentile'
 let g:header_field_author_email = 'johncgentile17@gmail.com'
-let g:header_max_size = 12
+let g:header_max_size = 5
 
 " Markdown highlighting
 Plug 'godlygeek/tabular'

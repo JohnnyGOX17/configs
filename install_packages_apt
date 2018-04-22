@@ -2,7 +2,7 @@
 # File              : install_packages_apt
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 12.12.2017
-# Last Modified Date: 04.04.2018
+# Last Modified Date: 17.04.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
@@ -147,6 +147,7 @@ apt-get -y --install-recommends install \
   remmina \
   remmina-plugin-rdp \
   remmina-plugin-secret \
+  scrot \
   shellcheck \
   silversearcher-ag \
   spotify-client \
