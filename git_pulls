@@ -2,7 +2,7 @@
 # File              : git_pulls
 # Author            : John Gentile <johncgentile17@gmail.com>
 # Date              : 02.01.2018
-# Last Modified Date: 14.02.2018
+# Last Modified Date: 21.04.2018
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Automate checking `git pull` of `src` directories
@@ -31,111 +31,19 @@ ssh-add
 mkdir -p ~/src
 pushd ~/src
 
-# if local repos don't exist create them, else pull any updates
-echo -e "\n${BLU}[c-examples]${NC}"
-if [ -d "c-examples/" ]; then
-  pushd c-examples/
+# iterate through directories in src/ directory to automatically pull
+for d in */ ; do
+  echo -e "\n${BLU}[$d]${NC}"
+  pushd $d
   git pull
   popd
-else
-  git clone git@github.com:JohnnyGOX17/c-examples.git
-fi
+done
 
-echo -e "\n${BLU}[configs]${NC}"
-if [ -d "configs/" ]; then
-  pushd configs/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/configs.git
-fi
+# Use GitHub REST API to get list of repos and automatically clone them into
+# src/ directory
+# Iterate through PAGE variable if more than 100 repos per user
+PAGE=1
+curl "https://api.github.com/users/JohnnyGOX17/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+curl "https://api.github.com/orgs/Gent-Systems/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
 
-echo -e "\n${BLU}[cpp-examples]${NC}"
-if [ -d "cpp-examples/" ]; then
-  pushd cpp-examples/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/cpp-examples.git
-fi
-
-echo -e "\n${BLU}[crypto-challenge]${NC}"
-if [ -d "crypto-challenge/" ]; then
-  pushd crypto-challenge/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/crypto-challenge.git
-fi
-
-echo -e "\n${BLU}[FlexRIO-P2P-GPU]${NC}"
-if [ -d "FlexRIO-P2P-GPU/" ]; then
-  pushd FlexRIO-P2P-GPU/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/FlexRIO-P2P-GPU.git
-fi
-
-echo -e "\n${BLU}[FoC]${NC}"
-if [ -d "FoC/" ]; then
-  pushd FoC/
-  git pull
-  popd
-else
-  git clone git@github.com:Gent-Systems/FoC.git
-fi
-
-echo -e "\n${BLU}[gent-systems-website]${NC}"
-if [ -d "gent-systems-website/" ]; then
-  pushd gent-systems-website/
-  git pull
-  popd
-else
-  git@github.com:Gent-Systems/gent-systems-website.git
-fi
-
-echo -e "\n${BLU}[john-gentile-website]${NC}"
-if [ -d "john-gentile-website/" ]; then
-  pushd john-gentile-website/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/john-gentile-website.git
-fi
-
-echo -e "\n${BLU}[prometheus]${NC}"
-if [ -d "prometheus/" ]; then
-  pushd prometheus/
-  git pull
-  popd
-else
-  git clone git@github.com:Gent-Systems/prometheus.git
-fi
-
-echo -e "\n${BLU}[ldd3-examples]${NC}"
-if [ -d "ldd3-examples/" ]; then
-  pushd ldd3-examples/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/ldd3-examples.git
-fi
-
-echo -e "\n${BLU}[scripts]${NC}"
-if [ -d "scripts/" ]; then
-  pushd scripts/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/scripts.git
-fi
-
-echo -e "\n${BLU}[vhdl-examples]${NC}"
-if [ -d "vhdl-examples/" ]; then
-  pushd vhdl-examples/
-  git pull
-  popd
-else
-  git clone git@github.com:JohnnyGOX17/vhdl-examples.git
-fi
+popd
