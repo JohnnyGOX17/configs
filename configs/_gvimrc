@@ -1,7 +1,7 @@
 " File              : _gvimrc
 " Author            : John Gentile <johncgentile17@gmail.com>
 " Date              : 07.03.2018
-" Last Modified Date: 07.03.2018
+" Last Modified Date: 25.04.2018
 " Last Modified By  : John Gentile <johncgentile17@gmail.com>
 "
 " Windows visual/gVim related configurations
@@ -10,7 +10,7 @@ syntax on
 colorscheme monokai
 highlight ExtraWhitespace ctermbg=red guibg=red
 " Install powerline fonts from https://github.com/powerline/fonts
-set guifont=Noto_Mono_for_Powerline:h10:cDEFAULT
+set guifont=Noto_Mono_for_Powerline:h8:cDEFAULT
 " Hide menubar
 set guioptions-=m
 " Hide toolbar
