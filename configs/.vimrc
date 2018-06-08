@@ -251,11 +251,15 @@ autocmd VimEnter * unmap <leader>hr
 autocmd VimEnter * unmap <leader>hu
 autocmd VimEnter * unmap <leader>hs
 
-" Header generator
-Plug 'alpertuna/vim-header'
-let g:header_field_author = 'John Gentile'
-let g:header_field_author_email = 'johncgentile17@gmail.com'
-let g:header_max_size = 5
+" Header generator- decided not to use as it had some issues with tracking updates
+" and IMO, the things it was stating were already tracked via source control;
+" anything else in the header of files besides succinct documentation or necessary
+" meta (like shebangs for shell scripts) is a waste of space, readability and needs
+" to be kept up-to-date (inefficient)
+"Plug 'alpertuna/vim-header'
+"let g:header_field_author = 'John Gentile'
+"let g:header_field_author_email = 'johncgentile17@gmail.com'
+"let g:header_max_size = 5
 
 " Markdown highlighting
 Plug 'godlygeek/tabular'
