@@ -121,7 +121,7 @@ set foldenable
 nnoremap <leader>kj za
 " Leader_key+Space toggles opening/closing an entire layer of folds
 nnoremap <leader>KJ zA
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevel=99
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
