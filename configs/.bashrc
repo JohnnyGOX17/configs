@@ -30,9 +30,9 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-# add paths for NVCC (NVIDIA CUDA Compiler) and NI build tools
+# add paths for NVCC (NVIDIA CUDA Compiler)
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:${nibuild_perforce_root}/ASIC/Tools/HwCommon/trunk/1.0
+export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
 
 # =============================================================================
 # User specific aliases and functions
