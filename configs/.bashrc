@@ -14,31 +14,6 @@ fi
 # export SYSTEMD_PAGER=
 
 # =============================================================================
-# NI Perforce Environment Variables
-# =============================================================================
-
-nodeName=$(uname -n)
-userName=$(whoami)
-P4DIR="/home/${userName}/Perforce/"
-if [ "$nodeName" == 'jg-neon' ]; then
-  export nibuild_perforce_clientspec="${userName}_${nodeName}_7037"
-  export nibuild_penguin_clientspec="${userName}_${nodeName}_2818"
-elif [ "$nodeName" == 'gentsysserv' ]; then
-  export nibuild_perforce_clientspec="${userName}_${nodeName}_9809"
-  export nibuild_penguin_clientspec="${userName}_${nodeName}_7143"
-fi
-
-export nibuild_perforce_root="${P4DIR}${nibuild_perforce_clientspec}"
-export nibuild_penguin_root="${P4DIR}${nibuild_penguin_clientspec}" 
-export P4CLIENT="$nodeName"
-export MAKE_NUMBER_OF_JOBS=8
-export MAKEFILTER_WARNINGS_STOP_BUILD=1
-export P4CONFIG=.p4config
-# ensure DNS suffixes are setup correctly for this to work
-export P4PORT=perforce.natinst.com:1666
-export P4USER="$userName"
-
-# =============================================================================
 # Terminal & Path additions/edits
 # =============================================================================
 
@@ -128,3 +103,16 @@ function lb() {
 if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
   tmux new -s dev
 fi
+
+# Find if ssh-agent process is already running. If not, start it and auto add
+# private key from default location. If running do nothing. If more than one
+# process running, kill last one
+case "$(pidof ssh-agent | wc -w)" in
+  0) eval 'ssh-agent'
+    ;;
+  1) 
+    ;;
+  *) kill $(pidof ssh-agent | awk '{print $1}')
+    ;;
+esac
+ssh-add
