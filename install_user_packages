@@ -74,3 +74,4 @@ popd
 # Add `tmux` terminal types to support italic/bold in tmux
 tic -x ./configs/xterm-256color-italic.terminfo
 tic -x ./configs/tmux-256color.terminfo
+# or `$ tic -x ./configs/tmux.terminfo` for macOS

@@ -15,3 +15,4 @@ echo -e "\e[31mHello World\e[0m"
 echo -e "\x1B[31mHello World\e[0m"
 echo -e "\033[1;31mRed Text\033[0m"
 echo -e "\033[1;34mBlue Text\033[0m"
+echo `tput sitm`italics`tput ritm`

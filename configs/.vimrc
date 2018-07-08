@@ -246,10 +246,10 @@ Plug 'airblade/vim-gitgutter'
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 " unmap git gutter keys so that <leader>h works faster
-autocmd VimEnter * unmap <leader>hp
-autocmd VimEnter * unmap <leader>hr
-autocmd VimEnter * unmap <leader>hu
-autocmd VimEnter * unmap <leader>hs
+"autocmd VimEnter * unmap <leader>hp
+"autocmd VimEnter * unmap <leader>hr
+"autocmd VimEnter * unmap <leader>hu
+"autocmd VimEnter * unmap <leader>hs
 
 " Header generator- decided not to use as it had some issues with tracking updates
 " and IMO, the things it was stating were already tracked via source control;

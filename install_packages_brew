@@ -1,0 +1,168 @@
+#!/bin/bash
+# File              : install_packages_brew
+# Author            : John Gentile <johncgentile17@gmail.com>
+#
+# Shell script to install all needed development tools and software
+# Run as root/sudo
+#
+
+# Colors for printing
+RED='\033[1;31m'
+BLU='\033[1;34m'
+NC='\033[0m'
+
+# Path to temporary installation directory
+InsPath=/tmp/jginstall/
+
+# Simple error handler function to print to stderr
+err() {
+  echo -e "${RED}[$(date +"%T")] ERROR:${NC} $@" >&2
+  exit 1
+}
+
+# Simple message handler function
+msg() {
+  echo -e "\n${BLU}[$(date +"%T")]:${NC} $@\n"
+}
+
+if [[ $EUID -ne 0 ]]; then
+  err "This script must be run as root"
+fi
+
+if [[ $1 = "-h" ]]; then
+  echo "Usage: ./install_packages_apt [-a]"
+  echo -e "\t-a,\tInstall all packages including source based ones that may be redundant"
+  exit 0
+fi
+
+printf "\n${BLU}Install started at:${NC} $(date)\n"
+printf "${BLU}Creating temp directory at: ${NC}$InsPath\n\n"
+mkdir -p $InsPath
+pushd $InsPath
+
+
+###############################################################################
+# Install `brew` package manager
+###############################################################################
+
+msg "Install brew"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+###############################################################################
+# Install Basic Development Parts & General Tools
+###############################################################################
+
+msg "Installing applications from brew"
+
+brew cask install iterm2
+
+brew install \
+  bash \
+  bash-completion \
+  binutils \
+  cmake \
+  coreutils \
+  diffutils \
+  ed --with-default-names \
+  file-formula \
+  findutils --with-default-names \
+  gawk \
+  gdb \
+  git \
+  gnu-indent --with-default-names \
+  gnu-sed --with-default-names \
+  gnu-tar --with-default-names \
+  gnu-which --with-default-names \
+  gnutls \
+  gpatch \
+  grep --with-default-names \
+  gzip \
+  htop \
+  less \
+  m4 \
+  make \
+  mono \
+  mutt \
+  nano \
+  node \
+  openssh \
+  perl \
+  pidof \
+  python \
+  # `python` should now default to Python 3 in brew
+  python@2 \
+  ranger \
+  rsync \
+  svn \
+  tcl-tk \
+  tmux \
+  unzip \
+  vim --override-system-vi \
+  macvim --override-system-vim --custom-system-icons \
+  watch \
+  wdiff --with-gettext \
+  wget
+
+# Install npm packages requiring admin rights
+msg "Installing npm applications"
+npm install -g \
+  grunt-cli \
+  gulp-cli \
+  tmux-cpu \
+  tmux-mem
+
+
+###############################################################################
+# Source-based installs
+###############################################################################
+
+if [[ $1 = "-a" ]]; then
+
+  # Facebook PathPicker install
+  # Note: this app install location can change
+  msg "Installing Facebook PathPicker from source..."
+  pushd /usr/local/
+  git clone https://github.com/facebook/PathPicker.git
+  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
+  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
+  popd
+
+  # GHDL- FOSS VHDL compiler & simulator
+  msg "Installing GHDL from source..."
+  git clone https://github.com/ghdl/ghdl.git
+  mkdir ./ghdl/build
+  pushd ./ghdl/build
+  ../configure --with-llvm-config --prefix=/usr/local
+  make && make install
+  popd
+
+  # install Go from https://golang.org/doc/install
+
+  # Rust install
+  msg "Installing Rust from source..."
+  curl https://sh.rustup.rs -sSf | sh
+
+  # install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+  # Install fonts (Note: meslo S is a good MacOS-like choice)
+  msg "Installing fonts for powerline"
+  git clone https://github.com/powerline/fonts.git
+  pushd fonts/
+  ./install.sh
+  popd
+  rm -rf fonts/
+  
+  # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
+
+fi
+
+
+###############################################################################
+# Clean & exit
+###############################################################################
+
+msg "Deleting temp directory at $InsPath"
+popd
+rm -rf $InsPath*
+
+msg "DONE!... Installs and updates successful\n"
