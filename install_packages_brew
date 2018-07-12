@@ -98,6 +98,7 @@ brew install \
   # `python` should now default to Python 3 in brew
   python@2 \
   ranger \
+  reattach-to-user-namespace \
   rsync \
   svn \
   tcl-tk \

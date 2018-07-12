@@ -7,13 +7,13 @@
 #
 
 # First copy local files over if they're newer
-cp -u ~/.gitconfig ./configs/.gitconfig 
+cp -u ~/.gitconfig ./configs/.gitconfig
 cp -u ~/.bashrc ./configs/.bashrc_MAC
 cp -u ~/.bash_profile ./configs/.bash_profile_MAC
-cp -u ~/.inputrc ./configs/.inputrc 
-cp -u ~/.vimrc ./configs/.vimrc 
-cp -u ~/.vim/colors/monokai.vim ./configs/monokai.vim 
-cp -u ~/.tmux.conf ./configs/.tmux.conf 
+cp -u ~/.inputrc ./configs/.inputrc
+cp -u ~/.vimrc ./configs/.vimrc
+cp -u ~/.vim/colors/monokai.vim ./configs/monokai.vim
+cp -u ~/.tmux.conf ./configs/.tmux_MAC.conf
 cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
 cp -u ~/.config/ranger/scope.sh ./configs/scope.sh
 cp -u ~/.muttrc ./configs/.muttrc
@@ -25,7 +25,7 @@ cp -u ./configs/.inputrc ~/.inputrc
 cp -u ./configs/.vimrc ~/.vimrc
 mkdir -p ~/.vim/colors/
 cp -u ./configs/monokai.vim ~/.vim/colors/monokai.vim
-cp -u ./configs/.tmux.conf ~/.tmux.conf
-cp -u ./configs/rc.conf ~/.config/ranger/rc.conf 
-cp -u ./configs/scope.sh ~/.config/ranger/scope.sh 
+cp -u ./configs/.tmux_MAC.conf ~/.tmux.conf
+cp -u ./configs/rc.conf ~/.config/ranger/rc.conf
+cp -u ./configs/scope.sh ~/.config/ranger/scope.sh
 cp -u ./configs/.muttrc ~/.muttrc

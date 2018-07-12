@@ -7,22 +7,41 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Editing Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible    " noop when loading from ~/ but needed when $ vim -u .vimrc
-set t_Co=256        " turn on 256 colors
-set number          " turn on line numbering
-set hidden          " hide buffers instead of closing them
-syntax enable       " turn on syntax highlighting
-set cindent         " use C-style indenting
-set shiftwidth=2    " indent 2 spaces (instead of 8) for one tab
-set expandtab       " make sure tabs expand to spaces
-set backspace=2     " make backspace work like most other text editors
-set cursorline      " highlight current line horizontally
-set wildmenu        " visual autocomplete for command menu
-set showmatch       " highlight [{()}] matching
-set visualbell      " turn on visual flashes instead of audible bell
-set laststatus=2    " always shows status line (usefule for Airline plugin)
-set noshowmode      " turn off default mode indicator since we have plugin
-set autoread        " Autoload changes when switching buffers or gaining focus
+" noop when loading from ~/ but needed when $ vim -u .vimrc
+set nocompatible
+" turn on 256 colors
+set t_Co=256
+" turn on line numbering
+set number
+" hide buffers instead of closing them
+set hidden
+" turn on syntax highlighting
+syntax enable
+" use C-style indenting
+set cindent
+" indent 2 spaces (instead of 8) for one tab
+set shiftwidth=2
+" make sure tabs expand to spaces
+set expandtab
+" make backspace work like most other text editors
+set backspace=2
+" highlight current line horizontally
+set cursorline
+" visual autocomplete for command menu
+set wildmenu
+" highlight [{()}] matching
+set showmatch
+" turn on visual flashes instead of audible bell
+set visualbell
+" always shows status line (usefule for Airline plugin)
+set laststatus=2
+" turn off default mode indicator since we have plugin
+set noshowmode
+" Autoload changes when switching buffers or gaining focus
+set autoread
+" Use system clipboard register
+" Note: Vim >7.3 can also set to `unnamedplus` for `+` X window register
+set clipboard=unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors
@@ -52,15 +71,17 @@ augroup code_extensions_and_syntax
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   au BufNewFile,BufFilePre,BufRead *.md Goyo
   au BufNewFile,BufFilePre,BufRead *.{md,txt} setlocal spell spelllang=en_us
+
   " Automatically remove all trailing whitespace when buffer is saved for
-  " certain text-based programming file extensions
-  au BufWritePre *.{c,cpp,h,hpp,sh,vhd} %s/\s\+$//e
+  " except for the file extensions in `trail_blk_list`
+  let trail_blk_list = ['markdown', 'text']
+  au BufWritePre * if index(trail_blk_list, &ft) < 0 | %s/\s\+$//e
   " Matching autocommand for highlighting extra whitespace in red
   " Uncomment below to match while typing (little aggressive)
   "match ExtraWhitespace /\s\+$/
-  au BufWinEnter *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+$/
-  au InsertEnter *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+\%#\@<!$/
-  au InsertLeave *.{c,cpp,h,hpp,sh,vhd} match ExtraWhitespace /\s\+$/
+  au BufWinEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
+  au InsertEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+\%#\@<!$/
+  au InsertLeave * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
   " Clear when leaving for performance issues
   au BufWinLeave * call clearmatches()
 
