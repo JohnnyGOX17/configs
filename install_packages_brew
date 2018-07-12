@@ -30,7 +30,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [[ $1 = "-h" ]]; then
-  echo "Usage: ./install_packages_apt [-a]"
+  echo "Usage: ./install_packages_brew [-a]"
   echo -e "\t-a,\tInstall all packages including source based ones that may be redundant"
   exit 0
 fi
@@ -47,6 +47,7 @@ pushd $InsPath
 
 msg "Install brew"
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install cask
 
 ###############################################################################
 # Install Basic Development Parts & General Tools
@@ -54,7 +55,9 @@ msg "Install brew"
 
 msg "Installing applications from brew"
 
-brew cask install iterm2
+brew cask install \
+  google-chrome \
+  iterm2
 
 brew install \
   bash \
@@ -63,9 +66,11 @@ brew install \
   cmake \
   coreutils \
   diffutils \
+  doxygen \
   ed --with-default-names \
   file-formula \
   findutils --with-default-names \
+  fpp \
   gawk \
   gdb \
   git \
@@ -84,6 +89,7 @@ brew install \
   mono \
   mutt \
   nano \
+  nmap \
   node \
   openssh \
   perl \
@@ -103,31 +109,14 @@ brew install \
   wdiff --with-gettext \
   wget
 
-# Install npm packages requiring admin rights
-msg "Installing npm applications"
-npm install -g \
-  grunt-cli \
-  gulp-cli \
-  tmux-cpu \
-  tmux-mem
-
-
 ###############################################################################
 # Source-based installs
 ###############################################################################
 
 if [[ $1 = "-a" ]]; then
 
-  # Facebook PathPicker install
-  # Note: this app install location can change
-  msg "Installing Facebook PathPicker from source..."
-  pushd /usr/local/
-  git clone https://github.com/facebook/PathPicker.git
-  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
-  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
-  popd
-
   # GHDL- FOSS VHDL compiler & simulator
+  # requires Ada compiler; may be better to install via releases
   msg "Installing GHDL from source..."
   git clone https://github.com/ghdl/ghdl.git
   mkdir ./ghdl/build
@@ -143,16 +132,6 @@ if [[ $1 = "-a" ]]; then
   curl https://sh.rustup.rs -sSf | sh
 
   # install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-
-  # Install fonts (Note: meslo S is a good MacOS-like choice)
-  msg "Installing fonts for powerline"
-  git clone https://github.com/powerline/fonts.git
-  pushd fonts/
-  ./install.sh
-  popd
-  rm -rf fonts/
-  
-  # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
 
 fi
 

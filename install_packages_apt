@@ -115,6 +115,7 @@ apt-get -y --install-recommends install \
   cmake \
   curl \
   dkms \
+  doxygen \
   exuberant-ctags \
   ffmpegthumbnailer \
   filezilla \
@@ -123,6 +124,7 @@ apt-get -y --install-recommends install \
   git \
   gnat-5 \
   google-chrome-stable \
+  graphviz \
   gtkwave \
   helix-cli \
   helix-p4d \
@@ -142,6 +144,8 @@ apt-get -y --install-recommends install \
   playonlinux \
   python-dev \
   python3-dev \
+  python-pydot \
+  python-pydot-ng \
   python-sphinx \
   ranger \
   remmina \

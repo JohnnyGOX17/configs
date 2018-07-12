@@ -98,11 +98,10 @@ function lb() {
 # Cleanup & Launches
 # =============================================================================
 
-# NOTE: tmux not used as iTerm2 manages tabs/panes + clipboard
 # Run tmux automatically if not in SSH session
-#if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
-#  tmux new -s dev
-#fi
+if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
+  tmux new -s dev
+fi
 
 # Find if ssh-agent process is already running. If not, start it and auto add
 # private key from default location. If running do nothing. If more than one

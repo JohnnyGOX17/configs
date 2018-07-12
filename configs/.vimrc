@@ -261,8 +261,10 @@ let g:gitgutter_eager = 0
 "let g:header_field_author_email = 'johncgentile17@gmail.com'
 "let g:header_max_size = 5
 
-" Markdown highlighting
+" Easy text alignment plugin
 Plug 'godlygeek/tabular'
+
+" Markdown highlighting
 Plug 'plasticboy/vim-markdown'
 set conceallevel=2
 let g:vim_markdown_math = 1

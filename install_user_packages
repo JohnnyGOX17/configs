@@ -10,30 +10,65 @@
 #
 
 echo "Install started at $(date)"
+mkdir -p /tmp/
 pushd /tmp/
 
-echo "Installing rbenv and ruby-build"
-mkdir -p ~/.rbenv
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-pushd ~/.rbenv
-src/configure
-make -C src
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-exec $SHELL
-git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-exec $SHELL
+read -p "Installing on macOS X? (y/n): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Nn]$ ]]; then
+  # install Ruby since most likely not pre-installed on *nix
+  echo "Installing rbenv and ruby-build"
+  mkdir -p ~/.rbenv
+  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  pushd ~/.rbenv
+  src/configure
+  make -C src
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+  echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+  exec $SHELL
+  git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+  exec $SHELL
 
-echo "Installing Ruby 2.4.1"
-rbenv install -v 2.4.1
-rbenv global 2.4.1
-exec $SHELL
+  echo "Installing Ruby 2.4.1"
+  rbenv install -v 2.4.1
+  rbenv global 2.4.1
+  exec $SHELL
+
+  echo "Installing Powerline fonts"
+  wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+  wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+  # check this is valid path to fonts by `$ xset q`
+  mv PowerlineSymbols.otf /usr/share/fonts/X11/misc/
+  # `$ fc-cache` may need sudo rights
+  fc-cache -vf /usr/share/fonts/X11/misc/
+  mkdir -p ~/.config/fontconfig/conf.d/
+  mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+
+else
+
+  # Note meslo S is a good macOS-like powerline font
+  echo "Installing Powerline fonts"
+  git clone https://github.com/powerline/fonts.git
+  pushd fonts/
+  ./install.sh
+  popd
+  rm -rf fonts/
+
+  # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
+
+fi
 
 echo "Installing Gems"
 gem install jekyll
 gem install bundler
 popd
+
+echo "Installing npm packages"
+npm install -g grunt-cli \
+  gulp-cli \
+  tmux-cpu \
+  tmux-mem
 
 # Create (if needed) mutt dirs & other files
 echo "Installing mutt"
@@ -41,7 +76,7 @@ mkdir -p ~/.mutt/jgentile/headers
 mkdir -p ~/.mutt/jgentile/bodies
 touch ~/.mutt/certificates
 # get solarized color scheme
-wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-      dark-256.muttrc
+wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-dark-256.muttrc
 
 echo "Installing vim components..."
 
@@ -55,18 +90,9 @@ mkdir -p ~/.vim/colors/
 cp vim-colorschemes/colors/* ~/.vim/colors/
 rm -rf vim-colorschemes/
 
-echo "Installing Powerline fonts"
-wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
-# check this is valid path to fonts by `$ xset q`
-mv PowerlineSymbols.otf /usr/share/fonts/X11/misc/
-# `$ fc-cache` may need sudo rights
-fc-cache -vf /usr/share/fonts/X11/misc/
-mkdir -p ~/.config/fontconfig/conf.d/
-mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
-
 echo "Installing Python modules via pip"
 pip install awscli --upgrade --user
+pip install vim-vint
 
 # leave /tmp/
 popd
