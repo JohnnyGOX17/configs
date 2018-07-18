@@ -72,7 +72,7 @@ augroup code_extensions_and_syntax
   au BufNewFile,BufFilePre,BufRead *.md Goyo
   au BufNewFile,BufFilePre,BufRead *.{md,txt} setlocal spell spelllang=en_us
 
-  " Automatically remove all trailing whitespace when buffer is saved for
+  " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
   let trail_blk_list = ['markdown', 'text']
   au BufWritePre * if index(trail_blk_list, &ft) < 0 | %s/\s\+$//e
@@ -90,6 +90,12 @@ augroup code_extensions_and_syntax
   
   " Set .xdc to TCL
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
+
+  " unmap git gutter keys so that <leader/Space>h works faster                                                                             │
+  autocmd VimEnter * nunmap <buffer> <Space>hp                                                                                       │
+  "autocmd VimEnter * nunmap <buffer> <Space>hr                                                                                     │
+  autocmd VimEnter * nunmap <buffer> <Space>hu                                                                                       │
+  autocmd VimEnter * nunmap <buffer> <Space>hs 
 
 augroup END
 
@@ -270,11 +276,6 @@ Plug 'airblade/vim-gitgutter'
 " Only check on file save/load
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
-" unmap git gutter keys so that <leader>h works faster
-"autocmd VimEnter * unmap <leader>hp
-"autocmd VimEnter * unmap <leader>hr
-"autocmd VimEnter * unmap <leader>hu
-"autocmd VimEnter * unmap <leader>hs
 
 " Header generator- decided not to use as it had some issues with tracking updates
 " and IMO, the things it was stating were already tracked via source control;
