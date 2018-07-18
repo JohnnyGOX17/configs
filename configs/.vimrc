@@ -91,12 +91,6 @@ augroup code_extensions_and_syntax
   " Set .xdc to TCL
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
 
-  " unmap git gutter keys so that <leader/Space>h works faster                                                                             │
-  autocmd VimEnter * nunmap <buffer> <Space>hp                                                                                       │
-  "autocmd VimEnter * nunmap <buffer> <Space>hr                                                                                     │
-  autocmd VimEnter * nunmap <buffer> <Space>hu                                                                                       │
-  autocmd VimEnter * nunmap <buffer> <Space>hs 
-
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -142,6 +136,10 @@ nnoremap <F4> :AddHeader<CR>
 " Map arrow keys to graphical movements
 nnoremap <Up> gk
 nnoremap <Down> gj
+" Remap `GitGutter` keys that conflict with <Space/leader>+h
+nnoremap <leader>gsh <Plug>GitGutterStageHunk
+nnoremap <leader>guh <Plug>GitGutterUndoHunk
+nnoremap <leader>gph <Plug>GitGutterPreviewHunk
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
