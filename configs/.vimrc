@@ -110,32 +110,50 @@ nnoremap gV '[v']
 let mapleader=" "
 " `jk` to escape
 inoremap jk <esc>
+" Map arrow keys to graphical movements
+nnoremap <Up> gk
+nnoremap <Down> gj
 " Remove all trailing whitespace by pressing F7 (also see above for autoremove
 " trailing whitespace on buffer save for specific filetypes)j
 nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " Toggle spell checking (default off)
 nnoremap <F5> :set spell! spelllang=en_us<CR>
+
 " Open new empty buffer
 nnoremap <leader>n :enew<CR>
-" Move to next open buffer
-nnoremap <leader>l :bnext<CR>
-" Move to previous buffer
-nnoremap <leader>h :bprevious<CR>
+" Move to next open buffer (`f` for home row)
+nnoremap <leader>fl :bnext<CR>
+" Move to previous buffer (`f` for home row)
+nnoremap <leader>fh :bprevious<CR>
 " Close current buffer and move to previous one (similar to closing tab)
-nnoremap <leader>q :bp <BAR> bd #<CR>
+nnoremap <leader>fq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
-nnoremap <leader>bl :ls<CR>
+nnoremap <leader>fl :ls<CR>
+" Vertical split (into another window) current file
+nnoremap <leader>v :vsplit<CR>
+" Horizontal split (into another window) current file
+nnoremap <leader>s :split<CR>
+" Move to window left
+nnoremap <leader>h <C-w><Left>
+" Move to window right
+nnoremap <leader>l <C-w><Right>
+" Move to window up
+nnoremap <leader>k <C-w><Up>
+" Move to window down
+nnoremap <leader>j <C-w><Down>
+" Close current window
+nnoremap <leader>q :hide<CR>
+" Enlarge current window by 10 lines
+nnoremap <leader>= 10<C-w>+
+" Shrink current window by 10 lines
+nnoremap <leader>- 10<C-w>-
+
 " Open/toggle `NERDTree` file viewer plugin
 nnoremap <leader>t :NERDTreeToggle<CR>
 " Toggle `gundo` undo search plugin
 nnoremap <leader>u :GundoToggle<CR>
 " Open `CtrlP` plugin fuzzy search tool
 nnoremap <leader>p :CtrlP<CR>
-" Add Header to top of file with `vim-header` plugin
-nnoremap <F4> :AddHeader<CR>
-" Map arrow keys to graphical movements
-nnoremap <Up> gk
-nnoremap <Down> gj
 " Remap `GitGutter` keys that conflict with <Space/leader>+h
 nnoremap <leader>gsh <Plug>GitGutterStageHunk
 nnoremap <leader>guh <Plug>GitGutterUndoHunk
