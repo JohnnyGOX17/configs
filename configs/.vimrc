@@ -127,8 +127,6 @@ nnoremap <leader>fl :bnext<CR>
 nnoremap <leader>fh :bprevious<CR>
 " Close current buffer and move to previous one (similar to closing tab)
 nnoremap <leader>fq :bp <BAR> bd #<CR>
-" Show all open buffers and their status
-nnoremap <leader>fl :ls<CR>
 " Vertical split (into another window) current file
 nnoremap <leader>v :vsplit<CR>
 " Horizontal split (into another window) current file
