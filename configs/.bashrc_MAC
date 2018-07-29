@@ -1,9 +1,4 @@
 #!/bin/bash
-# File              : .bashrc
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 12.12.2017
-# Last Modified Date: 04.03.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -98,9 +93,10 @@ function lb() {
 # Cleanup & Launches
 # =============================================================================
 
-# Run tmux automatically if not in SSH session
+# Run tmux automatically if not in SSH session and not already launched
+# Attach to `dev` session if existent, else launch session `dev`
 if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
-  tmux new -s dev
+  tmux new-session -A -s dev
 fi
 
 # Find if ssh-agent process is already running. If not, start it and auto add
