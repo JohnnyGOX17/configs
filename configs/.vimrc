@@ -141,10 +141,14 @@ nnoremap <leader>k <C-w><Up>
 nnoremap <leader>j <C-w><Down>
 " Close current window
 nnoremap <leader>q :hide<CR>
-" Enlarge current window by 10 lines
-nnoremap <leader>= 10<C-w>+
-" Shrink current window by 10 lines
-nnoremap <leader>- 10<C-w>-
+" Enlarge current window height by 10 lines
+nnoremap <leader>K :res +10<CR>
+" Shrink current window height by 10 lines
+nnoremap <leader>J :res -10<CR>
+" Enlarge current window width by 10 lines
+nnoremap <leader>L :vertical resize +10<CR>
+" Shrink current window width by 10 lines
+nnoremap <leader>J :vertical resize -10<CR>
 
 " Open/toggle `NERDTree` file viewer plugin
 nnoremap <leader>t :NERDTreeToggle<CR>
