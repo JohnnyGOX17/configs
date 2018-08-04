@@ -83,6 +83,7 @@ brew install \
   grep --with-default-names \
   gzip \
   htop \
+  icarus-verilog \
   less \
   m4 \
   make \
@@ -102,10 +103,13 @@ brew install \
   rsync \
   svn \
   tcl-tk \
+  the_silver_searcher \
   tmux \
+  tree \
   unzip \
   vim --override-system-vi \
   macvim --override-system-vim --custom-system-icons \
+  wakeonlan \
   watch \
   wdiff --with-gettext \
   wget

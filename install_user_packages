@@ -6,7 +6,7 @@
 # Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to install all needed development tools and software
-# Run as intended user
+# Run as intended user, should be somewhat platform agnostic
 #
 
 echo "Install started at $(date)"
