@@ -12,7 +12,7 @@ fi
 # Terminal & Path additions/edits
 # =============================================================================
 
-# customize PS1 bash prompt and change if on remote machine over SSH: 
+# customize PS1 bash prompt and change if on remote machine over SSH:
 #   SSH: bold w/red user@host and yellow pwd $
 #   Local: bold w/blue user@host and yellow pwd $
 if [ -n "$SSH_CLIENT" ]; then
@@ -25,9 +25,13 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-# add paths for NVCC (NVIDIA CUDA Compiler)
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
+if [ $(uname -s) = "Linux" ]; then
+  # add paths for NVCC (NVIDIA CUDA Compiler)
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
+elif [ $(uname -s) = "Darwin" ]; then
+  export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
+fi
 
 # =============================================================================
 # User specific aliases and functions
@@ -105,8 +109,9 @@ fi
 # process running, kill last one
 case "$(pidof ssh-agent | wc -w)" in
   0) eval 'ssh-agent'
+    ssh-add
     ;;
-  1) 
+  1)
     ;;
   *) kill $(pidof ssh-agent | awk '{print $1}')
     ;;
