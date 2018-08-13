@@ -59,6 +59,9 @@ alias lsd="ls -alF | grep /$"
 # allow cd.. for cd ..
 alias cd..='cd ..'
 
+# Clean output of directory size usage
+alias duh='du -h -d 1 | sort -bh'
+
 # type less for faster push/pop dirs
 alias p='pushd'
 alias o='popd'
@@ -116,4 +119,3 @@ case "$(pidof ssh-agent | wc -w)" in
   *) kill $(pidof ssh-agent | awk '{print $1}')
     ;;
 esac
-ssh-add
