@@ -56,8 +56,11 @@ alias lsa='ls -A --color=auto'
 alias lsn='ls -a --color=no'
 alias lsd="ls -alF | grep /$"
 
-# allow cd.. for cd ..
+# allow `cd..` typo for `cd ..`
 alias cd..='cd ..'
+# allow for typo of `cd -` previous cmd (and suppress output since we're toggling
+# back and forth a previous directory not examing the stack like in push/popd)
+alias cd-='cd - > /dev/null'
 
 # Clean output of directory size usage
 alias duh='du -h -d 1 | sort -bh'
