@@ -1,9 +1,3 @@
-" File              : .vimrc
-" Author            : John Gentile <johncgentile17@gmail.com>
-" Date              : 06.12.2017
-" Last Modified Date: 22.04.2018
-" Last Modified By  : John Gentile <johncgentile17@gmail.com>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Editing Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -148,7 +142,7 @@ nnoremap <leader>J :res -10<CR>
 " Enlarge current window width by 10 lines
 nnoremap <leader>L :vertical resize +10<CR>
 " Shrink current window width by 10 lines
-nnoremap <leader>J :vertical resize -10<CR>
+nnoremap <leader>H :vertical resize -10<CR>
 
 " Open/toggle `NERDTree` file viewer plugin
 nnoremap <leader>t :NERDTreeToggle<CR>
