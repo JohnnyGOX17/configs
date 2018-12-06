@@ -160,6 +160,9 @@ nnoremap <leader>p :CtrlP<CR>
 nnoremap <leader>gsh <Plug>GitGutterStageHunk
 nnoremap <leader>guh <Plug>GitGutterUndoHunk
 nnoremap <leader>gph <Plug>GitGutterPreviewHunk
+" ALE navigate between errors
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -254,6 +257,13 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 " more information https://github.com/Valloric/YouCompleteMe
 Plug 'Valloric/YouCompleteMe'
 
+" Async linting engine
+Plug 'w0rp/ale'
+let g:airline#extensions#ale#enabled = 1
+" to save some processing, lint only on save by uncommenting below:
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_enter = 0
+
 " Good looking tagline for bottom of Vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -278,13 +288,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Plugin for snippets
 Plug 'SirVer/ultisnips'
-" set ultisnips to use a key that doesn't conflict with YCM
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " Sublime-text like multiple-cursor use
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 " Git wrapper
 Plug 'tpope/vim-fugitive'
