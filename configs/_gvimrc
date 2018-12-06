@@ -1,9 +1,3 @@
-" File              : _gvimrc
-" Author            : John Gentile <johncgentile17@gmail.com>
-" Date              : 07.03.2018
-" Last Modified Date: 25.04.2018
-" Last Modified By  : John Gentile <johncgentile17@gmail.com>
-"
 " Windows visual/gVim related configurations
 " See _vimrc for key mapping/operation related configurations
 syntax on
