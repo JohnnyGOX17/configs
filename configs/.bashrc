@@ -25,11 +25,12 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
-if [ $(uname -s) = "Linux" ]; then
-  # add paths for NVCC (NVIDIA CUDA Compiler)
+if [ "$(uname -s)" = "Linux" ]; then
+  # add paths for - NVCC NVIDIA CUDA Compiler
+  #               - Vivado 2018.2
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin
-elif [ $(uname -s) = "Darwin" ]; then
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/opt/Xilinx/Vivado/2018.2/bin
+elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
 
@@ -91,13 +92,13 @@ function lb() {
   mkdir -p ~/logbook
   StrDate=$(date '+%m-%d-%Y')
   StrPath=~/logbook/$StrDate.md
-  touch $StrPath
-  echo "# Logbook for $StrDate" > $StrPath
-  echo "## Problem/Situation" >> $StrPath
-  echo "## Hypothesis" >> $StrPath
-  echo "## Experiment" >> $StrPath
-  echo "## Outcome" >> $StrPath
-  vim $StrPath
+  touch "$StrPath"
+  echo "# Logbook for $StrDate" > "$StrPath"
+  echo "## Problem/Situation"  >> "$StrPath"
+  echo "## Hypothesis"         >> "$StrPath"
+  echo "## Experiment"         >> "$StrPath"
+  echo "## Outcome"            >> "$StrPath"
+  vim "$StrPath"
 }
 
 # =============================================================================
@@ -119,6 +120,6 @@ case "$(pidof ssh-agent | wc -w)" in
     ;;
   1)
     ;;
-  *) kill $(pidof ssh-agent | awk '{print $1}')
+  *) kill "$(pidof ssh-agent | awk '{print $1}')"
     ;;
 esac
