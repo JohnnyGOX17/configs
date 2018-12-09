@@ -146,6 +146,8 @@ nnoremap <leader>H :vertical resize -10<CR>
 
 " Open/toggle `NERDTree` file viewer plugin
 nnoremap <leader>t :NERDTreeToggle<CR>
+" Open/toggle `Tagbar` tag viewer plugin
+nnoremap <leader>y :TagbarToggle<CR>
 " Toggle `gundo` undo search plugin
 nnoremap <leader>u :GundoToggle<CR>
 " Open `CtrlP` plugin fuzzy search tool
@@ -252,11 +254,18 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 Plug 'Valloric/YouCompleteMe'
 
 " Async linting engine
+" Used instead of vim-syntastic/syntastic since also using YouCompleteMe
 Plug 'w0rp/ale'
 let g:airline#extensions#ale#enabled = 1
 " to save some processing, lint only on save by uncommenting below:
 " let g:ale_lint_on_text_changed = 'never'
 " let g:ale_lint_on_enter = 0
+
+" Allow all Vim plugins insert modes to be fired off of <Tab>
+Plug 'ervandew/supertab'
+
+" displays tags in window ordered by scope
+Plug 'majutsushi/tagbar'
 
 " Good looking tagline for bottom of Vim
 Plug 'vim-airline/vim-airline'
@@ -286,7 +295,7 @@ Plug 'SirVer/ultisnips'
 " Sublime-text like multiple-cursor use
 " Plug 'terryma/vim-multiple-cursors'
 
-" Git wrapper
+" Git wrapper with lots of helper functions when working in git repos
 Plug 'tpope/vim-fugitive'
 
 " Git gutter for showing diffs and other features
@@ -319,6 +328,11 @@ let g:vim_markdown_new_list_item_indent = 0
 Plug 'junegunn/goyo.vim'
 autocmd! User GoyoEnter call <SID>goyo_enter()
 autocmd! User GoyoLeave call <SID>goyo_leave()
+
+" Highlights recently yanked text
+Plug 'machakann/vim-highlightedyank'
+" ms to keep highlighted, -1 to persist until edit or new yank
+let g:highlightedyank_highlight_duration = -1
 
 call plug#end()
 
