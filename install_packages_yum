@@ -73,9 +73,10 @@ yum -y install apr-devel \
 # --enable-rubyinterp=yes \
 # --enable-pythoninterp=yes \
 # --enable-perlinterp=yes
+# If installing for single user (no `make install`) VIMRUNTIMEDIR can == {vim_src}/runtime
 # make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
-# sudo make install
 # yum install -y sudo
+# sudo make install
 # hash vim
 
 # Ranger file manager
