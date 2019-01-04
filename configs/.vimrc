@@ -7,10 +7,10 @@ set number         " turn on line numbering
 set hidden         " hide buffers instead of closing them
 syntax enable      " turn on syntax highlighting
 set cindent        " use C-style indenting
-set tabstop=2      " tab == 2 spaces
-set softtabstop=2
+set smartindent    " use smart indentation
+set tabstop=8      " tab char == default 8 spaces
+set softtabstop=2  " edit file as if tab == 2 spaces to match shiftwidth
 set shiftwidth=2   " indent 2 spaces (instead of 8) for one tab
-set smartindent
 set expandtab      " make sure tabs expand to spaces
 set backspace=2    " make backspace work like most other text editors
 set cursorline     " highlight current line horizontally
@@ -193,7 +193,15 @@ func! LinuxCStyle()
   " Re-indent file to new shiftwidth and keep cursor position
   normal mzgg=G`z
 endfu
-com! LinuxC call LinuxCStyle()
+com! StyleLinuxC call LinuxCStyle()
+
+" Reset any Style changes
+func! ResetStyle()
+  setlocal shiftwidth=2
+  " Re-indent file to new shiftwidth and keep cursor position
+  normal mzgg=G`z
+endfu
+com! StyleReset call ResetStyle()
 
 " Functions for `Goyo` plugin to quit even when `:q` is called
 function! s:goyo_enter()
