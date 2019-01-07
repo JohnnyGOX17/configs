@@ -6,8 +6,7 @@ set t_Co=256       " turn on 256 colors
 set number         " turn on line numbering
 set hidden         " hide buffers instead of closing them
 syntax enable      " turn on syntax highlighting
-set cindent        " use C-style indenting
-set smartindent    " use smart indentation
+filetype indent on " use indentation based on filetype in $RUNTIME/indent
 set tabstop=8      " tab char == default 8 spaces
 set softtabstop=2  " edit file as if tab == 2 spaces to match shiftwidth
 set shiftwidth=2   " indent 2 spaces (instead of 8) for one tab
@@ -55,7 +54,6 @@ augroup code_extensions_and_syntax
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   "au BufNewFile,BufFilePre,BufRead *.md Goyo
   au BufNewFile,BufFilePre,BufRead *.{md,txt} setlocal spell spelllang=en_us
-  au BufNewFile,BufFilePre,BufRead *.vhd setlocal shiftwidth=1
 
   " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
