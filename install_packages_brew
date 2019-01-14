@@ -42,12 +42,13 @@ pushd $InsPath
 
 
 ###############################################################################
-# Install `brew` package manager
+# Install `brew` package manager (https://brew.sh/)
 ###############################################################################
 
 msg "Install brew"
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install cask
+brew update
 
 ###############################################################################
 # Install Basic Development Parts & General Tools
@@ -57,7 +58,9 @@ msg "Installing applications from brew"
 
 brew cask install \
   google-chrome \
-  iterm2
+  iterm2 \
+  visual-studio-code \
+  vlc
 
 brew install \
   bash \
@@ -108,7 +111,7 @@ brew install \
   tree \
   unzip \
   vim --override-system-vi \
-  macvim --override-system-vim --custom-system-icons \
+  # macvim --override-system-vim --custom-system-icons \
   wakeonlan \
   watch \
   wdiff --with-gettext \
@@ -148,5 +151,6 @@ fi
 msg "Deleting temp directory at $InsPath"
 popd
 rm -rf $InsPath*
+ brew cleanup
 
 msg "DONE!... Installs and updates successful\n"
