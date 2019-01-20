@@ -63,6 +63,8 @@ alias cd..='cd ..'
 # allow for typo of `cd -` previous cmd (and suppress output since we're toggling
 # back and forth a previous directory not examing the stack like in push/popd)
 alias cd-='cd - > /dev/null'
+# cd to root directory of git repo (or submodule)
+alias cdg='cd "$(git rev-parse --show-toplevel)"'
 
 # Clean output of directory size usage
 alias duh='du -h -d 1 | sort -bh'

@@ -8,6 +8,8 @@
 [alias]
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+        # execute any shell command @ repo's top-level directory
+	exec = "!exec "
 [color]
 	branch = auto
 	diff = auto
