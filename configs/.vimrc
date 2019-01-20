@@ -148,6 +148,8 @@ nnoremap <leader>gph <Plug>GitGutterPreviewHunk
 " ALE navigate between errors
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" Start using Ack.vim (targeting `ag`) but don't jump to 1st match
+nnoremap <leader>a :Ack!<Space>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -232,6 +234,13 @@ call plug#begin('~/.vim/plugged')
 
 " Visual 'Undo' Tree
 Plug 'sjl/gundo.vim'
+
+" Ack.vim plugin using `ag` text search
+Plug 'mileszs/ack.vim'
+if executable('ag')
+  " Use let g:ackprg = 'ag --vimgrep' to report every match on a line
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
 
 " Full path fuzzy file, buffer, mru, tag... finder
 Plug 'ctrlpvim/ctrlp.vim'
