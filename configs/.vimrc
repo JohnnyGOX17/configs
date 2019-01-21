@@ -203,6 +203,23 @@ func! ResetStyle()
 endfu
 com! StyleReset call ResetStyle()
 
+" NOTE: to debug tab/spaces/EOLs in a file use `:set list`
+func! SpacesToTabs()
+  setlocal softtabstop=8   " edit file as if tab == 2 spaces to match shiftwidth
+  setlocal shiftwidth=8    " indent 2 spaces (instead of 8) for one tab/indent
+  setlocal noexpandtab     " don't expand tabs to spaces
+  %retab!                  " Retabulate the whole file
+endfu
+com! SpacesToTabs call SpacesToTabs()
+
+func! TabsToSpaces()
+  setlocal softtabstop=2   " edit file as if tab == 2 spaces to match shiftwidth
+  setlocal shiftwidth=2    " indent 2 spaces (instead of 8) for one tab/indent
+  setlocal expandtab       " make sure tabs expand to spaces
+  %retab!                  " Retabulate the whole file
+endfu
+com! TabsToSpaces call TabsToSpaces()
+
 " Functions for `Goyo` plugin to quit even when `:q` is called
 function! s:goyo_enter()
   silent !tmux set status off
