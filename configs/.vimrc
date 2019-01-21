@@ -340,6 +340,9 @@ Plug 'machakann/vim-highlightedyank'
 " ms to keep highlighted, -1 to persist until edit or new yank
 let g:highlightedyank_highlight_duration = -1
 
+" Vader test framework
+Plug 'junegunn/vader.vim'
+
 call plug#end()
 
 " Applied last to override any comment settings
