@@ -205,8 +205,8 @@ com! StyleReset call ResetStyle()
 
 " NOTE: to debug tab/spaces/EOLs in a file use `:set list`
 func! SpacesToTabs()
-  setlocal softtabstop=8   " edit file as if tab == 2 spaces to match shiftwidth
-  setlocal shiftwidth=8    " indent 2 spaces (instead of 8) for one tab/indent
+  setlocal softtabstop=8   " edit file as if tab == 8 spaces to match shiftwidth
+  setlocal shiftwidth=8    " indent 8 spaces for one tab/indent
   setlocal noexpandtab     " don't expand tabs to spaces
   %retab!                  " Retabulate the whole file
 endfu
