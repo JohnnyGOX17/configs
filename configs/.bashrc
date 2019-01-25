@@ -48,8 +48,17 @@ alias vi='vim'
 # useful for simple projects looking to add->commit->push in one step
 alias gitacp='git add -A && git commit -s && git push'
 
-# easy updating for debian/apt-based package management
-alias update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y'
+# easy updating for package management
+if [ "$(uname -s)" = "Linux" ]; then
+  if [ -n "$(command -v apt)" ]; then
+    alias sys_update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y'
+  elif [ -n "$(command -v yum)" ]; then
+    alias sys_update='sudo yum update && sudo yum upgrade -y'
+  fi
+elif [ "$(uname -s)" = "Darwin" ]; then
+  alias sys_update='brew update && brew upgrade && brew cleanup'
+fi
+
 
 # ls macros
 alias ll='ls -lhXG'
