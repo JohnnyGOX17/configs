@@ -68,7 +68,8 @@ echo "Installing npm packages"
 npm install -g grunt-cli \
   gulp-cli \
   tmux-cpu \
-  tmux-mem
+  tmux-mem \
+  write-good
 
 # Create (if needed) mutt dirs & other files
 echo "Installing mutt"
@@ -93,6 +94,7 @@ rm -rf vim-colorschemes/
 echo "Installing Python modules via pip"
 pip install awscli --upgrade --user
 pip install vim-vint
+pip install proselint
 
 # leave /tmp/
 popd
