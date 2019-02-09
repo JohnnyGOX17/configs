@@ -30,7 +30,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   #               - Vivado 2018.2
   #               - Altera-ModelSim 18.1/10.6d
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/opt/Xilinx/Vivado/2018.2/bin:/home/jgentile/intelFPGA_pro/18.1/modelsim_ase/linux
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/opt/Xilinx/Vivado/2018.2/bin:/home/jgentile/intelFPGA_pro/18.1/modelsim_ase/linux:/usr/local/MATLAB/R2018b/bin
 elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
