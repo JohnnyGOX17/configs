@@ -71,6 +71,10 @@ augroup code_extensions_and_syntax
   " Close vim automatically if the only window left open is `NERDTree` plugin
   au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+  " Set cursorline only when not in insert mode
+  au InsertLeave,WinEnter * set cursorline
+  au InsertEnter,WinLeave * set nocursorline
+
   " Set .xdc to TCL
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
 
