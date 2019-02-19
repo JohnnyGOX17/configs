@@ -2,7 +2,7 @@
 	name = Gentile, John
 	email = johncgentile17@gmail.com
 [credential]
-	helper = cache
+	helper = cache --timeout=3600
 [push]
 	default = simple
 [alias]
