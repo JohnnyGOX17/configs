@@ -113,6 +113,9 @@ function lb() {
   vim "$StrPath"
 }
 
+# <tab> completion for "Makefile"s in a dir showing all options as well
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+
 # =============================================================================
 # Cleanup & Launches
 # =============================================================================
