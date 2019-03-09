@@ -196,6 +196,11 @@ func! LinuxCStyle()
   setlocal shiftwidth=8
   " Re-indent file to new shiftwidth and keep cursor position
   normal mzgg=G`z
+  " set 80 chars/line
+  set textwidth=0
+  if exists('&colorcolumn')
+    set colorcolumn=80
+  endif
 endfu
 com! StyleLinuxC call LinuxCStyle()
 
