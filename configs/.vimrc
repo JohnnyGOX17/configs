@@ -253,116 +253,124 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-" Visual 'Undo' Tree
-Plug 'sjl/gundo.vim'
+  " Visual 'Undo' Tree
+  Plug 'sjl/gundo.vim'
 
-" Ack.vim plugin using `ag` text search
-Plug 'mileszs/ack.vim'
-if executable('ag')
-  " Use let g:ackprg = 'ag --vimgrep' to report every match on a line
-  let g:ackprg = 'ag --nogroup --nocolor --column'
-endif
+  " Ack.vim plugin using `ag` text search
+  Plug 'mileszs/ack.vim'
+  if executable('ag')
+    " Use let g:ackprg = 'ag --vimgrep' to report every match on a line
+    let g:ackprg = 'ag --nogroup --nocolor --column'
+  endif
 
-" Full path fuzzy file, buffer, mru, tag... finder
-Plug 'ctrlpvim/ctrlp.vim'
-" Set cwd as top level of source control if available
-let g:ctrlp_working_path_mode = 'r'
-" Setup file ignores
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}
-" Ignore files called out in `.gitignore`
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+  " Full path fuzzy file, buffer, mru, tag... finder
+  Plug 'ctrlpvim/ctrlp.vim'
+  " Set cwd as top level of source control if available
+  let g:ctrlp_working_path_mode = 'r'
+  " Setup file ignores
+  let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+    \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+  \}
+  " Ignore files called out in `.gitignore`
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
-" Smart code-completion engine
-" NOTE: there are some special installation considerations, see GitHub page for
-" more information https://github.com/Valloric/YouCompleteMe
-Plug 'Valloric/YouCompleteMe'
+  " Smart code-completion engine
+  " NOTE: there are some special installation considerations, see GitHub page for
+  " more information https://github.com/Valloric/YouCompleteMe
+  Plug 'Valloric/YouCompleteMe'
 
-" Async linting engine
-" Used instead of vim-syntastic/syntastic since also using YouCompleteMe
-Plug 'w0rp/ale'
-let g:airline#extensions#ale#enabled = 1
-" to save some processing, lint only on save by uncommenting below:
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_enter = 0
+  " Async linting engine
+  " Used instead of vim-syntastic/syntastic since also using YouCompleteMe
+  Plug 'w0rp/ale'
+  let g:airline#extensions#ale#enabled = 1
+  " to save some processing, lint only on save by uncommenting below:
+  " let g:ale_lint_on_text_changed = 'never'
+  " let g:ale_lint_on_enter = 0
 
-" Allow all Vim plugins insert modes to be fired off of <Tab>
-Plug 'ervandew/supertab'
+  " Allow all Vim plugins insert modes to be fired off of <Tab>
+  Plug 'ervandew/supertab'
 
-" displays tags in window ordered by scope
-Plug 'majutsushi/tagbar'
+  " displays tags in window ordered by scope
+  Plug 'majutsushi/tagbar'
 
-" Good looking tagline for bottom of Vim
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Enable the list of currently open buffers at the top
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename of open buffers
-let g:airline#extensions#tabline#fnamemod = ':t'
-" Only show tabline when 2 or more buffers are open
-let g:airline#extensions#tabline#buffer_min_count = 2
-" NOTE: Powerline fonts might be weird in some systems, look at FAQ link below
-" https://github.com/vim-airline/vim-airline/wiki/FAQ
-let g:airline_powerline_fonts = 1 " turn on powerline fonts
-" if !exists('g:airline_symbols')
-"   let g:airline_symbols = {}
-" endif
-" let g:airline_symbols.space = "\ua0"
+  " Good looking tagline for bottom of Vim
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  " Enable the list of currently open buffers at the top
+  let g:airline#extensions#tabline#enabled = 1
+  " Show just the filename of open buffers
+  let g:airline#extensions#tabline#fnamemod = ':t'
+  " Only show tabline when 2 or more buffers are open
+  let g:airline#extensions#tabline#buffer_min_count = 2
+  " NOTE: Powerline fonts might be weird in some systems, look at FAQ link below
+  " https://github.com/vim-airline/vim-airline/wiki/FAQ
+  let g:airline_powerline_fonts = 1 " turn on powerline fonts
+  " if !exists('g:airline_symbols')
+  "   let g:airline_symbols = {}
+  " endif
+  " let g:airline_symbols.space = "\ua0"
 
-" Filesystem explorer for vim
-Plug 'scrooloose/nerdtree'
-" Plugin to NERDTree showing `git` status flags to files
-Plug 'Xuyuanp/nerdtree-git-plugin'
+  " Filesystem explorer for vim
+  Plug 'scrooloose/nerdtree'
+  " Plugin to NERDTree showing `git` status flags to files
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Plugin for snippets
-Plug 'SirVer/ultisnips'
+  " Plugin for snippets
+  Plug 'SirVer/ultisnips'
 
-" Sublime-text like multiple-cursor use
-" Plug 'terryma/vim-multiple-cursors'
+  " Sublime-text like multiple-cursor use
+  " Plug 'terryma/vim-multiple-cursors'
 
-" Git wrapper with lots of helper functions when working in git repos
-Plug 'tpope/vim-fugitive'
+  " Git wrapper with lots of helper functions when working in git repos
+  Plug 'tpope/vim-fugitive'
 
-" Git gutter for showing diffs and other features
-Plug 'airblade/vim-gitgutter'
-" Only check on file save/load
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
+  " Git gutter for showing diffs and other features
+  Plug 'airblade/vim-gitgutter'
+  " Only check on file save/load
+  let g:gitgutter_realtime = 0
+  let g:gitgutter_eager = 0
 
-" Header generator- decided not to use as it had some issues with tracking updates
-" and IMO, the things it was stating were already tracked via source control;
-" anything else in the header of files besides succinct documentation or necessary
-" meta (like shebangs for shell scripts) is a waste of space, readability and needs
-" to be kept up-to-date (inefficient)
-"Plug 'alpertuna/vim-header'
-"let g:header_field_author = 'John Gentile'
-"let g:header_field_author_email = 'johncgentile17@gmail.com'
-"let g:header_max_size = 5
+  " Header generator- decided not to use as it had some issues with tracking updates
+  " and IMO, the things it was stating were already tracked via source control;
+  " anything else in the header of files besides succinct documentation or necessary
+  " meta (like shebangs for shell scripts) is a waste of space, readability and needs
+  " to be kept up-to-date (inefficient)
+  "Plug 'alpertuna/vim-header'
+  "let g:header_field_author = 'John Gentile'
+  "let g:header_field_author_email = 'johncgentile17@gmail.com'
+  "let g:header_max_size = 5
 
-" Easy text alignment plugin
-Plug 'godlygeek/tabular'
+  " Easy text alignment plugin
+  Plug 'godlygeek/tabular'
 
-" Markdown highlighting
-Plug 'plasticboy/vim-markdown'
-set conceallevel=2
-let g:vim_markdown_math = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 0
+  " Markdown highlighting
+  Plug 'plasticboy/vim-markdown'
+  set conceallevel=2
+  let g:vim_markdown_math = 1
+  let g:vim_markdown_frontmatter = 1
+  let g:vim_markdown_new_list_item_indent = 0
 
-" Distraction free writing
-Plug 'junegunn/goyo.vim'
-autocmd! User GoyoEnter call <SID>goyo_enter()
-autocmd! User GoyoLeave call <SID>goyo_leave()
+  " Distraction free writing
+  Plug 'junegunn/goyo.vim'
+  autocmd! User GoyoEnter call <SID>goyo_enter()
+  autocmd! User GoyoLeave call <SID>goyo_leave()
 
-" Highlights recently yanked text
-Plug 'machakann/vim-highlightedyank'
-" ms to keep highlighted, -1 to persist until edit or new yank
-let g:highlightedyank_highlight_duration = -1
+  " Highlights recently yanked text
+  Plug 'machakann/vim-highlightedyank'
+  " ms to keep highlighted, -1 to persist until edit or new yank
+  let g:highlightedyank_highlight_duration = -1
 
-" Vader test framework
-Plug 'junegunn/vader.vim'
+  " Vader test framework
+  Plug 'junegunn/vader.vim'
+
+  " Auto check if Vim plugins need to be updated
+  Plug 'semanser/vim-outdated-plugins'
+  " Do not show any message if all plugins are up to date. 0 by default
+  let g:outdated_plugins_silent_mode = 1
+
+  " Display # of search matches & index of current match
+  Plug 'google/vim-searchindex'
 
 call plug#end()
 

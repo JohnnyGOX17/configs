@@ -13,9 +13,7 @@ echo "Install started at $(date)"
 mkdir -p /tmp/
 pushd /tmp/
 
-read -p "Installing on macOS X? (y/n): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Nn]$ ]]; then
+if [ "$(uname -s)" = "Linux" ]; then
   # install Ruby since most likely not pre-installed on *nix
   echo "Installing rbenv and ruby-build"
   mkdir -p ~/.rbenv
@@ -45,7 +43,7 @@ if [[ $REPLY =~ ^[Nn]$ ]]; then
   mkdir -p ~/.config/fontconfig/conf.d/
   mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 
-else
+elif [ "$(uname -s)" = "Darwin" ]; then
 
   # Note meslo S is a good macOS-like powerline font
   echo "Installing Powerline fonts"
@@ -56,6 +54,12 @@ else
   rm -rf fonts/
 
   # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
+
+  ## Cron jobs
+  # check for brew package updates every hour
+  crontab '0 * * * * /usr/local/bin/brew update &> /dev/null && if [ -n "(/usr/local/bin/brew outdated)" ] ; then echo "Brew Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+  echo "Current cron jobs:"
+  crontab -l
 
 fi
 

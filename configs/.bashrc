@@ -56,7 +56,7 @@ if [ "$(uname -s)" = "Linux" ]; then
     alias sys_update='sudo yum update && sudo yum upgrade -y'
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
-  alias sys_update='brew update && brew upgrade && brew cleanup'
+  alias sys_update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
 fi
 
 
