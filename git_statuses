@@ -14,10 +14,10 @@ pushd ~/src
 
 # Iterate through directories in src/ and check git status
 for d in */ ; do
-  pushd $d
+  pushd $d &> /dev/null
   echo -e "\n${BLU}[$d]${NC}"
-  git status
-  popd
+  git status -s
+  popd &> /dev/null
 done
 
 popd

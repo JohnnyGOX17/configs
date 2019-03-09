@@ -29,14 +29,14 @@ echo "Adding private key from default location:"
 ssh-add
 
 mkdir -p ~/src
-pushd ~/src
+pushd ~/src &> /dev/null
 
 # iterate through directories in src/ directory to automatically pull
 for d in */ ; do
   echo -e "\n${BLU}[$d]${NC}"
-  pushd $d
+  pushd $d &> /dev/null
   git pull
-  popd
+  popd &> /dev/null
 done
 
 # Use GitHub REST API to get list of repos and automatically clone them into
