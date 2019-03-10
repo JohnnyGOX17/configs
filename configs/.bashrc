@@ -51,9 +51,9 @@ alias gitacp='git add -A && git commit -s && git push'
 # easy updating for package management
 if [ "$(uname -s)" = "Linux" ]; then
   if [ -n "$(command -v apt)" ]; then
-    alias sys_update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y'
+    alias sys_update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y && echo "" > /tmp/sys_package_updates'
   elif [ -n "$(command -v yum)" ]; then
-    alias sys_update='sudo yum update && sudo yum upgrade -y'
+    alias sys_update='sudo yum update && sudo yum upgrade -y && echo "" > /tmp/sys_package_updates'
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   alias sys_update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
