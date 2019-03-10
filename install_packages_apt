@@ -55,7 +55,7 @@ apt-add-repository --yes ppa:webupd8team/brackets
 
 # Clang 5.0 repo
 # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
-echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list 
+echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" > /etc/apt/sources.list.d/llvm.list
 wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 # Google Chrome repo
@@ -245,8 +245,14 @@ if [[ $1 = "-a" ]]; then
 
   # Need to manually install Foxit PDF Reader from website
   msg "Install Foxit PDF Reader by DL'ing from https://www.foxitsoftware.com/pdf-reader/"
-  
+
 fi
+
+## Cron jobs- installed w/root permissions
+# check for brew package updates every hour
+crontab '0 * * * * /usr/bin/apt update &> /dev/null && if [[ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ]] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+echo "Current cron jobs:"
+crontab -l
 
 
 ###############################################################################

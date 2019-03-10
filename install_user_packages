@@ -43,11 +43,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   mkdir -p ~/.config/fontconfig/conf.d/
   mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 
-  ## Cron jobs
-  # check for brew package updates every hour
-  sudo crontab '0 * * * * /usr/bin/apt update &> /dev/null && if [ -n "/usr/bin/apt list --upgradable" ] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
-  echo "Current cron jobs:"
-  crontab -l
+  ## Cron jobs- installed w/root permissions in Linux
 
 elif [ "$(uname -s)" = "Darwin" ]; then
 
