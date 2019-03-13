@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Editing Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set encoding=utf-8 " terminal output to UTF-8 (necessary for some distros)
 set nocompatible   " noop when loading from ~/ but needed when $ vim -u .vimrc
 set t_Co=256       " turn on 256 colors
 set number         " turn on line numbering
