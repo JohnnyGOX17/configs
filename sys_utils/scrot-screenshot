@@ -1,10 +1,4 @@
 #!/bin/bash
-# File              : scrot-screenshot
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 17.04.2018
-# Last Modified Date: 17.04.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
-#
 # Uses scrot to automatically save screenshot (for GUI integration)
 # suggested to bind to key combination
 #
@@ -14,7 +8,7 @@
 
 
 ScrDir="/media/data_drive_2TB/Pics/screenshots/"
-FileName='Screenshot_%Y-%m-%d_%H-%M-%S.jpg' 
+FileName='Screenshot_%Y-%m-%d_%H-%M-%S.jpg'
 
 # add -s for mouse based screen selection
 scrot $FileName -zue "mv $FileName $ScrDir"

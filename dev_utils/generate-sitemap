@@ -1,10 +1,4 @@
 #!/bin/bash
-# File              : generate-sitemap
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 20.02.2018
-# Last Modified Date: 22.02.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
-#
 # Simple bash script to generate `sitemap.xml` for a website given a certain
 # directory pattern based on standard https://www.sitemaps.org/protocol.html
 # and time based on W3C standard https://www.w3.org/TR/NOTE-datetime
