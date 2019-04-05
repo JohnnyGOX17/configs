@@ -30,7 +30,9 @@ if [ "$(uname -s)" = "Linux" ]; then
   #               - Vivado 2018.2
   #               - Altera-ModelSim 18.1/10.6d
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/opt/Xilinx/Vivado/2018.2/bin:/home/jgentile/intelFPGA_pro/18.1/modelsim_ase/linux:/usr/local/MATLAB/R2018b/bin
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/bin/Xilinx/Vivado/2018.2/bin/:/home/jgentile/bin/Xilinx/SDK/2018.2/bin/:/home/jgentile/src/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin
+  export RTE_SDK=/home/jgentile/src/dpdk-19.02
+  export RTE_TARGET=x86_64-native-linuxapp-gcc
 elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
@@ -74,6 +76,12 @@ alias cd..='cd ..'
 alias cd-='cd - > /dev/null'
 # cd to root directory of git repo (or submodule)
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
+# pushd to root directory of git repo (or submodule)
+alias pdg='pushd "$(git rev-parse --show-toplevel) > /dev/null"'
+# cd to ~/src directory since common
+alias cds='cd ~/src'
+# pushd to ~/src directory since common
+alias pds='pushd ~/src > /dev/null'
 
 # Clean output of directory size usage
 alias duh='du -h -d 1 | sort -bh'
@@ -91,6 +99,9 @@ alias bc='bc -l'
 
 # tmux should assume 256 color terminal support
 alias tmux="tmux -2"
+
+# PetaLinux environment configs (don't source on entry since can take awhile)
+alias peta_init='. ~/src/petalinux/2018.2/settings.sh > /dev/null'
 
 # enable more advanced globbing in bash
 shopt -s globstar

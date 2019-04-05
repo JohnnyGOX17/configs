@@ -64,6 +64,25 @@ yum -y install apr-devel \
   zlib \
   zlib-devel
 
+echo "Installing Clang 5.0.1..."
+yum install -y centos-release-scl \
+  devtoolset-7 \
+  llvm-toolset-7 \
+  llvm-toolset-7-clang-analyzer \
+  llvm-toolset-7-clang-tools-extra
+scl enable devtoolset-7 llvm-toolset-7 bash
+
+echo "Installing GHDL"
+git clone https://github.com/ghdl/ghdl.git
+pushd ghdl
+mkdir build && pushd build
+../configure --prefix=PREFIX
+make
+make install
+popd
+popd
+rm -rf ghdl
+
 # Install Vim from src
 # yum remove vim-enhanced vim-common vim-minimal
 # git clone https://github.com/vim/vim.git
