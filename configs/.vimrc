@@ -79,6 +79,9 @@ augroup code_extensions_and_syntax
   " Set .xdc to TCL
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
 
+  " Default to LinuxCStyle for C apps
+  au FileType c StyleLinuxC
+
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -194,39 +197,34 @@ com! WP call WordProcessorMode()
 
 " Apply Linux C Style guidelines
 func! LinuxCStyle()
-  setlocal shiftwidth=8
-  " Re-indent file to new shiftwidth and keep cursor position
-  normal mzgg=G`z
-  " set 80 chars/line
-  set textwidth=0
-  if exists('&colorcolumn')
-    set colorcolumn=80
-  endif
+  setlocal softtabstop=8   " edit file as if tab == 8 spaces to match shiftwidth
+  setlocal shiftwidth=8    " indent 8 spaces for one tab/indent
+  setlocal noexpandtab     " don't expand tabs to spaces
 endfu
 com! StyleLinuxC call LinuxCStyle()
 
 " Reset any Style changes
 func! ResetStyle()
-  setlocal shiftwidth=2
-  " Re-indent file to new shiftwidth and keep cursor position
-  normal mzgg=G`z
+  setlocal softtabstop=2   " edit file as if tab == 2 spaces to match shiftwidth
+  setlocal shiftwidth=2    " indent 2 spaces (instead of 8) for one tab/indent
+  setlocal expandtab       " make sure tabs expand to spaces
 endfu
 com! StyleReset call ResetStyle()
 
 " NOTE: to debug tab/spaces/EOLs in a file use `:set list`
 func! SpacesToTabs()
-  setlocal softtabstop=8   " edit file as if tab == 8 spaces to match shiftwidth
-  setlocal shiftwidth=8    " indent 8 spaces for one tab/indent
   setlocal noexpandtab     " don't expand tabs to spaces
   %retab!                  " Retabulate the whole file
+  " Re-indent file to new shiftwidth and keep cursor position
+  normal mzgg=G`z
 endfu
 com! SpacesToTabs call SpacesToTabs()
 
 func! TabsToSpaces()
-  setlocal softtabstop=2   " edit file as if tab == 2 spaces to match shiftwidth
-  setlocal shiftwidth=2    " indent 2 spaces (instead of 8) for one tab/indent
   setlocal expandtab       " make sure tabs expand to spaces
   %retab!                  " Retabulate the whole file
+  " Re-indent file to new shiftwidth and keep cursor position
+  normal mzgg=G`z
 endfu
 com! TabsToSpaces call TabsToSpaces()
 
