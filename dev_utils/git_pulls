@@ -10,24 +10,22 @@ NC='\033[0m'
 # process running, kill last one
 case "$(pidof ssh-agent | wc -w)" in
   0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
-    eval 'ssh-agent'
+    eval "$(ssh-agent)"
+    ssh-add
     ;;
   1) echo -e "\n${BLU}ssh-agent already running $(pidof ssh-agent)${NC}"
     ;;
   *) echo -e "\n${BLU}Removed double process of ssh-agent${NC}"
-    kill $(pidof ssh-agent | awk '{print $1}')
+    kill "$(pidof ssh-agent | awk '{print $1}')"
     ;;
 esac
-
-echo "Adding private key from default location:"
-ssh-add
 
 pushd ~/src > /dev/null
 
 # iterate through directories in src/ directory to automatically pull
 for d in */ ; do
-  pushd $d > /dev/null
-  if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+  pushd "$d" > /dev/null
+  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     echo -e "\n${BLU}[$d]${NC}" && git pull;
   fi;
   popd > /dev/null
