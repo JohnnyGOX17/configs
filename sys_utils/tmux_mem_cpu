@@ -1,40 +1,31 @@
 #!/bin/bash
 
 osTyp="$(uname -s)"
-if [ $osTyp = "Linux" ]; then
+if [ "$osTyp" = "Linux" ]; then
   memVal="$(free -m | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
-elif [ $osTyp = "Darwin" ]; then
+elif [ "$osTyp" = "Darwin" ]; then
   memVal="$(top -l 1 -s 0 | grep PhysMem | awk '{ print int(1000*$2/($2+$6))/10 }')"
 fi
 
 cpuVal="$(ps -eo pcpu,comm,pid | sort -r -k1 | head -n 2 | tail -n 1 | tr -s ' ' | awk '{print $2 $3}')"
 topPs="$(ps -eo pcpu | sort -r -k1 | head -n 2 | tail -n 1 | tr -d ' ')"
 
-case $memVal in
-[1-2]*)
-  memBar="#[fg=colour40]▂#[default]"
-  ;;
-[3]*)
-  memBar="#[fg=colour193]▃#[default]"
-  ;;
-[4-5]*)
-  memBar="#[fg=colour190]▄#[default]"
-  ;;
-[6]*)
-  memBar="#[fg=colour220]▅#[default]"
-  ;;
-[7]*)
-  memBar="#[fg=colour202]▆#[default]"
-  ;;
-[8]*)
-  memBar="#[fg=colour196]▇#[default]"
-  ;;
-[9]*)
-  memBar="#[fg=colour160]█#[default]"
-  ;;
-*)
+if (( $(echo "$memVal < 12.5" | bc -l) )); then
   memBar="#[fg=colour28]▁#[default]"
-  ;;
-esac
+elif (( $(echo "$memVal < 25" | bc -l) )); then
+  memBar="#[fg=colour40]▂#[default]"
+elif (( $(echo "$memVal < 37.5" | bc -l) )); then
+  memBar="#[fg=colour193]▃#[default]"
+elif (( $(echo "$memVal < 50" | bc -l) )); then
+  memBar="#[fg=colour190]▄#[default]"
+elif (( $(echo "$memVal < 62.5" | bc -l) )); then
+  memBar="#[fg=colour220]▅#[default]"
+elif (( $(echo "$memVal < 75" | bc -l) )); then
+  memBar="#[fg=colour202]▆#[default]"
+elif (( $(echo "$memVal < 87.5" | bc -l) )); then
+  memBar="#[fg=colour196]▇#[default]"
+else
+  memBar="#[fg=colour160]█#[default]"
+fi
 
 echo -e "M: $memVal% [$memBar] | TopPs: $cpuVal($topPs)%"
