@@ -130,7 +130,7 @@ fi
 # private key from default location. If running do nothing. If more than one
 # process running, kill last one
 case "$(pidof ssh-agent | wc -w)" in
-  0) eval 'ssh-agent'
+  0) eval "$(ssh-agent)"
     ssh-add
     ;;
   1)
