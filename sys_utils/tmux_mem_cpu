@@ -35,4 +35,4 @@ function bar_color() {
   fi
 }
 
-echo -e "Mem: ${memUse}GB (${memVal})% [$(bar_color $memVal)] | TopPs: $psVal ($cpuVal%) [$(bar_color $cpuVal)]"
+echo -e "Mem: ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | TopPs: $psVal ($cpuVal%) [$(bar_color $cpuVal)]"
