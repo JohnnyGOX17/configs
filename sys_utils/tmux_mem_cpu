@@ -3,12 +3,12 @@
 osTyp="$(uname -s)"
 if [ "$osTyp" = "Linux" ]; then
   memStr="$(free -m)"
-  memVal="$(echo $memStr | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
-  memUse="$(echo $memStr | awk '/Mem:/ { print int($3/10.24)/100 }')"
+  memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
+  memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
 elif [ "$osTyp" = "Darwin" ]; then
   memStr="$(top -l 1 -s 0 | grep PhysMem)"
-  memVal="$(echo $memStr | awk '{ print int(1000*$2/($2+$6))/10 }')"
-  memUse="$(echo $memStr | awk '{ print int($2/10.24)/100 }')"
+  memVal="$(echo "$memStr" | awk '{ print int(1000*$2/($2+$6))/10 }')"
+  memUse="$(echo "$memStr" | awk '{ print int($2/10.24)/100 }')"
 fi
 
 topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
