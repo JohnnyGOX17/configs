@@ -12,7 +12,11 @@ pushd ~/src > /dev/null
 for d in */ ; do
   pushd $d > /dev/null
   if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
-    echo -e "\n${BLU}[$d]${NC}" && git status -s;
+    gitStatStr="$(git status -s)"
+    if [ -n "$gitStatStr" ]; then
+      echo -e "\n${BLU}[$d]${NC}"
+      echo -e "$gitStatStr"
+    fi;
   fi;
   popd > /dev/null
 done
