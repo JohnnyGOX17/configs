@@ -157,3 +157,8 @@ case "$(pidof ssh-agent | wc -w)" in
   *) kill "$(pidof ssh-agent | awk '{print $1}')"
     ;;
 esac
+
+# Initiate Ruby environment
+if [ $(command -v rbenv) ]; then
+  eval "$(rbenv init -)"
+fi
