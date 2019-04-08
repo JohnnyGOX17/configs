@@ -1,9 +1,4 @@
 #!/bin/bash
-# File              : diff_configs
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 29.12.2017
-# Last Modified Date: 09.01.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to update all needed development tools
 # Run as intended user
@@ -13,24 +8,27 @@
 BLU='\033[1;34m'
 NC='\033[0m'
 
+# replace w/Unix `diff` or something else if needed
+diffProg='git diff --no-index'
+
 echo -e "${BLU}[.gitconfig]${NC}"
-diff ./configs/.gitconfig ~/.gitconfig
+$diffProg ./configs/.gitconfig ~/.gitconfig
 echo -e "${BLU}[.bashrc]${NC}"
-diff ./configs/.bashrc ~/.bashrc
+$diffProg ./configs/.bashrc ~/.bashrc
 echo -e "${BLU}[.bash_profile]${NC}"
-diff ./configs/.bash_profile ~/.bash_profile
+$diffProg ./configs/.bash_profile ~/.bash_profile
 echo -e "${BLU}[.inputrc]${NC}"
-diff ./configs/.inputrc ~/.inputrc
+$diffProg ./configs/.inputrc ~/.inputrc
 echo -e "${BLU}[Konsole Profile]${NC}"
-diff ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
+$diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 echo -e "${BLU}[.vimrc]${NC}"
-diff ./configs/.vimrc ~/.vimrc
+$diffProg ./configs/.vimrc ~/.vimrc
 echo -e "${BLU}[vim color schemes]${NC}"
-diff ./configs/monokai.vim ~/.vim/colors/monokai.vim
+$diffProg ./configs/monokai.vim ~/.vim/colors/monokai.vim
 echo -e "${BLU}[.tmux.conf]${NC}"
-diff ./configs/.tmux.conf ~/.tmux.conf
+$diffProg ./configs/.tmux.conf ~/.tmux.conf
 echo -e "${BLU}[Ranger rc.conf]${NC}"
-diff ./configs/rc.conf ~/.config/ranger/rc.conf
-diff ./configs/scope.sh ~/.config/ranger/scope.sh
+$diffProg ./configs/rc.conf ~/.config/ranger/rc.conf
+$diffProg ./configs/scope.sh ~/.config/ranger/scope.sh
 echo -e "${BLU}[.muttrc]${NC}"
-diff ./configs/.muttrc ~/.muttrc
+$diffProg ./configs/.muttrc ~/.muttrc

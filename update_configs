@@ -1,9 +1,4 @@
 #!/bin/bash
-# File              : update_configs
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 27.12.2017
-# Last Modified Date: 09.01.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
 #
 # Shell script to update all needed development tools
 # Run as intended user
