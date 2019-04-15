@@ -194,12 +194,6 @@ if [ "$pkgApp" = "apt" ]; then
 
   apt -y autoremove
 
-  ## Cron jobs- installed w/root permissions
-  # check for brew package updates every hour
-  crontab '0 * * * * /usr/bin/apt update &> /dev/null && if [[ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ]] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
-  echo "Current cron jobs:"
-  crontab -l
-
 elif [ "$pkgApp" = "yum" ]; then
   yum -y install yum-utils
   yum -y groupinstall "Development Tools" \
@@ -331,12 +325,6 @@ elif [ "$pkgApp" = "brew" ]; then
   brew cleanup
 
 fi
-
-# Install npm packages requiring admin rights
-msg "Installing npm applications"
-npm install -g \
-  grunt-cli \
-  gulp-cli
 
 ###############################################################################
 # Source-based installs

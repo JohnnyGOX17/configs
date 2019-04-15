@@ -1,9 +1,4 @@
-#!/bin/bash
-# File              : install_user_packages
-# Author            : John Gentile <johncgentile17@gmail.com>
-# Date              : 09.01.2018
-# Last Modified Date: 08.02.2018
-# Last Modified By  : John Gentile <johncgentile17@gmail.com>
+#!/usr/bin/env bash
 #
 # Shell script to install all needed development tools and software
 # Run as intended user, should be somewhat platform agnostic
@@ -21,17 +16,17 @@ if [ "$(uname -s)" = "Linux" ]; then
   pushd ~/.rbenv
   src/configure
   make -C src
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
   echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-  exec $SHELL
   git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
   echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-  exec $SHELL
 
   echo "Installing Ruby 2.4.1"
   rbenv install -v 2.4.1
   rbenv global 2.4.1
-  exec $SHELL
 
   echo "Installing Powerline fonts"
   wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -43,7 +38,17 @@ if [ "$(uname -s)" = "Linux" ]; then
   mkdir -p ~/.config/fontconfig/conf.d/
   mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 
-  ## Cron jobs- installed w/root permissions in Linux
+  # Add `tmux` terminal types to support italic/bold in tmux
+  tic -x ./configs/xterm-256color-italic.terminfo
+  tic -x ./configs/tmux-256color.terminfo
+
+  ## Cron jobs
+  # check for brew package updates every hour
+  if command -v apt > /dev/null; then
+    crontab '0 * * * * if [[ $(/usr/bin/apt list --upgradable 2> /dev/null | wc -l) -ge 2 ]] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+    echo "Current cron jobs:"
+    crontab -l
+  fi
 
 elif [ "$(uname -s)" = "Darwin" ]; then
 
@@ -56,6 +61,9 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   rm -rf fonts/
 
   # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
+
+  # Add `tmux` terminal types to support italic/bold in tmux
+  tic -x ./configs/tmux.terminfo
 
   ## Cron jobs
   # check for brew package updates every hour
@@ -73,8 +81,6 @@ popd
 echo "Installing npm packages"
 npm install -g grunt-cli \
   gulp-cli \
-  tmux-cpu \
-  tmux-mem \
   write-good
 
 # Create (if needed) mutt dirs & other files
@@ -104,8 +110,3 @@ pip install proselint
 
 # leave /tmp/
 popd
-
-# Add `tmux` terminal types to support italic/bold in tmux
-tic -x ./configs/xterm-256color-italic.terminfo
-tic -x ./configs/tmux-256color.terminfo
-# or `$ tic -x ./configs/tmux.terminfo` for macOS
