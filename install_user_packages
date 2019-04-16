@@ -46,8 +46,8 @@ if [ "$(uname -s)" = "Linux" ]; then
   # check for brew package updates every hour
   if command -v apt > /dev/null; then
     crontab '*/5 * * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
-    echo "Current cron jobs:"
-    crontab -l
+  elif command -v yum > /dev/null; then
+    crontab '*/5 * * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo "Apt Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
   fi
 
 elif [ "$(uname -s)" = "Darwin" ]; then
@@ -68,10 +68,11 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   ## Cron jobs
   # check for brew package updates every hour
   crontab '*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [ -n "(/usr/local/bin/brew outdated)" ] ; then echo "Brew Updates Available" > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
-  echo "Current cron jobs:"
-  crontab -l
 
 fi
+
+echo "Current cron jobs:"
+crontab -l
 
 echo "Installing Gems"
 gem install jekyll
