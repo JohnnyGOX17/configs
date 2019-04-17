@@ -6,9 +6,14 @@ if [ "$osTyp" = "Linux" ]; then
   memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
   memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
 elif [ "$osTyp" = "Darwin" ]; then
-  memStr="$(top -l 1 -s 0 | grep PhysMem)"
-  memVal="$(echo "$memStr" | awk '{ print int(1000*$2/($2+$6))/10 }')"
-  memUse="$(echo "$memStr" | awk '{ print int($2/10.24)/100 }')"
+  # NOTE: below not used since top is slow on Mac and reflects "inactive" memory as well as active
+  #memStr="$(top -l 1 -s 0 | grep PhysMem)"
+  #memVal="$(echo "$memStr" | awk '{ print int(1000*$2/($2+$6))/10 }')"
+  #memUse="$(echo "$memStr" | awk '{ print int($2/10.24)/100 }')"
+  # reflect only active memory usage
+  memUse="$(vm_stat | sed -n 's/^Pages active:\ *\([0-9]\)/\1/p' | awk '{print (int($1 * 100 * (4096/(1024*1024*1024))))/100}')"
+  memTot="$(sysctl -a | sed -n 's/^hw.memsize: \([0-9]\)/\1/p' | awk '{print $1/(1024*1024*1024)}')"
+  memVal="$(echo "scale=2 ; 100 * $memUse / $memTot" | bc)"
 fi
 
 topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
