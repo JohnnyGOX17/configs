@@ -95,6 +95,10 @@ if [ "$pkgApp" = "apt" ]; then
   apt-add-repository --yes https://dl.winehq.org/wine-builds/ubuntu/
   rm Release.key
 
+  # Weechat
+  sh -c 'echo "deb https://weechat.org/ubuntu $(lsb_release -cs) main" >>  /etc/apt/sources.list.d/weechat.list'
+  apt-key adv --keyserver keys.gnupg.net --recv-keys
+
   # Update and pull in all new repos
   apt update
   # Use dist-upgrade to smart dependency changing and conflict resolution
@@ -122,6 +126,7 @@ fi
 # NOTE: If certain programs/packages are not wanted they can be easily commented out
 msg "Installing applications using $pkgApp"
 
+# TODO: consolidate common package names
 if [ "$pkgApp" = "apt" ]; then
   apt-get -y --install-recommends install \
     autoconf \
@@ -188,6 +193,7 @@ if [ "$pkgApp" = "apt" ]; then
     vlc \
     w3m \
     w3m-img \
+    weechat \
     wget \
     winehq-stable \
     xclip
@@ -250,6 +256,7 @@ elif [ "$pkgApp" = "yum" ]; then
     vim \
     vnc-server \
     vsftpd \
+    weechat \
     wget \
     zlib \
     zlib-devel
@@ -319,6 +326,7 @@ elif [ "$pkgApp" = "brew" ]; then
     wakeonlan \
     watch \
     wdiff --with-gettext \
+    weechat \
     wget
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
