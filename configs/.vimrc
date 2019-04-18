@@ -377,6 +377,3 @@ call plug#begin('~/.vim/plugged')
   Plug 'google/vim-searchindex'
 
 call plug#end()
-
-" Applied last to override any comment settings
-highlight Comment cterm=italic
