@@ -6,7 +6,6 @@
 " Vim Interface & Editing Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8 " terminal output to UTF-8 (necessary for some distros)
-set nocompatible   " noop when loading from ~/ but needed when $ vim -u .vimrc
 set t_Co=256       " turn on 256 colors
 set number         " turn on line numbering
 set hidden         " hide buffers instead of closing them
@@ -24,9 +23,8 @@ set visualbell     " turn on visual flashes instead of audible bell
 set laststatus=2   " always shows status line (usefule for Airline plugin)
 set noshowmode     " turn off default mode indicator since we have plugin
 set autoread       " Autoload changes when switching buffers or gaining focus
-" Use system clipboard register
-" Note: Vim >7.3 can also set to `unnamedplus` for `+` X window register
-set clipboard=unnamed
+" Use system CLIPBOARD register `+`. Vim must be built w/clipboard support
+set clipboard=unnamedplus
 " For VHDL syntax highlighting, indent similar to C-syntax operation
 " (e.g. by shiftwidth())
 let g:vhdl_indent_genportmap = 0
@@ -57,8 +55,8 @@ augroup code_extensions_and_syntax
 
   " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
-  let trail_blk_list = ['markdown', 'text']
-  au BufWritePre * if index(trail_blk_list, &ft) < 0 | %s/\s\+$//e
+  let g:trail_blk_list = ['markdown', 'text']
+  au BufWritePre * if index(g:trail_blk_list, &ft) < 0 | %s/\s\+$//e
   " Matching autocommand for highlighting extra whitespace in red
   " Uncomment below to match while typing (little aggressive)
   "match ExtraWhitespace /\s\+$/
@@ -99,7 +97,7 @@ nnoremap gV '[v']
 "
 " ALWAYS use nonrecursive mapping to prevent unintended consequences
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader=" "
+let g:mapleader=' '
 " `jk` to escape
 inoremap jk <esc>
 " Map arrow keys to graphical movements
@@ -193,7 +191,7 @@ func! WordProcessorMode()
   setlocal spell spelllang=en_us
   setlocal noexpandtab
   setlocal nonumber
-  setlocal tw=79
+  setlocal textwidth=79
   setlocal background=light
   syntax off
 endfu
@@ -258,15 +256,11 @@ endfunction
 " VIM-Plug Commands
 "
 " Go to https://github.com/junegunn/vim-plug for install instructions
-" Plugin specific documentation can be found at https://github.com/_PLUG_
+" Plugin specific documentation can be found at https://github.com/<Plug>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-  " Visual 'Undo' Tree
-  Plug 'sjl/gundo.vim'
-
-
-  " Ack.vim plugin using `ag` text search
+  " AckVim: plugin using `ag` text search ------------------------------------
   Plug 'mileszs/ack.vim'
   if executable('ag')
     " Use let g:ackprg = 'ag --vimgrep' to report every match on a line
@@ -274,30 +268,7 @@ call plug#begin('~/.vim/plugged')
   endif
 
 
-  " Full path fuzzy file, buffer, mru, tag... finder
-  Plug 'ctrlpvim/ctrlp.vim'
-  " Set cwd as top level of source control if available
-  let g:ctrlp_working_path_mode = 'r'
-  " Setup file ignores
-  let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-  \}
-  " Ignore files called out in `.gitignore`
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
-
-  " Smart code-completion engine
-  " NOTE: there are some special installation considerations, see GitHub page for
-  " more information https://github.com/Valloric/YouCompleteMe
-  Plug 'Valloric/YouCompleteMe'
-  " remove limit on YCM diagnostics to display
-  " if running into issues, drop down to sensible # (default = 30)
-  let g:ycm_max_diagnostics_to_display = 0
-  let g:ycm_autoclose_preview_window_after_completion=1
-
-
-  " Async linting engine
+  " ALE: Async linting engine ------------------------------------------------
   " Used instead of vim-syntastic/syntastic since also using YouCompleteMe
   Plug 'w0rp/ale'
   let g:airline#extensions#ale#enabled = 1
@@ -313,15 +284,61 @@ call plug#begin('~/.vim/plugged')
   \}
 
 
-  " Allow all Vim plugins insert modes to be fired off of <Tab>
+  " CtrlP: Full path fuzzy file, buffer, mru, tag... finder ------------------
+  Plug 'ctrlpvim/ctrlp.vim'
+  " Set cwd as top level of source control if available
+  let g:ctrlp_working_path_mode = 'r'
+  " Setup file ignores
+  let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+  \}
+  " Ignore files called out in `.gitignore`
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+
+  " EditorConfig: Maintain consistent coding styles for projects -------------
+  Plug 'editorconfig/editorconfig-vim'
+  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
+
+  " Goyo: Distraction free writing -------------------------------------------
+  Plug 'junegunn/goyo.vim'
+  autocmd! User GoyoEnter call <SID>goyo_enter()
+  autocmd! User GoyoLeave call <SID>goyo_leave()
+
+
+  " Gundo: Visual 'Undo' Tree ------------------------------------------------
+  Plug 'sjl/gundo.vim'
+
+
+  " NerdTree: Filesystem explorer for vim ------------------------------------
+  Plug 'scrooloose/nerdtree'
+  " Plugin to NERDTree showing `git` status flags to files
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+
+
+  " SuperTab: Allow all Vim plugins insert modes to be fired off of <Tab> ----
   Plug 'ervandew/supertab'
 
 
-  " displays tags in window ordered by scope
+  " Tabular: Easy text alignment plugin --------------------------------------
+  Plug 'godlygeek/tabular'
+
+
+  " TagBar: displays tags in window ordered by scope -------------------------
   Plug 'majutsushi/tagbar'
 
 
-  " Good looking tagline for bottom of Vim
+  " UltiSnips: Plugin for snippets -------------------------------------------
+  Plug 'SirVer/ultisnips'
+
+
+  " Vader: Vader test framework ----------------------------------------------
+  Plug 'junegunn/vader.vim'
+
+
+  " VimAirline: Good looking tagline for bottom of Vim -----------------------
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   " Enable the list of currently open buffers at the top
@@ -335,32 +352,28 @@ call plug#begin('~/.vim/plugged')
   let g:airline_powerline_fonts = 1 " turn on powerline fonts
 
 
-  " Filesystem explorer for vim
-  Plug 'scrooloose/nerdtree'
-  " Plugin to NERDTree showing `git` status flags to files
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  " VimEunuch: useful UNIX shell commands w/o leaving Vim --------------------
+  Plug 'tpope/vim-eunuch'
 
 
-  " Plugin for snippets
-  Plug 'SirVer/ultisnips'
-
-
-  " Git wrapper with lots of helper functions when working in git repos
+  " VimFugitive: Git helper functions for repos ------------------------------
   Plug 'tpope/vim-fugitive'
 
 
-  " Git gutter for showing diffs and other features
+  " VimGitGutter: for showing diffs and other features in sidebar ------------
   Plug 'airblade/vim-gitgutter'
   " Only check on file save/load
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
 
 
-  " Easy text alignment plugin
-  Plug 'godlygeek/tabular'
+  " VimHighlightedYank: Highlights recently yanked text ----------------------
+  Plug 'machakann/vim-highlightedyank'
+  " ms to keep highlighted, -1 to persist until edit or new yank
+  let g:highlightedyank_highlight_duration = -1
 
 
-  " Markdown highlighting
+  " VimMarkdown: Markdown highlighting ---------------------------------------
   Plug 'plasticboy/vim-markdown'
   set conceallevel=2
   let g:vim_markdown_math = 1
@@ -368,30 +381,24 @@ call plug#begin('~/.vim/plugged')
   let g:vim_markdown_new_list_item_indent = 0
 
 
-  " Distraction free writing
-  Plug 'junegunn/goyo.vim'
-  autocmd! User GoyoEnter call <SID>goyo_enter()
-  autocmd! User GoyoLeave call <SID>goyo_leave()
-
-
-  " Highlights recently yanked text
-  Plug 'machakann/vim-highlightedyank'
-  " ms to keep highlighted, -1 to persist until edit or new yank
-  let g:highlightedyank_highlight_duration = -1
-
-
-  " Vader test framework
-  Plug 'junegunn/vader.vim'
-
-
-  " Auto check if Vim plugins need to be updated
+  " VimOutdatedPlugins: Auto check if Vim plugins need to be updated ---------
   Plug 'semanser/vim-outdated-plugins'
   " Do not show any message if all plugins are up to date. 0 by default
   let g:outdated_plugins_silent_mode = 1
 
 
-  " Display # of search matches & index of current match
+  " VimSearchIndex: Display # of search matches & index of current match -----
   Plug 'google/vim-searchindex'
+
+
+  " YouCompleteMe: Smart code-completion engine ------------------------------
+  " for special installation considerations, see GitHub page for
+  " more information https://github.com/Valloric/YouCompleteMe
+  Plug 'Valloric/YouCompleteMe'
+  " remove limit on YCM diagnostics to display
+  " if running into issues, drop down to sensible # (default = 30)
+  let g:ycm_max_diagnostics_to_display = 0
+  let g:ycm_autoclose_preview_window_after_completion=1
 
 call plug#end()
 

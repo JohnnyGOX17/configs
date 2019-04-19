@@ -4,31 +4,17 @@
 # Run as intended user
 #
 
-# Colors for printing
-BLU='\033[1;34m'
-NC='\033[0m'
-
 # replace w/Unix `diff` or something else if needed
 diffProg='git diff --no-index'
 
-echo -e "${BLU}[.gitconfig]${NC}"
 $diffProg ./configs/.gitconfig ~/.gitconfig
-echo -e "${BLU}[.bashrc]${NC}"
 $diffProg ./configs/.bashrc ~/.bashrc
-echo -e "${BLU}[.bash_profile]${NC}"
 $diffProg ./configs/.bash_profile ~/.bash_profile
-echo -e "${BLU}[.inputrc]${NC}"
 $diffProg ./configs/.inputrc ~/.inputrc
-echo -e "${BLU}[Konsole Profile]${NC}"
 $diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
-echo -e "${BLU}[.vimrc]${NC}"
 $diffProg ./configs/.vimrc ~/.vimrc
-echo -e "${BLU}[vim color schemes]${NC}"
 $diffProg ./configs/monokai.vim ~/.vim/colors/monokai.vim
-echo -e "${BLU}[.tmux.conf]${NC}"
 $diffProg ./configs/.tmux.conf ~/.tmux.conf
-echo -e "${BLU}[Ranger rc.conf]${NC}"
 $diffProg ./configs/rc.conf ~/.config/ranger/rc.conf
 $diffProg ./configs/scope.sh ~/.config/ranger/scope.sh
-echo -e "${BLU}[.muttrc]${NC}"
 $diffProg ./configs/.muttrc ~/.muttrc

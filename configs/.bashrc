@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Source global definitions
+# Source global definitions if existent
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
@@ -9,7 +9,7 @@ fi
 # export SYSTEMD_PAGER=
 
 # =============================================================================
-# Terminal & Path additions/edits
+# Terminal & Path additions/edits/exports
 # =============================================================================
 
 # customize PS1 bash prompt and change if on remote machine over SSH:
@@ -25,6 +25,30 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr
+export PYTHONIOENCODING='UTF-8'
+
+# enable more advanced globbing in bash
+shopt -s globstar
+
+# Append to bash history file rather than overwriting it
+shopt -s histappend
+# keep more bash history
+export HISTSIZE=10000
+export HISTFILESIZE=120000
+# Omit duplicates and commands that begin with a space from bash history
+export HISTCONTROL='ignoreboth'
+
+# Prefer US English and use UTF-8
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="${yellow}"
+
+# Don’t clear the screen after quitting a manual page
+export MANPAGER='less -X'
+
 if [ "$(uname -s)" = "Linux" ]; then
   # add paths for - NVCC NVIDIA CUDA Compiler
   #               - MATLAB R2018b
@@ -35,6 +59,8 @@ if [ "$(uname -s)" = "Linux" ]; then
   export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/bin/Xilinx/Vivado/2018.2/bin/:/home/jgentile/bin/Xilinx/SDK/2018.2/bin/:/home/jgentile/src/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin:/home/jgentile/.rbenv/bin
   export RTE_SDK=/home/jgentile/src/dpdk-19.02
   export RTE_TARGET=x86_64-native-linuxapp-gcc
+  # Prevent ioctl error when gpg2 signing
+  export GPG_TTY=$(tty)
 elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
@@ -69,13 +95,15 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   alias sys_update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
 fi
 
-
 # ls macros
 alias ll='ls -lhXG'
 alias ls='ls --color=auto'
 alias lsa='ls -A --color=auto'
 alias lsn='ls -a --color=no'
 alias lsd="ls -alF | grep /$"
+
+# color grep by default
+alias grep='grep --color=auto'
 
 # allow `cd..` typo for `cd ..`
 alias cd..='cd ..'
@@ -106,17 +134,10 @@ alias cls='clear && ls'
 alias bc='bc -l'
 
 # tmux should assume 256 color terminal support
-alias tmux="tmux -2"
+alias tmux='tmux -2'
 
 # PetaLinux environment configs (don't source on entry since can take awhile)
 alias peta_init='. ~/src/petalinux/2018.2/settings.sh > /dev/null'
-
-# enable more advanced globbing in bash
-shopt -s globstar
-
-# keep more bash history
-export HISTSIZE=10000
-export HISTFILESIZE=120000
 
 # create daily logbook
 function lb() {

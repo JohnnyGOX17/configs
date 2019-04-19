@@ -1,19 +1,56 @@
-[user]
-	name = Gentile, John
-	email = johncgentile17@gmail.com
-[credential]
-	helper = cache --timeout=3600
-[push]
-	default = simple
 [alias]
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-        # execute any shell command @ repo's top-level directory
+	# Execute any shell command @ repo's top-level directory
 	exec = "!exec "
+[apply]
+	# Detect whitespace errors when applying a patch
+	whitespace = fix
 [color]
 	branch = auto
 	diff = auto
 	interactive = auto
 	status = auto
+	ui = auto
+[commit]
+	# https://help.github.com/articles/signing-commits-using-gpg/
+        #gpgsign = true
+[core]
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Make `git rebase` safer on macOS
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+
+	# Speed up commands involving untracked files such as `git status`
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+[credential]
+	helper = cache --timeout=3600
 [diff]
 	tool = vimdiff
+	# Detect copies as well as renames
+	renames = copies
+[gpg]
+	program = gpg2
+[help]
+	# Auto correct & execut mistyped commands
+	autocorrect = 1
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+[push]
+	# https://git-scm.com/docs/git-config#git-config-pushdefault
+	default = simple
+	# Make `git push` push relevant annotated tags when pushing branches out
+	followTags = true
+[user]
+	name = Gentile, John
+	email = johncgentile17@gmail.com

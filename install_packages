@@ -131,6 +131,7 @@ if [ "$pkgApp" = "apt" ]; then
   apt-get -y --install-recommends install \
     autoconf \
     automake \
+    bear \
     brackets \
     build-essential \
     bzip2 \
@@ -144,6 +145,7 @@ if [ "$pkgApp" = "apt" ]; then
     curl \
     dkms \
     doxygen \
+    editorconfig \
     exuberant-ctags \
     ffmpegthumbnailer \
     filezilla \
@@ -161,6 +163,7 @@ if [ "$pkgApp" = "apt" ]; then
     ike \
     irssi \
     kicad \
+    libelf-dev \
     libevent-dev \
     lldb-5.0 \
     lld-5.0 \
@@ -231,6 +234,7 @@ elif [ "$pkgApp" = "yum" ]; then
     httpd-devel \
     kernel-devel \
     kernel-doc \
+    libelf-devel \
     libffi-devel \
     libtool \
     libyaml-devel \
@@ -282,6 +286,7 @@ elif [ "$pkgApp" = "brew" ]; then
     diffutils \
     doxygen \
     ed --with-default-names \
+    editorconfig \
     file-formula \
     findutils --with-default-names \
     fpp \
