@@ -1,12 +1,33 @@
 #!/usr/bin/env bash
+# John Gentile <johncgentile17@gmail.com>
+
+# =============================================================================
+# Terminal & Path additions/edits/exports
+# =============================================================================
 
 # Source global definitions if existent
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
+if [ -f /etc/bash_completion ]; then
+  . /etc/bash_completion
+fi
+# Some distros make use of a profile.d script to import completion
+if [ -f /etc/profile.d/bash_completion.sh ]; then
+  . /etc/profile.d/bash_completion.sh
+fi
+# On macOS, load brew bash completion modules
+if [ $(uname) = "Darwin" ] && command -v brew &> /dev/null ; then
+  BREW_PREFIX=$(brew --prefix)
+  if [ -f "$BREW_PREFIX"/etc/bash_completion ]; then
+    . "$BREW_PREFIX"/etc/bash_completion
+  fi
+ # homebrew/versions/bash-completion2 (required for projects.completion.bash) is installed to this path
+  if [ "${BASH_VERSINFO}" -ge 4 ] && [ -f "$BREW_PREFIX"/share/bash-completion/bash_completion ]; then
+    . "$BREW_PREFIX"/share/bash-completion/bash_completion
+  fi
+fi
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
 
 # =============================================================================
 # Terminal & Path additions/edits/exports
@@ -30,6 +51,16 @@ export PYTHONIOENCODING='UTF-8'
 
 # enable more advanced globbing in bash
 shopt -s globstar
+
+# autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+  shopt -s "$option" 2> /dev/null;
+done;
 
 # Append to bash history file rather than overwriting it
 shopt -s histappend
@@ -64,6 +95,7 @@ if [ "$(uname -s)" = "Linux" ]; then
 elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
+
 
 # =============================================================================
 # User specific aliases and functions
@@ -155,6 +187,7 @@ function lb() {
 
 # <tab> completion for "Makefile"s in a dir showing all options as well
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+
 
 # =============================================================================
 # Cleanup & Launches

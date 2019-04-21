@@ -3,7 +3,7 @@
 """
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Interface & Editing Options
+" Vim Interface & Built-In Options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8 " terminal output to UTF-8 (necessary for some distros)
 set t_Co=256       " turn on 256 colors
@@ -23,11 +23,34 @@ set visualbell     " turn on visual flashes instead of audible bell
 set laststatus=2   " always shows status line (usefule for Airline plugin)
 set noshowmode     " turn off default mode indicator since we have plugin
 set autoread       " Autoload changes when switching buffers or gaining focus
-" Use system CLIPBOARD register `+`. Vim must be built w/clipboard support
-set clipboard=unnamedplus
+
+" Determine OS being used (NOTE: `uname` not present on Windows)
+if !exists("g:my_os")
+  if has ("win64") || has("win32") || has("win16")
+    let g:my_os = "Windows"
+  else
+    let g:my_os = substitute(system('uname'), '\n', '', '')
+  endif
+endif
+
+" Use system CLIPBOARD register. Vim must be built w/clipboard support
+if (g:my_os == "Darwin") || (g:my_os == "Windows")
+  set clipboard=unnamed
+else "*nix
+  set clipboard=unnamedplus
+endif
+
 " For VHDL syntax highlighting, indent similar to C-syntax operation
 " (e.g. by shiftwidth())
 let g:vhdl_indent_genportmap = 0
+
+" Built-in File Browser
+let g:netrw_banner=0        " disable annoying banner
+let g:netrw_browse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -389,6 +412,10 @@ call plug#begin('~/.vim/plugged')
 
   " VimSearchIndex: Display # of search matches & index of current match -----
   Plug 'google/vim-searchindex'
+
+
+  " VimSurround: Plugin to quickly edit brackers, quotes, tags, etc. ---------
+  Plug 'tpope/vim-surround'
 
 
   " YouCompleteMe: Smart code-completion engine ------------------------------

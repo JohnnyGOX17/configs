@@ -131,6 +131,7 @@ if [ "$pkgApp" = "apt" ]; then
   apt-get -y --install-recommends install \
     autoconf \
     automake \
+    bash-completion \
     bear \
     brackets \
     build-essential \
@@ -214,6 +215,7 @@ elif [ "$pkgApp" = "yum" ]; then
     apr-util-cdevel \
     autoconf \
     automake \
+    bash-completion \
     bison \
     bzip2 \
     centos-release-scl \
@@ -283,6 +285,7 @@ elif [ "$pkgApp" = "brew" ]; then
     binutils \
     cmake \
     coreutils \
+    ctags \
     diffutils \
     doxygen \
     ed --with-default-names \
