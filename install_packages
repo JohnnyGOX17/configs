@@ -38,6 +38,8 @@ if command -v apt > /dev/null; then
   pkgApp=apt
 elif command -v yum > /dev/null; then
   pkgApp=yum
+elif command -v dnf > /dev/null; then # meant for modern Fedora distro
+  pkgApp=dnf
 elif [ "$(uname -s)" = "Darwin" ]; then
   pkgApp=brew
 else
@@ -116,6 +118,11 @@ elif [ "$pkgApp" = "brew" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   brew install cask
   brew update
+elif [ "$pkgApp" = "dnf" ]; then
+  dnf -y upgrade
+
+  # Google chrome repo
+  dnf install -y fedora-workstation-repositories
 fi
 
 
@@ -270,7 +277,52 @@ elif [ "$pkgApp" = "yum" ]; then
   # Enable Clang 5.x tools
   scl enable devtoolset-7 llvm-toolset-7 bash
 
-  # TODO: cron job for CentOS/Fedora to do package update notifications
+elif [ "$pkgApp" = "dnf" ]; then
+  # Assuming standard, modern Fedora install
+  dnf -y groupinstall "Development Tools" \
+  "C Development Tools and Libraries"
+  dnf -y install \
+    acpid \
+    apr-devel \
+    bear \
+    cargo \
+    clang \
+    clang-analyzer \
+    clang-devel \
+    cmake \
+    csbuild \
+    curl-devel \
+    dkms \
+    ghdl \
+    golang \
+    google-chrome-stable \
+    htop \
+    httpd-devel \
+    irssi \
+    kernel-devel \
+    kernel-headers \
+    libyaml-devel \
+    llvm \
+    llvm-devel \
+    mutt \
+    nano \
+    nodejs \
+    openssl-devel \
+    perl \
+    powerline-fonts \
+    python-devel \
+    readline-devel \
+    rust \
+    sqlite-devel \
+    the_silver_searcher \
+    tmux \
+    vim \
+    vim-X11 \
+    vsftpd \
+    xclip
+
+  # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
+  # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
 
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
@@ -306,6 +358,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gzip \
     htop \
     icarus-verilog \
+    irssi \
     less \
     m4 \
     make \
@@ -358,14 +411,17 @@ if [[ $1 = "-a" ]]; then
   popd
 
   # GHDL- FOSS VHDL compiler & simulator
-  msg "Installing GHDL from source..."
-  git clone https://github.com/ghdl/ghdl.git
-  mkdir ./ghdl/build
-  pushd ./ghdl/build
-  ../configure --with-llvm-config --prefix=/usr/local
-  make && make install
-  popd
+  if [ "$pkgApp" != "dnf" ]; then
+    msg "Installing GHDL from source..."
+    git clone https://github.com/ghdl/ghdl.git
+    mkdir ./ghdl/build
+    pushd ./ghdl/build
+    ../configure --with-llvm-config --prefix=/usr/local
+    make && make install
+    popd
+  fi
 
+  ## TODO: verify for distros other than fedora
   # Go- remove older Go 1st (if there) then install (note DL link should be
   # checked for updates)
   #msg "Installing Go from source..."
@@ -380,14 +436,22 @@ if [[ $1 = "-a" ]]; then
     rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
     yum-config-manager --add-repo http://download.mono-project.com/repo/centos7/
     yum install -y mono-devel
+  elif [ "$pkgApp" != "dnf" ]; then
+    echo "Installing Mono-Project"
+    rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+    su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'
+    dnf update
+    dnf install -y mono-devel
   fi
 
   # Rust install
-  msg "Installing Rust from source..."
-  curl https://sh.rustup.rs -sSf | sh
+  if [ "$pkgApp" != "dnf" ]; then
+    msg "Installing Rust from source..."
+    curl https://sh.rustup.rs -sSf | sh
+  fi
 
   # tmux 2.6 install from src
-  if [ "$pkgApp" != "brew" ]; then
+  if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
     msg "Installing tmux from source..."
     wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
     tar -xzf tmux-2.6.tar.gz
@@ -398,7 +462,7 @@ if [[ $1 = "-a" ]]; then
   fi
 
   # Vim install from src
-  if [ "$pkgApp" != "brew" ]; then
+  if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
     msg "Installing Vim from source..."
     # NOTE: remove shipping Vim
     if [ "$pkgApp" = "apt" ]; then
@@ -436,7 +500,7 @@ if [[ $1 = "-a" ]]; then
     popd
   fi
 
-  #TODO: add custom Google Fonts from www.fonts.google.com
+  #TODO: add custom Google Fonts from www.fonts.google.com for some distros
 
 fi
 

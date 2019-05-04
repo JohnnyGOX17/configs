@@ -104,8 +104,13 @@ fi
 # set terminal since other machines likely don't have our funky term settings
 alias ssh='TERM=xterm-256color ssh'
 
-# explicitly alias vi->vim
-alias vi='vim'
+# explicitly alias vi->vim & use `vimx` in Fedora
+if command -v vimx > /dev/null; then
+  alias vi='vimx'
+  alias vim='vimx'
+else
+  alias vi='vim'
+fi
 
 # useful for simple projects looking to add->commit->push in one step
 alias gitacp='git add -A && git commit -s && git push'
@@ -121,7 +126,9 @@ if [ "$(uname -s)" = "Linux" ]; then
   if [ -n "$(command -v apt)" ]; then
     alias sys_update='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y && echo "" > /tmp/sys_package_updates'
   elif [ -n "$(command -v yum)" ]; then
-    alias sys_update='sudo yum update && sudo yum upgrade -y && echo "" > /tmp/sys_package_updates'
+    alias sys_update='sudo yum upgrade -y && echo "" > /tmp/sys_package_updates'
+  elif [ -n "$(command -v dnf)" ]; then
+    alias sys_update='sudo dnf upgrade -y && echo "" > /tmp/sys_package_updates'
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   alias sys_update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
