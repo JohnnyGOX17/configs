@@ -9,7 +9,7 @@ mkdir -p /tmp/
 pushd /tmp/
 
 if [ "$(uname -s)" = "Linux" ]; then
-  # install Ruby since most likely not pre-installed on *nix
+  # install Ruby since most likely not pre-installed on *nix (except Fedora)
   echo "Installing rbenv and ruby-build"
   mkdir -p ~/.rbenv
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -39,7 +39,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   #mkdir -p ~/.config/fontconfig/conf.d/
   #mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 
-  # Add `tmux` terminal types to support italic/bold in tmux
+  # Add `tmux` terminal types to support italic/bold in tmux (may not be needed for Fedora)
   tic -x ./configs/xterm-256color-italic.terminfo
   tic -x ./configs/tmux-256color.terminfo
 
@@ -49,6 +49,8 @@ if [ "$(uname -s)" = "Linux" ]; then
     crontab '*/5 * * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then echo " ⚑ Apt Updates Available: $(/usr/bin/apt list --upgradable | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
   elif command -v yum > /dev/null; then
     crontab '*/5 * * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Yum Updates Available: $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+  elif command -v dnf > /dev/null; then
+    crontab '*/5 * * * * if [ $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Dnf Updates Available: $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
   fi
 
 elif [ "$(uname -s)" = "Darwin" ]; then
@@ -79,11 +81,6 @@ echo "Installing Gems"
 gem install jekyll
 gem install bundler
 popd
-
-echo "Installing npm packages"
-npm install -g grunt-cli \
-  gulp-cli \
-  write-good
 
 # Create (if needed) mutt dirs & other files
 echo "Installing mutt"

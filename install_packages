@@ -302,8 +302,14 @@ elif [ "$pkgApp" = "dnf" ]; then
     kernel-devel \
     kernel-headers \
     libyaml-devel \
+    libXi-devel \
+    libXmu-devel \
+    libX11-devel \
     llvm \
     llvm-devel \
+    lm_sensors \
+    mediawriter \
+    mesa-libGLU-devel \
     mutt \
     nano \
     nodejs \
@@ -311,7 +317,9 @@ elif [ "$pkgApp" = "dnf" ]; then
     perl \
     powerline-fonts \
     python-devel \
+    ranger \
     readline-devel \
+    ruby-devel \
     rust \
     sqlite-devel \
     the_silver_searcher \
@@ -323,6 +331,10 @@ elif [ "$pkgApp" = "dnf" ]; then
 
   # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
   # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
+
+  # SSH not started by default
+  systemctl start sshd.service
+  systemctl enable sshd.service
 
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
@@ -394,6 +406,11 @@ elif [ "$pkgApp" = "brew" ]; then
   brew cleanup
 
 fi
+
+msg "Installing npm packages"
+npm install -g grunt-cli \
+  gulp-cli \
+  write-good
 
 ###############################################################################
 # Source-based installs
