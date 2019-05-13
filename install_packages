@@ -181,6 +181,7 @@ if [ "$pkgApp" = "apt" ]; then
     make \
     mutt \
     nano \
+    nmap \
     playonlinux \
     python-dev \
     python3-dev \
@@ -252,6 +253,7 @@ elif [ "$pkgApp" = "yum" ]; then
     libffi-devel \
     libibcommon \
     libibverbs \
+    libibverbs-utils \
     libtool \
     libyaml-devel \
     llvm \
@@ -262,6 +264,7 @@ elif [ "$pkgApp" = "yum" ]; then
     llvm-toolset-7-clang-tools-extra \
     make \
     nano \
+    nmap \
     nodejs \
     npm \
     openssl-devel \
@@ -309,9 +312,11 @@ elif [ "$pkgApp" = "dnf" ]; then
     google-chrome-stable \
     htop \
     httpd-devel \
+    infiniband-diags \
     irssi \
     kernel-devel \
     kernel-headers \
+    libibverbs-utils \
     libyaml-devel \
     libXi-devel \
     libXmu-devel \
@@ -323,6 +328,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     mesa-libGLU-devel \
     mutt \
     nano \
+    nmap \
     nodejs \
     openssl-devel \
     perl \
@@ -491,14 +497,16 @@ if [[ $1 = "-a" ]]; then
     popd
   fi
 
-  # Vim install from src
+  # Vim install from src w/clipboard & python support
   if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
     msg "Installing Vim from source..."
     # NOTE: remove shipping Vim
     if [ "$pkgApp" = "apt" ]; then
       apt remove vim vim-common vim-runtime gvim
+      apt build-dep vim
     elif [ "$pkgApp" = "yum" ]; then
       yum remove vim-enhanced vim-common vim-minimal
+      yum-builddep vim
     fi
     git clone https://github.com/vim/vim.git
     pushd vim
@@ -506,10 +514,14 @@ if [[ $1 = "-a" ]]; then
       --enable-multibyte \
       --enable-rubyinterp=yes \
       --enable-pythoninterp=yes \
-      --enable-perlinterp=yes
+      --enable-perlinterp=yes \
+      --enable-gui=auto \
+      --enable-gtk2-check \
+      --with-x
     # if weird, run this process as regular user then run `make install` as sudo
     # If installing for single user (no `make install`) VIMRUNTIMEDIR can == {vim_src}/runtime
     make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+    # if installing manually, this is the only command needing root privileges
     make install
     # sometimes `sudo` is removed with vim
     if [ "$pkgApp" = "apt" ]; then
