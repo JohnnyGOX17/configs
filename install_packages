@@ -173,6 +173,7 @@ if [ "$pkgApp" = "apt" ]; then
     kicad \
     libelf-dev \
     libevent-dev \
+    libvirt-bin \
     lldb-5.0 \
     lld-5.0 \
     llvm \
@@ -186,6 +187,8 @@ if [ "$pkgApp" = "apt" ]; then
     python-pydot \
     python-pydot-ng \
     python-sphinx \
+    qemu \
+    qemu-kvm \
     ranger \
     remmina \
     remmina-plugin-rdp \
@@ -241,10 +244,14 @@ elif [ "$pkgApp" = "yum" ]; then
     htop \
     httpd \
     httpd-devel \
+    ibutils \
+    infiniband-diags \
     kernel-devel \
     kernel-doc \
     libelf-devel \
     libffi-devel \
+    libibcommon \
+    libibverbs \
     libtool \
     libyaml-devel \
     llvm \
@@ -259,9 +266,13 @@ elif [ "$pkgApp" = "yum" ]; then
     npm \
     openssl-devel \
     patch \
+    perftest \
     python-devel \
     python34 \
     python34-devel \
+    qemu \
+    qemu-kvm \
+    qperf \
     readline \
     readline-devel \
     sqlite-devel \
@@ -317,6 +328,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     perl \
     powerline-fonts \
     python-devel \
+    qemu \
+    qemu-kvm \
     ranger \
     readline-devel \
     ruby-devel \
