@@ -32,7 +32,7 @@ for d in */ ; do
   echo -en "\r\033[K ${BLU}${d} [${percent}%]${NC}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     gitStr=$(git pull)
-    if [ "$gitStr" != "Already up-to-date." ]; then
+    if [[ "$gitStr" =~ "Already up*" ]]; then
       echo "$gitStr"
     fi;
   fi;
