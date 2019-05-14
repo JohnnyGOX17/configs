@@ -284,6 +284,7 @@ elif [ "$pkgApp" = "yum" ]; then
     vnc-server \
     vsftpd \
     weechat \
+    wine \
     wget \
     zlib \
     zlib-devel
@@ -346,6 +347,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     vim \
     vim-X11 \
     vsftpd \
+    wine \
     xclip
 
   # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
