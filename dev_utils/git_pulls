@@ -14,9 +14,9 @@ case "$(pidof ssh-agent | wc -w)" in
     eval "$(ssh-agent)"
     ssh-add
     ;;
-  1) echo -e "\n${BLU}ssh-agent already running $(pidof ssh-agent)${NC}"
+  1) echo -e "\n${BLU}ssh-agent already running: $(pidof ssh-agent)${NC}"
     ;;
-  *) echo -e "\n${RED}Removed double process of ssh-agent${NC}"
+  *) echo -e "\n${RED}Removing double process of ssh-agent: $(pidof ssh-agent | awk '{print $1}')${NC}"
     kill "$(pidof ssh-agent | awk '{print $1}')"
     ;;
 esac
@@ -29,7 +29,7 @@ iter=0
 for d in */ ; do
   pushd "$d" > /dev/null
   percent=$(awk "BEGIN { pc=100*${iter}/${dirCount}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
-  echo -en "\r\033[K ${BLU}${d} [${percent}%]${NC}"
+  echo -en "\r\033[K ${BLU}[${percent}%] ${d%/}${NC}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     gitStr=$(git pull)
     if [[ "$gitStr" =~ "Already up*" ]]; then
