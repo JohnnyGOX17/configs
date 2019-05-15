@@ -23,6 +23,7 @@ set visualbell     " turn on visual flashes instead of audible bell
 set laststatus=2   " always shows status line (usefule for Airline plugin)
 set noshowmode     " turn off default mode indicator since we have plugin
 set autoread       " Autoload changes when switching buffers or gaining focus
+set timeoutlen=300 " Quicker timeout for events (default: 1000 ms)
 
 " Determine OS being used (NOTE: `uname` not present on Windows)
 if !exists("g:my_os")
@@ -187,10 +188,6 @@ nnoremap <leader>a :Ack!<Space>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable folding by default
 set foldenable
-" Space toggles opening/closing one layer of folds
-nnoremap <leader>kj za
-" Leader_key+Space toggles opening/closing an entire layer of folds
-nnoremap <leader>KJ zA
 set foldmethod=indent
 set foldlevel=99
 
