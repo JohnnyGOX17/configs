@@ -29,7 +29,7 @@ iter=0
 for d in */ ; do
   pushd "$d" > /dev/null
   percent=$(awk "BEGIN { pc=100*${iter}/${dirCount}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
-  echo -en "\r\033[K ${BLU}[${percent}%] ${d%/}${NC}"
+  echo -en "\r\033[K ${BLU}[${percent}%]${NC} ${d%/}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     gitStr=$(git pull)
     if [[ "$gitStr" =~ "Already up*" ]]; then
