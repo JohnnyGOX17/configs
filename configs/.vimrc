@@ -41,6 +41,14 @@ else "*nix
   set clipboard=unnamedplus
 endif
 
+" Turn off background color erase (BCE) so that color schemes work within tmux
+" (prevalent in CentOS 7.* where background bars are seen) based on term
+" setting, see: https://superuser.com/questions/457911/in-vim-background-color-changes-on-scrolling
+if &term =~ 'tmux-256color'
+  " Can also manually be done via Ctrl+l
+  set t_ut=
+endif
+
 " For VHDL syntax highlighting, indent similar to C-syntax operation
 " (e.g. by shiftwidth())
 let g:vhdl_indent_genportmap = 0
