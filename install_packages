@@ -279,6 +279,7 @@ elif [ "$pkgApp" = "yum" ]; then
     readline \
     readline-devel \
     sqlite-devel \
+    the_silver_searcher \
     tmux \
     vim \
     vnc-server \
