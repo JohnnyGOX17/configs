@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Simple script to find all lines marked with "TODO" in certain files within a
+# git repo and create list at repo root
+# NOTE: based on current search pattern, TODO comment must be at least upper-
+# case but need not have a '#' or '@' or other comment char preceding
+
+git_root="$(git rev-parse --show-toplevel)"
+pushd ${git_root} > /dev/null
+# change to meet file pattern/extension needs
+grep --include=\*.{c,h,cpp,hpp,v,vhd} -rnw './' -e "TODO" > TODO_list.txt
+echo "DONE! TODOs found:"
+cat TODO_list.txt
+popd > /dev/null
