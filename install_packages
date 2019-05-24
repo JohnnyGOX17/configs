@@ -309,6 +309,9 @@ elif [ "$pkgApp" = "dnf" ]; then
     csbuild \
     curl-devel \
     dkms \
+    gcc-gnat \
+    # if seeing linking errors due to libgnat-* version mismatch see:
+    # https://forums.fedoraforum.org/showthread.php?318086-ghdl-in-Fedora-28
     ghdl \
     golang \
     google-chrome-stable \
