@@ -242,6 +242,7 @@ elif [ "$pkgApp" = "yum" ]; then
     gcc \
     gcc-c++ \
     git-core \
+    gtkwave \
     htop \
     httpd \
     httpd-devel \
@@ -315,6 +316,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     ghdl \
     golang \
     google-chrome-stable \
+    gtkwave \
     htop \
     httpd-devel \
     infiniband-diags \
@@ -392,6 +394,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gnutls \
     gpatch \
     grep --with-default-names \
+    gtkwave \
     gzip \
     htop \
     icarus-verilog \
