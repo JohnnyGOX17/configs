@@ -87,7 +87,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   #               - Linaro build tools
   #               - Ruby `rbenv`
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/bin/Xilinx/Vivado/2018.2/bin/:/home/jgentile/bin/Xilinx/SDK/2018.2/bin/:/home/jgentile/src/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin:/home/jgentile/.rbenv/bin
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/bin/Xilinx/Vivado/2018.2/bin/:/home/jgentile/bin/Xilinx/SDK/2018.2/bin/:/home/jgentile/src/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin
   export RTE_SDK=/home/jgentile/src/dpdk-19.02
   export RTE_TARGET=x86_64-native-linuxapp-gcc
   # Prevent ioctl error when gpg2 signing
