@@ -5,8 +5,9 @@
 #
 
 echo "Install started at $(date)"
-mkdir -p /tmp/
-pushd /tmp/
+
+# Make common src/ dir
+mkdir -p ~/src/
 
 if [ "$(uname -s)" = "Linux" ]; then
   # install Ruby since most likely not pre-installed on *nix (except Fedora)
@@ -23,6 +24,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
   export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
   echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+  popd
 
   echo "Installing Ruby 2.4.1"
   rbenv install -v 2.4.1
@@ -56,12 +58,13 @@ if [ "$(uname -s)" = "Linux" ]; then
 elif [ "$(uname -s)" = "Darwin" ]; then
 
   # Note meslo S is a good macOS-like powerline font
+  pushd ~/src/
   echo "Installing Powerline fonts"
   git clone https://github.com/powerline/fonts.git
   pushd fonts/
   ./install.sh
   popd
-  rm -rf fonts/
+  popd
 
   # install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git
 
@@ -76,12 +79,6 @@ fi
 
 echo "Current cron jobs:"
 crontab -l
-
-echo "Installing Gems"
-gem install jekyll
-gem install bundler
-gem install vimgolf
-popd
 
 # Create (if needed) mutt dirs & other files
 echo "Installing mutt"
@@ -103,10 +100,5 @@ mkdir -p ~/.vim/colors/
 cp vim-colorschemes/colors/* ~/.vim/colors/
 rm -rf vim-colorschemes/
 
-echo "Installing Python modules via pip"
-pip install awscli --upgrade --user
-pip install vim-vint
-pip install proselint
-
-# leave /tmp/
-popd
+echo "Installing dotfiles"
+./update_configs

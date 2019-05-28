@@ -441,6 +441,17 @@ npm install -g grunt-cli \
   gulp-cli \
   write-good
 
+msg "Installing Gems"
+gem install bundler \
+  jekyll \
+  vimgolf
+
+# TODO: system dependent pip?
+msg "Installing Python modules via pip"
+pip install awscli \
+  proselint
+  vim-vint
+
 ###############################################################################
 # Source-based installs
 ###############################################################################
