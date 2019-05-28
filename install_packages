@@ -235,6 +235,7 @@ elif [ "$pkgApp" = "yum" ]; then
     clang-analyzer \
     clang-devel \
     cmake \
+    ctags \
     devtoolset-7 \
     curl \
     curl-devel \

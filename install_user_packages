@@ -80,6 +80,7 @@ crontab -l
 echo "Installing Gems"
 gem install jekyll
 gem install bundler
+gem install vimgolf
 popd
 
 # Create (if needed) mutt dirs & other files
