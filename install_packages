@@ -236,9 +236,9 @@ elif [ "$pkgApp" = "yum" ]; then
     clang-devel \
     cmake \
     ctags \
-    devtoolset-7 \
     curl \
     curl-devel \
+    devtoolset-8 \
     g++ \
     gcc \
     gcc-c++ \
@@ -293,7 +293,7 @@ elif [ "$pkgApp" = "yum" ]; then
     zlib-devel
 
   # Enable Clang 5.x tools
-  scl enable devtoolset-7 llvm-toolset-7 bash
+  scl enable devtoolset-8 llvm-toolset-7 bash
 
 elif [ "$pkgApp" = "dnf" ]; then
   # Assuming standard, modern Fedora install

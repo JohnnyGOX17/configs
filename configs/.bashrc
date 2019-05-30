@@ -92,6 +92,10 @@ if [ "$(uname -s)" = "Linux" ]; then
   export RTE_TARGET=x86_64-native-linuxapp-gcc
   # Prevent ioctl error when gpg2 signing
   export GPG_TTY=$(tty)
+  # Enable GCC 8 & LLVM 7 in CentOS
+  if [ -f /etc/centos-release ]; then
+    source scl_source enable devtoolset-8 llvm-toolset-7
+  fi
 elif [ "$(uname -s)" = "Darwin" ]; then
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
 fi
