@@ -112,15 +112,6 @@ else
   alias vi='vim'
 fi
 
-# useful for simple projects looking to add->commit->push in one step
-alias gitacp='git add -A && git commit -s && git push'
-alias gitlarge="git rev-list --objects --all \
-| git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
-| sed -n 's/^blob //p' \
-| sort --numeric-sort --key=2 \
-| cut -c 1-12,41- \
-| $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
-
 # easy updating for package management
 if [ "$(uname -s)" = "Linux" ]; then
   if [ -n "$(command -v apt)" ]; then
