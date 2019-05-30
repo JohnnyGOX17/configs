@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Useful for simple projects looking to add->commit->push in one step
+
+if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+  git_root="$(git rev-parse --show-toplevel)"
+  pushd ${git_root} > /dev/null
+  git add -A
+  git commit -s
+  git push
+  popd > /dev/null
+fi
