@@ -262,8 +262,11 @@ elif [ "$pkgApp" = "yum" ]; then
     llvm-devel \
     llvm-libs \
     llvm-toolset-7 \
+    llvm-toolset-7-build \
     llvm-toolset-7-clang-analyzer \
+    llvm-toolset-7-clang-devel \
     llvm-toolset-7-clang-tools-extra \
+    llvm-toolset-7-llvm-devel \
     make \
     nano \
     nmap \
