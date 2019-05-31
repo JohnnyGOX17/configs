@@ -471,7 +471,13 @@ if [[ $1 = "-a" ]]; then
   popd
 
   # GHDL- FOSS VHDL compiler & simulator
-  if [ "$pkgApp" != "dnf" ]; then
+  if [ "$pkgApp" = "brew" ]; then
+    pushd /usr/local/
+    wget https://github.com/ghdl/ghdl/releases/download/v0.36/ghdl-0.36-macosx-llvm.tgz
+    tar -xzvf ghdl-0.36-macosx-llvm.tgz
+    rm -f ghdl-0.36-macosx-llvm.tgz
+    popd
+  elif [ "$pkgApp" != "dnf" ]; then
     msg "Installing GHDL from source..."
     git clone https://github.com/ghdl/ghdl.git
     mkdir ./ghdl/build
