@@ -330,6 +330,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     irssi \
     kernel-devel \
     kernel-headers \
+    kicad \
     libibverbs-utils \
     libyaml-devel \
     libXi-devel \
