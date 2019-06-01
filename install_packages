@@ -159,6 +159,7 @@ if [ "$pkgApp" = "apt" ]; then
     filezilla \
     g++ \
     gcc \
+    gimp \
     git \
     gnat-5 \
     google-chrome-stable \
@@ -242,6 +243,7 @@ elif [ "$pkgApp" = "yum" ]; then
     g++ \
     gcc \
     gcc-c++ \
+    gimp \
     git-core \
     gtkwave \
     htop \
@@ -317,6 +319,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     gcc-gnat \
     # if seeing linking errors due to libgnat-* version mismatch see:
     # https://forums.fedoraforum.org/showthread.php?318086-ghdl-in-Fedora-28
+    gimp \
     ghdl \
     golang \
     google-chrome-stable \
