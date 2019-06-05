@@ -15,3 +15,5 @@ Personal configuration files (dotfiles) for a variety of tools & platforms
 - `install_packages_yum` installs packages for CentOS systems
 - `install_user_packages` installs non-admin level packages
 - `update_configs` updates local/remote changes to most-up-to-date
+
+## Misc. scripts and helper applications

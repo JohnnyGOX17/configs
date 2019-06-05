@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Uses rsync to synchronize data drive to backup drive
+# Mainly for example purposes
+# (assumed files not under source control)
+# `$ man rsync` for more options
+#       -a, archive equals -rlptgoD
+#       -v, verbose output
+#       -c, look at checksums as well as date & length to determine diff
+#       -h, human readable (K, M, etc.) formats
+#       -z, compress file data as it sent to destination to save on network BW
+#       -P, show progress during transfer and partial transfer incase of interruption
+#       -n, dry run, don't do anything just show what would change
+#       --stats, verbose statistics on file transfers
+#       --delete, delete extra objects from destination
+#       --exclude './*.txt', excludes file pattern glob
+#       -u, skip objects that are newer on the receiver
+#       --rsh=COMMAND, specify remote shell to use
+#               (i.e. --rsh=ssh host::module /dest)
+#
+
+# Push: rsync folder -> remote over SSH (ignoring macOS .DS_Store files) and highlight deletion lines
+# NOTE: fun fact to delete all .DS_Store files: `$ find dir/ -name '.DS_Store' -delete`
+# Switch order of remote and local paths to go from push->pull data
+# The '--delete' command and grep pipe are useful in helping determine discrepencies
+rsync -avchzPn --stats --delete --exclude '.DS_Store' /path/to/data/ user@server:/path/to/data/ | grep --color=always -z 'deleting'
+
+# Push: rsync folder -> backup drive (can setup in crontab)
+rsync -ac --delete /path/to/data /media/backup_drive_1TB/data/ > /dev/null

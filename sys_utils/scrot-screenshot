@@ -1,0 +1,13 @@
+#!/bin/bash
+# Uses scrot to automatically save screenshot (for GUI integration)
+# suggested to bind to key combination
+
+ScrDir=$HOME/screenshots/
+FileName='Screenshot_%Y-%m-%d_%H-%M-%S.jpg'
+mkdir -p "$ScrDir"
+
+# add -s for mouse based screen selection
+scrot $FileName -szuc -d 2 -e "mv $FileName $ScrDir"
+
+# Note: to concatenate PNGs to PDF use
+# convert *.png mydoc.pdf
