@@ -18,3 +18,5 @@ $diffProg ./configs/.tmux.conf ~/.tmux.conf
 $diffProg ./configs/rc.conf ~/.config/ranger/rc.conf
 $diffProg ./configs/scope.sh ~/.config/ranger/scope.sh
 $diffProg ./configs/.muttrc ~/.muttrc
+$diffProg ./configs/.ctags ~/.ctags
+$diffProg ./configs/.glbl_gitignore ~/.glbl_gitignore

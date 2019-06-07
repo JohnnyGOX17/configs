@@ -16,6 +16,8 @@ cp -u ~/.tmux.conf ./configs/.tmux.conf
 cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
 cp -u ~/.config/ranger/scope.sh ./configs/scope.sh
 cp -u ~/.muttrc ./configs/.muttrc
+cp -u ~/.ctags ./configs/.ctags
+cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
 # Then copy remote files over if they're newer
 cp -u ./configs/.gitconfig ~/.gitconfig
 cp -u ./configs/.bashrc ~/.bashrc
@@ -29,3 +31,5 @@ cp -u ./configs/.tmux.conf ~/.tmux.conf
 cp -u ./configs/rc.conf ~/.config/ranger/rc.conf
 cp -u ./configs/scope.sh ~/.config/ranger/scope.sh
 cp -u ./configs/.muttrc ~/.muttrc
+cp -u ./configs/.ctags ~/.ctags
+cp -u ./configs/.glbl_gitignore ~/.glbl_gitignore

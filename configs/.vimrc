@@ -394,6 +394,10 @@ call plug#begin('~/.vim/plugged')
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
 
+  " VimGutentags: manages & auto-(re)generates tag files for project ---------
+  Plug 'ludovicchabant/vim-gutentags'
+  set statusline+=%{gutentags#statusline()}
+
 
   " VimHighlightedYank: Highlights recently yanked text ----------------------
   Plug 'machakann/vim-highlightedyank'
