@@ -1,10 +1,13 @@
 #!/bin/bash
 
 osTyp="$(uname -s)"
+topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
+
 if [ "$osTyp" = "Linux" ]; then
   memStr="$(free -m)"
   memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
   memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
+  psVal="$(echo "$topPs" | awk '{print $2 ":" $3}')"
 elif [ "$osTyp" = "Darwin" ]; then
   # NOTE: below not used since top is slow on Mac and reflects "inactive" memory as well as active
   #memStr="$(top -l 1 -s 0 | grep PhysMem)"
@@ -14,11 +17,12 @@ elif [ "$osTyp" = "Darwin" ]; then
   memUse="$(vm_stat | sed -n 's/^Pages active:\ *\([0-9]\)/\1/p' | awk '{print (int($1 * 100 * (4096/(1024*1024*1024))))/100}')"
   memTot="$(sysctl -a | sed -n 's/^hw.memsize: \([0-9]\)/\1/p' | awk '{print $1/(1024*1024*1024)}')"
   memVal="$(echo "scale=2 ; 100 * $memUse / $memTot" | bc)"
+  # macOS sometimes prints full path of executable so parse out
+  psVal1="$(echo "$topPs" | awk '{print $2 }' | xargs -n 1 basename)"
+  psVal="${psVal1}:$(echo "$topPs" | awk '{print $3}')"
 fi
 
-topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
 cpuVal="$(echo "$topPs" | awk '{print $1}')"
-psVal="$(echo "$topPs" | awk '{print $2 ":" $3}')"
 
 function bar_color() {
   if (( $(echo "$1 < 12.5" | bc -l) )); then
