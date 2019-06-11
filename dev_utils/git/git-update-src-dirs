@@ -31,10 +31,13 @@ for d in */ ; do
   percent=$(awk "BEGIN { pc=100*${iter}/${dirCount}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
   echo -en "\r\033[K ${BLU}[${percent}%]${NC} ${d%/}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
-    gitStr=$(git pull)
-    if [[ "$gitStr" =~ "Already up*" ]]; then
-      echo "$gitStr"
-    fi;
+    # get all updates from remote and merge only master then switch back to
+    # current branch
+    curr_branch=$(git symbolic-ref --short HEAD)
+    git fetch origin
+    git checkout -q master
+    git merge --ff-only -q origin/master
+    git checkout -q "$curr_branch"
   fi;
   popd > /dev/null
 
