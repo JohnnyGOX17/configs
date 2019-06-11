@@ -348,6 +348,7 @@ call plug#begin('~/.vim/plugged')
 
   " SuperTab: Allow all Vim plugins insert modes to be fired off of <Tab> ----
   Plug 'ervandew/supertab'
+  let g:SuperTabDefaultCompletionType = '<C-n>'
 
 
   " Tabular: Easy text alignment plugin --------------------------------------
@@ -360,6 +361,10 @@ call plug#begin('~/.vim/plugged')
 
   " UltiSnips: Plugin for snippets -------------------------------------------
   Plug 'SirVer/ultisnips'
+  " better key bindings for UltiSnipsExpandTrigger
+  let g:UltiSnipsExpandTrigger = "<tab>"
+  let g:UltiSnipsJumpForwardTrigger = "<tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 
   " Vader: Vader test framework ----------------------------------------------
@@ -394,6 +399,7 @@ call plug#begin('~/.vim/plugged')
   let g:gitgutter_realtime = 0
   let g:gitgutter_eager = 0
 
+
   " VimGutentags: manages & auto-(re)generates tag files for project ---------
   Plug 'ludovicchabant/vim-gutentags'
   set statusline+=%{gutentags#statusline()}
@@ -423,6 +429,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'google/vim-searchindex'
 
 
+  " VimSnippets: Language snippets for UltiSnips plugin
+  Plug 'honza/vim-snippets'
+
+
   " VimSurround: Plugin to quickly edit brackers, quotes, tags, etc. ---------
   Plug 'tpope/vim-surround'
 
@@ -435,6 +445,9 @@ call plug#begin('~/.vim/plugged')
   " if running into issues, drop down to sensible # (default = 30)
   let g:ycm_max_diagnostics_to_display = 0
   let g:ycm_autoclose_preview_window_after_completion=1
+  " make YCM compatible with UltiSnips (using supertab)
+  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 call plug#end()
 
