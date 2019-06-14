@@ -107,6 +107,9 @@ if [ "$pkgApp" = "apt" ]; then
   apt -y dist-upgrade
 
 elif [ "$pkgApp" = "yum" ]; then
+  # Install latest VirtualBox
+  wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
+
   # Clear the yum cache and upgrade (update and remove obsolete packages)
   yum clean all
   yum -y upgrade
@@ -118,11 +121,16 @@ elif [ "$pkgApp" = "brew" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   brew install cask
   brew update
-elif [ "$pkgApp" = "dnf" ]; then
-  dnf -y upgrade
 
+elif [ "$pkgApp" = "dnf" ]; then
   # Google chrome repo
   dnf install -y fedora-workstation-repositories
+
+  # Install latest VirtualBox
+  wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
+
+  dnf -y upgrade
+
 fi
 
 
@@ -289,6 +297,7 @@ elif [ "$pkgApp" = "yum" ]; then
     the_silver_searcher \
     tmux \
     vim \
+    VirtualBox-6.0 \
     vnc-server \
     vsftpd \
     weechat \
@@ -296,6 +305,9 @@ elif [ "$pkgApp" = "yum" ]; then
     wget \
     zlib \
     zlib-devel
+
+  /usr/lib/virtualbox/vboxdrv.sh setup
+  usermod -a -G vboxusers $USER
 
   # Enable Clang 5.x tools
   scl enable devtoolset-8 llvm-toolset-7 bash
@@ -360,6 +372,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     tmux \
     vim \
     vim-X11 \
+    VirtualBox-6.0 \
     vsftpd \
     wine \
     xclip
@@ -370,6 +383,9 @@ elif [ "$pkgApp" = "dnf" ]; then
   # SSH not started by default
   systemctl start sshd.service
   systemctl enable sshd.service
+
+  /usr/lib/virtualbox/vboxdrv.sh setup
+  usermod -a -G vboxusers $USER
 
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
