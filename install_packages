@@ -389,6 +389,7 @@ elif [ "$pkgApp" = "dnf" ]; then
 
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
+    amethyst \
     google-chrome \
     iterm2 \
     visual-studio-code \
