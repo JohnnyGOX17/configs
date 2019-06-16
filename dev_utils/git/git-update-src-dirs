@@ -43,6 +43,7 @@ for d in */ ; do
 
   iter=$(( $iter + 1))
 done
+echo -en "\r\033[K"
 echo ""
 
 # Use GitHub REST API to get list of repos and automatically clone them into
