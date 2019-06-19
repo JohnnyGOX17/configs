@@ -585,6 +585,7 @@ if [[ $1 = "-a" ]]; then
   fi
 
   # Ranger file manager (doesn't install in CentOS packages)
+  # Use source based install or `# pip install ranger-fm`
   if [ "$pkgApp" = "yum" ]; then
     wget http://nongnu.org/ranger/ranger-stable.tar.gz
     tar xvf ranger-stable.tar.gz

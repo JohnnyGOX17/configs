@@ -167,6 +167,9 @@ alias cls='clear && ls'
 # start calculator with math support
 alias bc='bc -l'
 
+# source ranger so it quits to navigated directory instead of directory it started in
+alias ranger='source ranger'
+
 # tmux should assume 256 color terminal support
 alias tmux='tmux -2'
 
