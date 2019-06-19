@@ -444,7 +444,8 @@ call plug#begin('~/.vim/plugged')
   " remove limit on YCM diagnostics to display
   " if running into issues, drop down to sensible # (default = 30)
   let g:ycm_max_diagnostics_to_display = 0
-  let g:ycm_autoclose_preview_window_after_completion=1
+  let g:ycm_autoclose_preview_window_after_completion = 1
+  let g:ycm_collect_identifiers_from_tags_files = 1
   " make YCM compatible with UltiSnips (using supertab)
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
