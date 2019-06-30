@@ -396,6 +396,7 @@ elif [ "$pkgApp" = "brew" ]; then
     vlc
 
   brew install \
+    awscli \
     bash \
     bash-completion \
     binutils \
