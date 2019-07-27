@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Automates the boring repetition of rsync commands to sync my Macbook to my
+# Linux server
+#
+
+# Colors for printing
+RED='\033[1;31m'
+BLU='\033[1;34m'
+NC='\033[0m'
+
+# Simple error handler function to print to stderr
+err() {
+  echo -e "${RED}[$(date +"%T")] ERROR:${NC} $@" >&2
+  exit 1
+}
+
+# Simple message handler function
+msg() {
+  echo -e "\n${BLU}[$(date +"%T")]:${NC} $@\n"
+}
+
+syncDir=data/
+pushd ~/
+if [ -d "$syncDir" ]; then
+  msg "Doing dry run to check differences..."
+  rsync -avchzPn --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $syncDir jgentile@gent-sys:/home/jgentile/$syncDir
+  echo
+  read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    rsync -avchzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $syncDir jgentile@gent-sys:/home/jgentile/$syncDir
+  else
+    msg "No file changes made. Exiting..."
+    exit 1
+  fi
+else
+  err "Directory to sync not found! Expecting $(pwd)/$syncDir"
+  exit 1
+fi
+popd
