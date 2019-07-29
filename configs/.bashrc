@@ -97,7 +97,10 @@ if [ "$(uname -s)" = "Linux" ]; then
     source scl_source enable devtoolset-8 llvm-toolset-7
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
-  export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH:/usr/local/go/bin:~/.cargo/bin"
+  # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
+  export PATH="/usr/local/opt/ruby/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/go/bin:~/.cargo/bin:$PATH"
+  export LDFLAGS="-L/usr/local/opt/ruby/lib"
+  export CPPFLAGS="-I/usr/local/opt/ruby/include"
 fi
 
 
