@@ -73,7 +73,7 @@ elif [ "$(uname -s)" = "Darwin" ]; then
 
   ## Cron jobs
   # check for brew package updates every hour
-  crontab '*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [ -n "(/usr/local/bin/brew outdated)" ] ; then echo " ⚑ Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+  crontab '*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [ -n "(/usr/local/bin/brew outdated)" ] ; then echo " ⚑ Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
 
 fi
 
