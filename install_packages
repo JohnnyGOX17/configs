@@ -250,6 +250,7 @@ elif [ "$pkgApp" = "yum" ]; then
     devtoolset-8 \
     g++ \
     gcc \
+    gcc-arm-linux-gnu \
     gcc-c++ \
     gimp \
     git-core \
