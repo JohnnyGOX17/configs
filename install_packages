@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Shell script to install all needed development tools and software
-# Run as root/sudo
+# Run as regular user
 #
 
 # Colors for printing
@@ -29,19 +29,19 @@ if [[ $1 = "-h" ]]; then
   exit 0
 fi
 
-if [[ $EUID -ne 0 ]]; then
-  err "This script must be run as root, exiting!"
+if [[ $EUID -eq 0 ]]; then
+  err "This script should be run as a regular user, exiting!"
 fi
 
 
-if command -v apt > /dev/null; then
+if [ "$(uname -s)" = "Darwin" ]; then
+  pkgApp=brew
+elif command -v apt > /dev/null; then
   pkgApp=apt
 elif command -v yum > /dev/null; then
   pkgApp=yum
 elif command -v dnf > /dev/null; then # meant for modern Fedora distro
   pkgApp=dnf
-elif [ "$(uname -s)" = "Darwin" ]; then
-  pkgApp=brew
 else
   err "No supported package manager recognized, exiting!"
 fi
@@ -54,7 +54,7 @@ pushd $insPath
 
 
 ###############################################################################
-# Add Optional Repos: Update and upgrade
+msg "Add Optional Repos: Update and upgrade"
 ###############################################################################
 
 msg "Updating current repo lists and adding any additional groups"
@@ -74,13 +74,6 @@ if [ "$pkgApp" = "apt" ]; then
 
   # KiCAD schematic & layout editor
   apt-add-repository --yes ppa:js-reynaud/kicad-4
-
-  # Perforce- see https://www.perforce.com/perforce/doc.current/user/p4vnotes.txt
-  echo "deb http://package.perforce.com/apt/ubuntu/ xenial release" > /etc/apt/sources.list.d/perforce.list
-  wget -O - https://package.perforce.com/perforce.pubkey | apt-key add -
-
-  # Remmina Remote Desktop
-  apt-add-repository --yes ppa:remmina-ppa-team/remmina-next
 
   # Spotify music player repo
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
@@ -107,43 +100,47 @@ if [ "$pkgApp" = "apt" ]; then
   apt -y dist-upgrade
 
 elif [ "$pkgApp" = "yum" ]; then
-  # Install latest VirtualBox
-  wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
+  msg "Installing latest VirtualBox repo file"
+  sudo wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
 
-  # Clear the yum cache and upgrade (update and remove obsolete packages)
-  yum clean all
-  yum -y upgrade
-  yum -y install epel-release
+  msg "yum upgrade (update and remove obsolete packages)"
+  # Clean cache if needed:
+  # sudo yum clean all
+  sudo yum -y upgrade
+  sudo yum -y install epel-release
 
 elif [ "$pkgApp" = "brew" ]; then
-  # Install `brew` package manager (https://brew.sh/)
-  msg "Installing brew"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew install cask
-  brew update
+  # Install `brew` package manager (https://brew.sh/) if not yet present
+  if command -v brew > /dev/null; then
+    msg "Brew already present, continuing..."
+  else
+    msg "Installing Brew package manager..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install cask
+    brew update
+  fi
 
 elif [ "$pkgApp" = "dnf" ]; then
-  # Google chrome repo
-  dnf install -y fedora-workstation-repositories
+  msg "Installing Google chrome repo file"
+  sudo dnf install -y fedora-workstation-repositories
 
-  # Install latest VirtualBox
-  wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
+  msg "Installing latest VirtualBox repo file"
+  sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
 
-  dnf -y upgrade
+  sudo dnf -y upgrade
 
 fi
 
 
 ###############################################################################
-# Install Basic Development Parts & General Tools
+msg "Install Basic Development Parts & General Tools"
 ###############################################################################
 
 # NOTE: If certain programs/packages are not wanted they can be easily commented out
 msg "Installing applications using $pkgApp"
 
-# TODO: consolidate common package names
 if [ "$pkgApp" = "apt" ]; then
-  apt-get -y --install-recommends install \
+  sudo apt-get -y --install-recommends install \
     autoconf \
     automake \
     bash-completion \
@@ -222,16 +219,18 @@ if [ "$pkgApp" = "apt" ]; then
     winehq-stable \
     xclip
 
-  apt -y autoremove
+  sudo apt -y autoremove
 
 elif [ "$pkgApp" = "yum" ]; then
-  yum -y install yum-utils
-  yum -y groupinstall "Development Tools" \
-  "Compatibility Libraries" \
-  #"GNOME Desktop" \
-  "Security Tools" \
-  "System Administration Tools"
-  yum -y install apr-devel \
+  sudo yum -y install yum-utils
+  sudo yum -y groupinstall "Development Tools" \
+    "Compatibility Libraries" \
+    #"GNOME Desktop" \
+    "Security Tools" \
+    "System Administration Tools"
+
+  sudo yum install -y \
+    apr-devel \
     apr-util-cdevel \
     autoconf \
     automake \
@@ -307,17 +306,15 @@ elif [ "$pkgApp" = "yum" ]; then
     zlib \
     zlib-devel
 
-  /usr/lib/virtualbox/vboxdrv.sh setup
-  usermod -a -G vboxusers $USER
-
-  # Enable Clang 5.x tools
-  scl enable devtoolset-8 llvm-toolset-7 bash
+  msg "NOTE: to use shared folders in VirtualBox, do: '# /usr/lib/virtualbox/vboxdrv.sh setup && usermod -a -G vboxusers $USER'"
+  msg "NOTE: to enable Clang 5.x tools, do: '$ scl enable devtoolset-8 llvm-toolset-7 bash'"
 
 elif [ "$pkgApp" = "dnf" ]; then
   # Assuming standard, modern Fedora install
-  dnf -y groupinstall "Development Tools" \
-  "C Development Tools and Libraries"
-  dnf -y install \
+  sudo dnf -y groupinstall "Development Tools" \
+    "C Development Tools and Libraries"
+
+  sudo dnf -y install \
     acpid \
     apr-devel \
     bear \
@@ -382,11 +379,10 @@ elif [ "$pkgApp" = "dnf" ]; then
   # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
 
   # SSH not started by default
-  systemctl start sshd.service
-  systemctl enable sshd.service
+  sudo systemctl start sshd.service
+  sudo systemctl enable sshd.service
 
-  /usr/lib/virtualbox/vboxdrv.sh setup
-  usermod -a -G vboxusers $USER
+  msg "NOTE: to use shared folders in VirtualBox, do: '# /usr/lib/virtualbox/vboxdrv.sh setup && usermod -a -G vboxusers $USER'"
 
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
@@ -465,149 +461,178 @@ elif [ "$pkgApp" = "brew" ]; then
 fi
 
 msg "Installing npm packages"
-npm install -g grunt-cli \
+sudo npm install -g grunt-cli \
   gulp-cli \
   write-good
 
 msg "Installing Gems"
-gem install bundler \
+sudo gem install bundler \
   jekyll \
   vimgolf
 
 # TODO: system dependent pip?
 msg "Installing Python modules via pip"
-pip install awscli \
+sudo pip install awscli \
   proselint
   vim-vint
 
 ###############################################################################
-# Source-based installs
+msg "Installing source-based programs"
 ###############################################################################
 
-if [[ $1 = "-a" ]]; then
+mkdir -p ~/src
+pushd ~/src > /dev/null
 
-  # Facebook PathPicker install
-  # Note: this app install location can change
-  msg "Installing Facebook PathPicker from source..."
-  pushd /usr/local/
+# Facebook PathPicker install
+# Note: this app install location can change
+msg "Installing Facebook PathPicker from source..."
+if [ -d "PathPicker" ]; then
+  pushd PathPicker/ > /dev/null
+  git pull
+  popd > /dev/null
+else
   git clone https://github.com/facebook/PathPicker.git
-  # Note: absolute path could be changed to relative $(pwd) to be more dynamic
-  ln -s /usr/local/PathPicker/fpp /usr/local/bin/fpp
-  popd
-
-  # GHDL- FOSS VHDL compiler & simulator
-  if [ "$pkgApp" = "brew" ]; then
-    pushd /usr/local/
-    wget https://github.com/ghdl/ghdl/releases/download/v0.36/ghdl-0.36-macosx-llvm.tgz
-    tar -xzvf ghdl-0.36-macosx-llvm.tgz
-    rm -f ghdl-0.36-macosx-llvm.tgz
-    popd
-  elif [ "$pkgApp" != "dnf" ]; then
-    msg "Installing GHDL from source..."
-    git clone https://github.com/ghdl/ghdl.git
-    mkdir ./ghdl/build
-    pushd ./ghdl/build
-    ../configure --with-llvm-config --prefix=/usr/local
-    make && make install
-    popd
-  fi
-
-  ## TODO: verify for distros other than fedora
-  # Go- remove older Go 1st (if there) then install (note DL link should be
-  # checked for updates)
-  #msg "Installing Go from source..."
-  #rm -rf /usr/local/go
-  #TODO: figure out per system install from https://golang.org/doc/install
-  #wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
-  #tar -C /usr/local/ -xzf go1.9.linux-amd64.tar.gz
-
-  # Mono-project repo & install #TODO: Ubuntu & MacOS install method
-  if [ "$pkgApp" = "yum" ]; then
-    echo "Installing Mono-Project"
-    rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
-    yum-config-manager --add-repo http://download.mono-project.com/repo/centos7/
-    yum install -y mono-devel
-  elif [ "$pkgApp" != "dnf" ]; then
-    echo "Installing Mono-Project"
-    rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
-    su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'
-    dnf update
-    dnf install -y mono-devel
-  fi
-
-  # Rust install
-  if [ "$pkgApp" != "dnf" ]; then
-    msg "Installing Rust from source..."
-    curl https://sh.rustup.rs -sSf | sh
-  fi
-
-  # tmux 2.6 install from src
-  if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
-    msg "Installing tmux from source..."
-    wget https://github.com/tmux/tmux/releases/download/2.6/tmux-2.6.tar.gz
-    tar -xzf tmux-2.6.tar.gz
-    pushd tmux-2.6
-    ./configure && make
-    make install
-    popd
-  fi
-
-  # Vim install from src w/clipboard & python support
-  if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
-    msg "Installing Vim from source..."
-    # NOTE: remove shipping Vim
-    if [ "$pkgApp" = "apt" ]; then
-      apt remove vim vim-common vim-runtime gvim
-      apt build-dep vim
-    elif [ "$pkgApp" = "yum" ]; then
-      yum remove vim-enhanced vim-common vim-minimal
-      yum-builddep vim
-    fi
-    git clone https://github.com/vim/vim.git
-    pushd vim
-    ./configure --with-features=huge \
-      --enable-multibyte \
-      --enable-rubyinterp=yes \
-      --enable-pythoninterp=yes \
-      --enable-perlinterp=yes \
-      --enable-gui=auto \
-      --enable-gtk2-check \
-      --with-x
-    # if weird, run this process as regular user then run `make install` as sudo
-    # If installing for single user (no `make install`) VIMRUNTIMEDIR can == {vim_src}/runtime
-    make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
-    # if installing manually, this is the only command needing root privileges
-    make install
-    # sometimes `sudo` is removed with vim
-    if [ "$pkgApp" = "apt" ]; then
-      apt install -y sudo
-    elif [ "$pkgApp" = "yum" ]; then
-      yum install -y sudo
-    fi
-    hash vim
-    popd
-  fi
-
-  # Ranger file manager (doesn't install in CentOS packages)
-  # Use source based install or `# pip install ranger-fm`
-  if [ "$pkgApp" = "yum" ]; then
-    wget http://nongnu.org/ranger/ranger-stable.tar.gz
-    tar xvf ranger-stable.tar.gz
-    pushd ranger-stable
-    make install
-    popd
-  fi
-
-  #TODO: add custom Google Fonts from www.fonts.google.com for some distros
-
+fi
+fppInstallLoc=/usr/local/bin/fpp
+if [ ! -f $fppInstallLoc ]; then
+  sudo ln -s $(pwd)/PathPicker/fpp $fppInstallLoc
 fi
 
+# GHDL- FOSS VHDL compiler & simulator
+if [ "$pkgApp" = "brew" ]; then
+  msg "NOTE: Check for macOS release updates at https://github.com/ghdl/ghdl/releases"
+  pushd /usr/local/ > /dev/null
+  wget https://github.com/ghdl/ghdl/releases/download/v0.36/ghdl-0.36-macosx-llvm.tgz
+  tar -xzvf ghdl-0.36-macosx-llvm.tgz
+  rm -f ghdl-0.36-macosx-llvm.tgz
+  popd > /dev/null
+elif [ "$pkgApp" != "dnf" ]; then
+  msg "Installing GHDL from source..."
+  if [ -d "ghdl" ]; then
+    pushd ghdl/ > /dev/null
+    git pull
+  else
+    git clone https://github.com/ghdl/ghdl.git
+    pushd ghdl/ > /dev/null
+  fi
+  mkdir -p build
+  pushd build/
+  ../configure --with-llvm-config --prefix=/usr/local
+  make
+  sudo make install
+  popd > /dev/null
+fi
+
+# Go Lang tools
+msg "Installing Go from source..."
+if [ -d /usr/local/go ]; then
+  msg "Removing previous Go install"
+  rm -rf /usr/local/go
+fi
+pushd /tmp/ > /dev/null
+msg "NOTE: Check for Go release updates at https://golang.org/dl/"
+goOS=$(echo "$(uname)" | awk '{print tolower($0)}')
+if [ "$(uname -m)" != "x86_64" ]; then
+  err "Expecting x86_64 architecture to install Go!"
+fi
+wget https://dl.google.com/go/go1.12.9.${goOS}-amd64.tar.gz
+sudo tar -C /usr/local/ -xzf go1.12.9.${goOS}-amd64.tar.gz
+popd > /dev/null
+
+# Mono-project repo & install
+#TODO: Ubuntu & MacOS install method
+msg "Installing Mono repo"
+if [ "$pkgApp" = "yum" ]; then
+  sudo rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+  sudo yum-config-manager --add-repo http://download.mono-project.com/repo/centos7/
+  sudo yum install -y mono-devel
+elif [ "$pkgApp" != "dnf" ]; then
+  sudo rpm --import "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+  su -c 'curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo'
+  sudo dnf update
+  sudo dnf install -y mono-devel
+fi
+
+# Rust install
+if [ "$pkgApp" != "dnf" ]; then
+  msg "Installing Rust"
+  curl https://sh.rustup.rs -sSf | sh
+fi
+
+# tmux 2.9a install from src
+if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+  msg "Installing tmux from source..."
+  pushd /tmp/ > /dev/null
+  msg "NOTE: Check for tmux release updates at https://github.com/tmux/tmux/releases"
+  wget https://github.com/tmux/tmux/releases/download/2.9a/tmux-2.9a.tar.gz
+  tar -xzf tmux-2.9a.tar.gz
+  pushd tmux-2.9a > /dev/null
+  ./configure && make
+  sudo make install
+  popd > /dev/null
+  popd > /dev/null
+fi
+
+# Vim install from src w/clipboard & python support
+if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+  msg "Installing Vim from source..."
+  # NOTE: remove shipping Vim
+  if [ "$pkgApp" = "apt" ]; then
+    sudo apt remove -y vim vim-common vim-runtime gvim
+    sudo apt build-dep vim
+  elif [ "$pkgApp" = "yum" ]; then
+    sudo yum remove -y vim-enhanced vim-common
+    sudo yum-builddep vim
+  fi
+  if [ -d "vim" ]; then
+    pushd vim/ > /dev/null
+    git pull
+  else
+    git clone https://github.com/vim/vim.git
+    pushd vim/ > /dev/null
+  fi
+  ./configure --with-features=huge \
+    --enable-multibyte \
+    --enable-rubyinterp=yes \
+    --enable-pythoninterp=yes \
+    --enable-perlinterp=yes \
+    --enable-gui=auto \
+    --enable-gtk2-check \
+    --with-x
+  # If installing for single user (no `make install`) VIMRUNTIMEDIR can == {vim_src}/runtime
+  make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+  # sometimes `sudo` is removed with vim
+  if ! command -v sudo > /dev/null; then
+    if [ "$pkgApp" = "apt" ]; then
+      su -c apt install -y sudo
+    elif [ "$pkgApp" = "yum" ]; then
+      su -c yum install -y sudo
+    fi
+  fi
+  sudo make install
+  hash vim
+  popd > /dev/null
+fi
+
+# Ranger file manager (doesn't install in CentOS packages)
+# Use source based install or `# pip install ranger-fm`
+if [ "$pkgApp" = "yum" ]; then
+  msg "Installing Ranger file manager"
+  sudo pip install ranger-fm
+  #wget http://nongnu.org/ranger/ranger-stable.tar.gz
+  #tar xvf ranger-stable.tar.gz
+  #pushd ranger-stable
+  #make install
+  #popd
+fi
+
+popd > /dev/null
 
 ###############################################################################
 # Clean & exit
 ###############################################################################
 
 msg "Deleting temp directory at $insPath"
-popd
+popd > /dev/null
 rm -rf $insPath*
-msg "\nDONE!... Installs and updates successful\n"
+msg "DONE!... Installs and updates successful\n"

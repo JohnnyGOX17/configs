@@ -17,3 +17,10 @@ Personal configuration files (dotfiles) for a variety of tools & platforms
 - `update_configs` updates local/remote changes to most-up-to-date
 
 ## Misc. scripts and helper applications
+
+# Todo
+
+- [ ] Make a more robust scripting interface to update on each distro (note sometimes apt shows up on macos... so check for brew first) that can be rerun to pull in any updates
+- [X] brew stuff shouldn't be run as root
+- [ ] make a hidden file in user dir to compare git hash to know if anything needs to be updated from repo
+- [ ] add tmux line to let know if git repos need updating and/or if updates need to be made due to this repo
