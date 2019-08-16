@@ -3,6 +3,8 @@
 # Shell script to install all needed development tools and software
 # Run as regular user
 #
+# -John Gentile
+#
 
 # Colors for printing
 RED='\033[1;31m'
@@ -11,6 +13,8 @@ NC='\033[0m'
 
 # Path to temporary installation directory
 insPath=/tmp/auto_sys_install/
+# Path to where script was executed
+execPath=$(pwd)
 
 # Simple error handler function to print to stderr
 err() {
@@ -29,11 +33,13 @@ if [[ $1 = "-h" ]]; then
   exit 0
 fi
 
+# Individual commands needing privilege scripted as sudo
 if [[ $EUID -eq 0 ]]; then
   err "This script should be run as a regular user, exiting!"
 fi
 
 
+# Figure out what system and package manager we're using
 if [ "$(uname -s)" = "Darwin" ]; then
   pkgApp=brew
 elif command -v apt > /dev/null; then
@@ -50,7 +56,7 @@ msg "Using $pkgApp pakage manager for installation"
 msg "Install started at: $(date)"
 msg "Creating temp directory at: $insPath\n"
 mkdir -p $insPath
-pushd $insPath
+pushd $insPath > /dev/null
 
 
 ###############################################################################
@@ -60,8 +66,11 @@ msg "Add Optional Repos: Update and upgrade"
 msg "Updating current repo lists and adding any additional groups"
 
 if [ "$pkgApp" = "apt" ]; then
+
+  # NOTE: a lot of these are out of date!
+
   # Brackets editor
-  apt-add-repository --yes ppa:webupd8team/brackets
+  sudo apt-add-repository --yes ppa:webupd8team/brackets
 
   # Clang 5.0 repo
   # from https://askubuntu.com/questions/905205/installing-clang-5-0-and-using-c17
@@ -95,9 +104,9 @@ if [ "$pkgApp" = "apt" ]; then
   apt-key adv --keyserver keys.gnupg.net --recv-keys
 
   # Update and pull in all new repos
-  apt update
+  sudo apt update
   # Use dist-upgrade to smart dependency changing and conflict resolution
-  apt -y dist-upgrade
+  sudo apt -y dist-upgrade
 
 elif [ "$pkgApp" = "yum" ]; then
   msg "Installing latest VirtualBox repo file"
@@ -162,6 +171,7 @@ if [ "$pkgApp" = "apt" ]; then
     exuberant-ctags \
     ffmpegthumbnailer \
     filezilla \
+    fonts-powerline \
     g++ \
     gcc \
     gimp \
@@ -521,6 +531,7 @@ elif [ "$pkgApp" != "dnf" ]; then
   make
   sudo make install
   popd > /dev/null
+  popd > /dev/null
 fi
 
 # Go Lang tools
@@ -625,6 +636,103 @@ if [ "$pkgApp" = "yum" ]; then
   #make install
   #popd
 fi
+
+# install Ruby since most likely not pre-installed on *nix (except Fedora)
+if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+  msg "Installing Ruby"
+  mkdir -p ~/.rbenv
+  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  pushd ~/.rbenv > /dev/null
+  src/configure
+  make -C src
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+  git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+  popd > /dev/null
+
+  msg "Installing Ruby 2.4.1"
+  rbenv install -v 2.4.1
+  rbenv global 2.4.1
+fi
+
+# Note meslo S is a good macOS-like powerline font
+msg "Installing Powerline fonts"
+if [ "$pkgApp" != "apt" ] || [ "$pkgApp" != "dnf" ]; then
+  pushd ~/src/ > /dev/null
+  git clone https://github.com/powerline/fonts.git --depth=1
+  pushd fonts > /dev/null
+  ./install.sh
+  popd > /dev/null
+  rm -rf fonts/
+  popd > /dev/null
+fi
+
+popd > /dev/null
+
+
+###############################################################################
+msg "Installing config files and environment settings"
+###############################################################################
+pushd $execPath > /dev/null
+
+msg "Installing terminal settings. Run 'term_test' after to confirm proper operation."
+if [ "$pkgApp" = "brew" ]; then
+  # Add `tmux` terminal types to support italic/bold in tmux
+  msg "NOTE: install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git"
+  tic -x ./configs/tmux.terminfo
+elif [ "$pkgApp" != "dnf" ];then
+  # Add `tmux` terminal types to support italic/bold in tmux (may not be needed for Fedora)
+  tic -x ./configs/xterm-256color-italic.terminfo
+  tic -x ./configs/tmux-256color.terminfo
+fi
+
+# check for brew package updates every 5 min
+msg "Installing crontab entries"
+cronLine=""
+if [ "$pkgApp" = "apt" ]; then
+  cronLine='*/5 * * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then echo " ⚑ Apt Updates Available: $(/usr/bin/apt list --upgradable | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+elif [ "$pkgApp" = "yum" ]; then
+  cronLine='*/5 * * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Yum Updates Available: $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+elif [ "$pkgApp" = "dnf" ]; then
+  cronLine='*/5 * * * * if [ $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Dnf Updates Available: $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+elif [ "$pkgApp" = "brew" ]; then
+  cronLine='*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [ -n "(/usr/local/bin/brew outdated)" ] ; then echo " ⚑ Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
+fi
+# NOTE: overwrites any crontab entries, echo current entries before pipe if looking to keep
+echo "$cronLine" | crontab -
+echo "Current cron jobs:"
+crontab -l
+
+# Create (if needed) mutt dirs & other files
+mkdir -p ~/.mutt/jgentile/headers
+mkdir -p ~/.mutt/jgentile/bodies
+touch ~/.mutt/certificates
+# get solarized color scheme
+wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-dark-256.muttrc
+
+msg "Installing vim components..."
+# vim-plug
+mkdir -p ~/.vim/autoload
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# vim-colorschemes
+pushd ~/src > /dev/null
+git clone https://github.com/flazz/vim-colorschemes.git --depth=1
+mkdir -p ~/.vim/colors/
+cp vim-colorschemes/colors/* ~/.vim/colors/
+rm -rf vim-colorschemes/
+popd > /dev/null
+
+msg "Installing dotfiles"
+./update_configs
+
+msg "Installing scripts"
+sudo ./install_scripts
+
+msg "Pulling down remote repos & updating current ones"
+./dev_utils/git/git-update-src-dirs
 
 popd > /dev/null
 
