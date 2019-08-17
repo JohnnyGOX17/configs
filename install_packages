@@ -383,7 +383,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     VirtualBox-6.0 \
     vsftpd \
     wine \
-    xclip
+    xclip \
+    xrdp
 
   # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
   # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
@@ -391,6 +392,12 @@ elif [ "$pkgApp" = "dnf" ]; then
   # SSH not started by default
   sudo systemctl start sshd.service
   sudo systemctl enable sshd.service
+
+  # Enable xrdp remote desktop & open port
+  sudo systemctl start xrdp
+  sudo systemctl enable xrdp
+  sudo firewall-cmd --add-port=3389/tcp --permanent
+  sudo firewall-cmd --reload
 
   msg "NOTE: to use shared folders in VirtualBox, do: '# /usr/lib/virtualbox/vboxdrv.sh setup && usermod -a -G vboxusers $USER'"
 
