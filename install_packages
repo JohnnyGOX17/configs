@@ -197,6 +197,7 @@ if [ "$pkgApp" = "apt" ]; then
     make \
     mutt \
     nano \
+    nasm \
     nmap \
     playonlinux \
     python-dev \
@@ -289,6 +290,7 @@ elif [ "$pkgApp" = "yum" ]; then
     llvm-toolset-7-llvm-devel \
     make \
     nano \
+    nasm \
     nmap \
     nodejs \
     npm \
@@ -363,6 +365,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     mesa-libGLU-devel \
     mutt \
     nano \
+    nasm \
     nmap \
     nodejs \
     openssl-devel \
