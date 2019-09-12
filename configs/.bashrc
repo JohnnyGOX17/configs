@@ -157,7 +157,14 @@ alias cds='cd ~/src'
 alias pds='pushd ~/src > /dev/null'
 
 # Clean output of directory size usage
-alias duh='du -h -d 1 | sort -bh'
+alias duh='du -h -d 1 | sort -rh'
+# Recursively find largest 10 files within current directory
+if [ "$(uname -s)" = "Darwin" ]; then
+  alias duf="gfind ./ -type f -printf '%s\t%p\n' | sort -nr | head -10"
+else
+  alias duf="find ./ -type f -printf '%s\t%p\n' | sort -nr | head -10"
+fi
+
 
 # type less for faster push/pop dirs
 alias p='pushd'
