@@ -321,6 +321,10 @@ elif [ "$pkgApp" = "yum" ]; then
   msg "NOTE: to use shared folders in VirtualBox, do: '# /usr/lib/virtualbox/vboxdrv.sh setup && usermod -a -G vboxusers $USER'"
   msg "NOTE: to enable Clang 5.x tools, do: '$ scl enable devtoolset-8 llvm-toolset-7 bash'"
 
+  # KiCad install
+  # Flatpak _should_ be installed by default in CentOS 7+
+  flatpak install --from https://flathub.org/repo/appstream/org.kicad_pcb.KiCad.flatpakref
+
 elif [ "$pkgApp" = "dnf" ]; then
   # Assuming standard, modern Fedora install
   sudo dnf -y groupinstall "Development Tools" \
