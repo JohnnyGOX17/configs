@@ -497,7 +497,8 @@ sudo gem install bundler \
 # TODO: system dependent pip?
 msg "Installing Python modules via pip"
 sudo pip install awscli \
-  proselint
+  proselint \
+  speedtest-cli \
   vim-vint
 
 ###############################################################################

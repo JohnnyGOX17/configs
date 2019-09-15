@@ -400,6 +400,10 @@ call plug#begin('~/.vim/plugged')
   let g:gitgutter_eager = 0
 
 
+  " VimGo: Go plugin for syntax, completion and other helpful functions ------
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+
   " VimGutentags: manages & auto-(re)generates tag files for project ---------
   Plug 'ludovicchabant/vim-gutentags'
   set statusline+=%{gutentags#statusline()}
