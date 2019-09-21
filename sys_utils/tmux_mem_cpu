@@ -20,6 +20,17 @@ elif [ "$osTyp" = "Darwin" ]; then
   # macOS sometimes prints full path of executable so parse out
   psVal1="$(echo "$topPs" | awk '{print $2 }' | xargs -n 1 basename)"
   psVal="${psVal1}:$(echo "$topPs" | awk '{print $3}')"
+
+  # iStats: https://github.com/Chris911/iStats (install varies)
+  iStatLoc="/usr/local/lib/ruby/gems/2.6.0/bin/istats"
+  cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
+  # Uncomment & replace if you want thresholding for when temp should display
+  #cpuTempThresh=40.0
+  #cpuTempStr=""
+  #if (( $(echo "${cpuTemp} > ${cpuTempThresh}" | bc -l) )); then
+  #  cpuTempStr="#[bold] ♨ CPU Temp:#[nobold] ${cpuTemp}°C |"
+  #fi
+  cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp}°C |"
 fi
 
 cpuVal="$(echo "$topPs" | awk '{print $1}')"
@@ -44,4 +55,4 @@ function bar_color() {
   fi
 }
 
-echo -e "#[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)]"
+echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)]"

@@ -491,6 +491,7 @@ sudo npm install -g grunt-cli \
 
 msg "Installing Gems"
 sudo gem install bundler \
+  iStats \
   jekyll \
   vimgolf
 
