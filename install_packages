@@ -215,6 +215,7 @@ if [ "$pkgApp" = "apt" ]; then
     shellcheck \
     silversearcher-ag \
     spotify-client \
+    stress \
     tcl \
     tree \
     unrar \
@@ -306,6 +307,7 @@ elif [ "$pkgApp" = "yum" ]; then
     readline \
     readline-devel \
     sqlite-devel \
+    stress \
     the_silver_searcher \
     tmux \
     vim \
@@ -383,6 +385,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     ruby-devel \
     rust \
     sqlite-devel \
+    stress \
     the_silver_searcher \
     tmux \
     vim \

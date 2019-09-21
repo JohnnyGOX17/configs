@@ -2,12 +2,18 @@
 
 osTyp="$(uname -s)"
 topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
+cpuTempStr=""
 
 if [ "$osTyp" = "Linux" ]; then
   memStr="$(free -m)"
   memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
   memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
   psVal="$(echo "$topPs" | awk '{print $2 ":" $3}')"
+
+  # Machine specific for now since lm-sensors output is weird w/mobo
+  cpuTemp=$(sensors | awk '$1 ~ /^temp3/' | cut -c16-21)
+  cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp} |"
+
 elif [ "$osTyp" = "Darwin" ]; then
   # NOTE: below not used since top is slow on Mac and reflects "inactive" memory as well as active
   #memStr="$(top -l 1 -s 0 | grep PhysMem)"
@@ -26,7 +32,6 @@ elif [ "$osTyp" = "Darwin" ]; then
   cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
   # Uncomment & replace if you want thresholding for when temp should display
   #cpuTempThresh=40.0
-  #cpuTempStr=""
   #if (( $(echo "${cpuTemp} > ${cpuTempThresh}" | bc -l) )); then
   #  cpuTempStr="#[bold] ♨ CPU Temp:#[nobold] ${cpuTemp}°C |"
   #fi
