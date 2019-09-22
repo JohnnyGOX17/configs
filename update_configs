@@ -11,6 +11,7 @@ cp -u ~/.bash_profile ./configs/.bash_profile
 cp -u ~/.inputrc ./configs/.inputrc
 cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.profile
 cp -u ~/.vimrc ./configs/.vimrc
+cp -u ~/.config/nvim/init.vim ./configs/init.vim
 cp -u ~/.vim/colors/monokai.vim ./configs/monokai.vim
 cp -u ~/.tmux.conf ./configs/.tmux.conf
 cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
@@ -25,6 +26,7 @@ cp -u ./configs/.bash_profile ~/.bash_profile
 cp -u ./configs/.inputrc ~/.inputrc
 cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 cp -u ./configs/.vimrc ~/.vimrc
+cp -u ./configs/init.vim ~/.config/nvim/init.vim
 mkdir -p ~/.vim/colors/
 cp -u ./configs/monokai.vim ~/.vim/colors/monokai.vim
 cp -u ./configs/.tmux.conf ~/.tmux.conf

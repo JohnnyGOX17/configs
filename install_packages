@@ -198,10 +198,13 @@ if [ "$pkgApp" = "apt" ]; then
     mutt \
     nano \
     nasm \
+    neovim \
     nmap \
     playonlinux \
     python-dev \
     python3-dev \
+    python-neovim \
+    python3-neovim \
     python-pydot \
     python-pydot-ng \
     python-sphinx \
@@ -292,6 +295,7 @@ elif [ "$pkgApp" = "yum" ]; then
     make \
     nano \
     nasm \
+    neovim \
     nmap \
     nodejs \
     npm \
@@ -301,6 +305,7 @@ elif [ "$pkgApp" = "yum" ]; then
     python-devel \
     python34 \
     python34-devel \
+    python3-neovim \
     qemu \
     qemu-kvm \
     qperf \
@@ -372,12 +377,14 @@ elif [ "$pkgApp" = "dnf" ]; then
     mutt \
     nano \
     nasm \
+    neovim \
     nmap \
     nodejs \
     openssl-devel \
     perl \
     powerline-fonts \
     python-devel \
+    python3-neovim \
     qemu \
     qemu-kvm \
     ranger \
@@ -455,6 +462,7 @@ elif [ "$pkgApp" = "brew" ]; then
     mono \
     mutt \
     nano \
+    neovim \
     nmap \
     node \
     openssh \
@@ -484,6 +492,10 @@ elif [ "$pkgApp" = "brew" ]; then
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
   brew cleanup
+
+  # Seperately install Python Neovim support for macOS
+  #pip2 install neovim --upgrade
+  pip3 install neovim --upgrade
 
 fi
 
