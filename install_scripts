@@ -11,6 +11,7 @@ cp ./dev_utils/git/git-rm-dos-whitespace $insLoc
 cp ./dev_utils/git/git-acp               $insLoc
 cp ./dev_utils/git/git-list-large        $insLoc
 
+cp ./sys_utils/mvrms                     $insLoc
 cp ./sys_utils/scrot-screenshot          $insLoc
 cp ./sys_utils/sys-backup                $insLoc
 cp ./sys_utils/tmux_mem_cpu              $insLoc
