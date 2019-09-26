@@ -3,6 +3,10 @@
 # Automates the boring repetition of rsync commands to sync my Macbook to my
 # Linux server
 #
+# 1st Arg: "to" server or "from" server backup process
+# 2nd Arg: Pass IP_address or hostname w/username, similar to SSH:
+#   '$ sys-backup [to|from] user@hostname'
+#
 
 # Colors for printing
 RED='\033[1;31m'
@@ -20,22 +24,42 @@ msg() {
   echo -e "\n${BLU}[$(date +"%T")]:${NC} $@\n"
 }
 
-syncDir=data/
-pushd ~/
-if [ -d "$syncDir" ]; then
+if [ "$2" == "" ]; then
+  err "pass 'user@hostname' as 2nd argument!"
+fi
+
+rsyncArgs="-avchzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos'"
+localDir="data/"
+serverDir="$2:/home/jgentile/data/"
+
+if [ "$1" == "to" ]; then
+  toDir=$serverDir
+  fromDir=$localDir
+elif [ "$1" == "from" ]; then
+  toDir=$localDir
+  fromDir=$serverDir
+else
+  err "pass 'to' or 'from' as 1st argument!"
+fi
+
+pushd ~/ > /dev/null
+if [ -d "$localDir" ]; then
   msg "Doing dry run to check differences..."
-  rsync -avchzPn --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $syncDir jgentile@gent-sys:/home/jgentile/$syncDir
+  rsync -n $rsyncArgs $fromDir $toDir
   echo
+
   read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rsync -avchzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $syncDir jgentile@gent-sys:/home/jgentile/$syncDir
+    msg "Syncing data..."
+    rsync $rsyncArgs $fromDir $toDir
   else
     msg "No file changes made. Exiting..."
-    exit 1
+    exit 0
   fi
+
 else
-  err "Directory to sync not found! Expecting $(pwd)/$syncDir"
+  err "Directory to sync not found! Expecting $(pwd)/$localDir"
   exit 1
 fi
-popd
+popd > /dev/null
