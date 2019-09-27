@@ -28,7 +28,6 @@ if [ "$2" == "" ]; then
   err "pass 'user@hostname' as 2nd argument!"
 fi
 
-rsyncArgs="-avchzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos'"
 localDir="data/"
 serverDir="$2:/home/jgentile/data/"
 
@@ -44,15 +43,15 @@ fi
 
 pushd ~/ > /dev/null
 if [ -d "$localDir" ]; then
-  msg "Doing dry run to check differences..."
-  rsync -n $rsyncArgs $fromDir $toDir
+  msg "Doing dry run to check differences:"
+  rsync -avhzPn --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   echo
 
   read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    msg "Syncing data..."
-    rsync $rsyncArgs $fromDir $toDir
+    msg "Syncing data:"
+    rsync -avhzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   else
     msg "No file changes made. Exiting..."
     exit 0
