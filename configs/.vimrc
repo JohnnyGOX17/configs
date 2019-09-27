@@ -61,6 +61,12 @@ let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
+" Neovim specific
+"if has('nvim')
+"  " return cursor to blinking iBeam after exit (see ":help 'guicursor'")
+"  au VimLeave * set guicursor=a:ver4-blinkon500
+"endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocommands

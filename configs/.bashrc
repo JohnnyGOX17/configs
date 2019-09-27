@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+#
+# Settings for both *nix and macOS systems
+# Vi-style centric for user input
 # John Gentile <johncgentile17@gmail.com>
+#
 
 # =============================================================================
 # Terminal & Path additions/edits/exports
@@ -42,8 +46,8 @@ else
   export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
 fi
 
-# set vim as default editor
-export VISUAL=vim
+# set Neovim as default editor
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr
@@ -111,12 +115,9 @@ fi
 # set terminal since other machines likely don't have our funky term settings
 alias ssh='TERM=xterm-256color ssh'
 
-# explicitly alias vi->vim & use `vimx` in Fedora
+# explicitly alias `vim`->`vimx` in Fedora
 if command -v vimx > /dev/null; then
-  alias vi='vimx'
   alias vim='vimx'
-else
-  alias vi='vim'
 fi
 
 # easy updating for package management
