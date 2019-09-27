@@ -112,6 +112,10 @@ elif [ "$pkgApp" = "yum" ]; then
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
 
+  msg "Install VSCode repos"
+  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+  sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+
   msg "yum upgrade (update and remove obsolete packages)"
   # Clean cache if needed:
   # sudo yum clean all
@@ -135,6 +139,10 @@ elif [ "$pkgApp" = "dnf" ]; then
 
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
+
+  msg "Install VSCode repos"
+  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+  sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 
   sudo dnf -y upgrade
 
@@ -258,6 +266,7 @@ elif [ "$pkgApp" = "yum" ]; then
     clang-analyzer \
     clang-devel \
     cmake \
+    code \
     ctags \
     curl \
     curl-devel \
@@ -346,6 +355,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     clang-analyzer \
     clang-devel \
     cmake \
+    code \
     csbuild \
     curl-devel \
     dkms \
