@@ -208,6 +208,7 @@ if [ "$pkgApp" = "apt" ]; then
     nasm \
     neovim \
     nmap \
+    okular \
     playonlinux \
     python-dev \
     python3-dev \
@@ -308,6 +309,7 @@ elif [ "$pkgApp" = "yum" ]; then
     nmap \
     nodejs \
     npm \
+    okular \
     openssl-devel \
     patch \
     perftest \
@@ -390,6 +392,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     neovim \
     nmap \
     nodejs \
+    okular \
     openssl-devel \
     perl \
     powerline-fonts \
