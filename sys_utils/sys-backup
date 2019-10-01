@@ -5,7 +5,8 @@
 #
 # 1st Arg: "to" server or "from" server backup process
 # 2nd Arg: Pass IP_address or hostname w/username, similar to SSH:
-#   '$ sys-backup [to|from] user@hostname'
+# 3rd Arg: (optional) delete non-existent files in destination
+#   '$ sys-backup to|from user@hostname [-d]'
 #
 
 # Colors for printing
@@ -24,8 +25,21 @@ msg() {
   echo -e "\n${BLU}[$(date +"%T")]:${NC} $@\n"
 }
 
+if [ "$1" == "-h" ]; then
+  echo "1st Arg: 'to' server or 'from' server backup process"
+  echo "2nd Arg: Pass IP_address or hostname w/username, similar to SSH:"
+  echo "3rd Arg: (optional) delete non-existent files in destination"
+  echo "  '$ sys-backup to|from user@hostname [-d]'"
+  exit 0
+fi
+
 if [ "$2" == "" ]; then
   err "pass 'user@hostname' as 2nd argument!"
+fi
+
+delOpt=""
+if [ "$3" == "-d" ]; then
+  delOpt="--delete"
 fi
 
 localDir="data/"
@@ -43,15 +57,15 @@ fi
 
 pushd ~/ > /dev/null
 if [ -d "$localDir" ]; then
-  msg "Doing dry run to check differences:"
-  rsync -avhzPn --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
+  msg "Doing dry run to check differences: ${delOpt}"
+  rsync -avhzPn ${delOpt} --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   echo
 
   read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     msg "Syncing data:"
-    rsync -avhzP --delete --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
+    rsync -avhzP ${delOpt} --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   else
     msg "No file changes made. Exiting..."
     exit 0
