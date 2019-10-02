@@ -774,20 +774,6 @@ touch ~/.mutt/certificates
 # get solarized color scheme
 wget -O ~/.mutt/mutt-colors-solarized-dark-256.muttrc https://raw.githubusercontent.com/altercation/mutt-colors-solarized/master/mutt-colors-solarized-dark-256.muttrc
 
-msg "Installing vim components..."
-# vim-plug
-mkdir -p ~/.vim/autoload
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# vim-colorschemes
-pushd ~/src > /dev/null
-git clone https://github.com/flazz/vim-colorschemes.git --depth=1
-mkdir -p ~/.vim/colors/
-cp vim-colorschemes/colors/* ~/.vim/colors/
-rm -rf vim-colorschemes/
-popd > /dev/null
-
 msg "Installing dotfiles"
 ./update_configs
 
@@ -796,6 +782,24 @@ sudo ./install_scripts
 
 msg "Pulling down remote repos & updating current ones"
 ./dev_utils/git/git-update-src-dirs
+
+msg "Installing vim components..."
+# vim-plug
+mkdir -p ~/.vim/autoload
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Install plug-ins before first use
+vim +'PlugInstall --sync' +qa
+# YCM seems to be the only plug-in requiring this extra step...
+~/.vim/plugged/YouCompleteMe/install.py --all
+
+# vim-colorschemes
+pushd ~/src > /dev/null
+git clone https://github.com/flazz/vim-colorschemes.git --depth=1
+mkdir -p ~/.vim/colors/
+cp vim-colorschemes/colors/* ~/.vim/colors/
+rm -rf vim-colorschemes/
+popd > /dev/null
 
 popd > /dev/null
 
