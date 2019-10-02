@@ -4,6 +4,12 @@
 # Run as intended user
 #
 
+# mkdir's if in new system
+mkdir -p ~/.vim/colors/
+mkdir -p ~/.local/share/konsole/
+mkdir -p ~/.config/nvim/
+mkdir -p ~/.config/ranger/
+
 # First copy local files over if they're newer
 cp -u ~/.gitconfig ./configs/.gitconfig
 cp -u ~/.bashrc ./configs/.bashrc
@@ -19,6 +25,7 @@ cp -u ~/.config/ranger/scope.sh ./configs/scope.sh
 cp -u ~/.muttrc ./configs/.muttrc
 cp -u ~/.ctags ./configs/.ctags
 cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
+
 # Then copy remote files over if they're newer
 cp -u ./configs/.gitconfig ~/.gitconfig
 cp -u ./configs/.bashrc ~/.bashrc
@@ -27,7 +34,6 @@ cp -u ./configs/.inputrc ~/.inputrc
 cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 cp -u ./configs/.vimrc ~/.vimrc
 cp -u ./configs/init.vim ~/.config/nvim/init.vim
-mkdir -p ~/.vim/colors/
 cp -u ./configs/monokai.vim ~/.vim/colors/monokai.vim
 cp -u ./configs/.tmux.conf ~/.tmux.conf
 cp -u ./configs/rc.conf ~/.config/ranger/rc.conf

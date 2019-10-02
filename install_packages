@@ -6,6 +6,9 @@
 # -John Gentile
 #
 
+# exit on error
+set -e
+
 # Colors for printing
 RED='\033[1;31m'
 BLU='\033[1;34m'
@@ -28,8 +31,8 @@ msg() {
 }
 
 if [[ $1 = "-h" ]]; then
-  echo "Usage: ./install_packages [-a]"
-  echo -e "\t-a,\tInstall all packages including source based ones that may be redundant"
+  echo "Usage: ./install_packages"
+  echo -e "\tInstall all packages"
   exit 0
 fi
 
@@ -44,10 +47,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
   pkgApp=brew
 elif command -v apt > /dev/null; then
   pkgApp=apt
-elif command -v yum > /dev/null; then
-  pkgApp=yum
 elif command -v dnf > /dev/null; then # meant for modern Fedora distro
   pkgApp=dnf
+elif command -v yum > /dev/null; then
+  pkgApp=yum
 else
   err "No supported package manager recognized, exiting!"
 fi
@@ -109,6 +112,16 @@ if [ "$pkgApp" = "apt" ]; then
   sudo apt -y dist-upgrade
 
 elif [ "$pkgApp" = "yum" ]; then
+  #msg "Installing Google chrome repo file"
+  #sudo cat << EOF > /etc/yum.repos.d/google-chrome.repo
+  #[google-chrome]
+  #name=google-chrome
+  #baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+  #enabled=1
+  #gpgcheck=1
+  #gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+  #EOF
+
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
 
@@ -136,6 +149,7 @@ elif [ "$pkgApp" = "brew" ]; then
 elif [ "$pkgApp" = "dnf" ]; then
   msg "Installing Google chrome repo file"
   sudo dnf install -y fedora-workstation-repositories
+  sudo dnf config-manager --set-enabled google-chrome
 
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
@@ -278,6 +292,8 @@ elif [ "$pkgApp" = "yum" ]; then
     gcc-c++ \
     gimp \
     git-core \
+    gnome-tweaks \
+    google-chrome-stable \
     gtkwave \
     htop \
     httpd \
@@ -362,10 +378,9 @@ elif [ "$pkgApp" = "dnf" ]; then
     curl-devel \
     dkms \
     gcc-gnat \
-    # if seeing linking errors due to libgnat-* version mismatch see:
-    # https://forums.fedoraforum.org/showthread.php?318086-ghdl-in-Fedora-28
     gimp \
     ghdl \
+    gnome-tweaks \
     golang \
     google-chrome-stable \
     gtkwave \
@@ -418,6 +433,8 @@ elif [ "$pkgApp" = "dnf" ]; then
 
   # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
   # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
+
+  msg "GHDL: if seeing linking errors due to libgnat-* version mismatch see: https://forums.fedoraforum.org/showthread.php?318086-ghdl-in-Fedora-28"
 
   # SSH not started by default
   sudo systemctl start sshd.service
@@ -519,9 +536,11 @@ sudo npm install -g grunt-cli \
 
 msg "Installing Gems"
 sudo gem install bundler \
-  iStats \
   jekyll \
   vimgolf
+if [ "$pkgApp" = "brew" ]; then
+  sudo gem install iStats
+fi
 
 # TODO: system dependent pip?
 msg "Installing Python modules via pip"
@@ -615,7 +634,7 @@ if [ "$pkgApp" != "dnf" ]; then
 fi
 
 # tmux 2.9a install from src
-if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   msg "Installing tmux from source..."
   pushd /tmp/ > /dev/null
   msg "NOTE: Check for tmux release updates at https://github.com/tmux/tmux/releases"
@@ -629,7 +648,7 @@ if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
 fi
 
 # Vim install from src w/clipboard & python support
-if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   msg "Installing Vim from source..."
   # NOTE: remove shipping Vim
   if [ "$pkgApp" = "apt" ]; then
@@ -682,7 +701,7 @@ if [ "$pkgApp" = "yum" ]; then
 fi
 
 # install Ruby since most likely not pre-installed on *nix (except Fedora)
-if [ "$pkgApp" != "brew" ] || [ "$pkgApp" != "dnf" ]; then
+if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   msg "Installing Ruby"
   mkdir -p ~/.rbenv
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -702,7 +721,7 @@ fi
 
 # Note meslo S is a good macOS-like powerline font
 msg "Installing Powerline fonts"
-if [ "$pkgApp" != "apt" ] || [ "$pkgApp" != "dnf" ]; then
+if [ "$pkgApp" != "apt" ] && [ "$pkgApp" != "dnf" ]; then
   pushd ~/src/ > /dev/null
   git clone https://github.com/powerline/fonts.git --depth=1
   pushd fonts > /dev/null
