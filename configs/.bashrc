@@ -46,8 +46,13 @@ else
   export PS1="\[\e[1;34m\]\u@\h \[\e[1;33m\]\W $\[\e[0m\] "
 fi
 
-# set Neovim as default editor
-export VISUAL=nvim
+# set Neovim as default editor (when available)
+if command -v nvim > /dev/null; then
+  alias vim='nvim'
+  export VISUAL=nvim
+else
+  export VISUAL=vim
+fi
 export EDITOR="$VISUAL"
 
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr
@@ -114,11 +119,6 @@ fi
 
 # set terminal since other machines likely don't have our funky term settings
 alias ssh='TERM=xterm-256color ssh'
-
-# explicitly alias `vim`->`vimx` in Fedora
-if command -v vimx > /dev/null; then
-  alias vim='vimx'
-fi
 
 # easy updating for package management
 if [ "$(uname -s)" = "Linux" ]; then
