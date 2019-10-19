@@ -3,6 +3,7 @@
 osTyp="$(uname -s)"
 topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
 cpuTempStr=""
+windowWidth=$(tmux display-message -p "#{window_width}")
 
 if [ "$osTyp" = "Linux" ]; then
   memStr="$(free -m)"
@@ -60,4 +61,12 @@ function bar_color() {
   fi
 }
 
-echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)]"
+# make tmux responsive as it will only display certain features in status bar
+# based on current window width
+if [[ $windowWidth -ge 120 ]]; then
+  echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)] #[fg=colour233,bg=colour245] ⌚ $(date +'%T') "
+elif [[ $windowWidth -ge 80 ]]; then
+  echo -e "#[fg=colour233,bg=colour245] ⌚ $(date +'%T') "
+else
+  echo -e ""
+fi
