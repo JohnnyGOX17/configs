@@ -350,6 +350,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree'
   " Plugin to NERDTree showing `git` status flags to files
   Plug 'Xuyuanp/nerdtree-git-plugin'
+  " ranger-like key binding to NERDTree
+  Plug 'hankchiutw/nerdtree-ranger.vim'
 
 
   " SuperTab: Allow all Vim plugins insert modes to be fired off of <Tab> ----
