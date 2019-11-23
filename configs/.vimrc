@@ -409,7 +409,7 @@ call plug#begin('~/.vim/plugged')
 
 
   " VimGo: Go plugin for syntax, completion and other helpful functions ------
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 
   " VimGutentags: manages & auto-(re)generates tag files for project ---------
