@@ -179,6 +179,7 @@ if [ "$pkgApp" = "apt" ]; then
     brackets \
     build-essential \
     bzip2 \
+    calibre \
     checkinstall \
     cifs-utils \
     clang \
@@ -275,6 +276,7 @@ elif [ "$pkgApp" = "yum" ]; then
     bash-completion \
     bison \
     bzip2 \
+    calibre \
     centos-release-scl \
     cifs-utils \
     clang \
@@ -368,6 +370,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     acpid \
     apr-devel \
     bear \
+    calibre \
     cargo \
     clang \
     clang-analyzer \
@@ -412,6 +415,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     perl \
     powerline-fonts \
     python-devel \
+    python3-devel \
     python3-neovim \
     qemu \
     qemu-kvm \
@@ -451,6 +455,7 @@ elif [ "$pkgApp" = "dnf" ]; then
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
     amethyst \
+    calibre \
     google-chrome \
     iterm2 \
     visual-studio-code \
