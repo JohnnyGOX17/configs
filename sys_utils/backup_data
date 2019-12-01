@@ -31,4 +31,6 @@
 # Example Push: rsync landing folder -> backup drive (can setup in crontab)
 rsync -a --delete --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos/' --exclude 'src/' /home/jgentile/data/ /media/backup_hdd/
 rsync -a --delete /home/jgentile/src/ /media/backup_hdd/src/
+# Backup Chrome bookmarks
+cp /home/jgentile/.config/google-chrome/Default/Bookmarks /media/backup_hdd/
 echo "$(date)" > /media/backup_hdd/last_backup.txt
