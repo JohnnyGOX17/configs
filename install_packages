@@ -807,6 +807,9 @@ cp vim-colorschemes/colors/* ~/.vim/colors/
 rm -rf vim-colorschemes/
 popd > /dev/null
 
+# install tmux plugin manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 popd > /dev/null
 
 ###############################################################################
