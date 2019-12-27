@@ -168,8 +168,8 @@ fi
 
 
 # type less for faster push/pop dirs
-alias p='pushd'
-alias o='popd'
+alias p='pushd > /dev/null'
+alias o='popd > /dev/null'
 alias d='dirs -v'
 
 # clear screen and ls with one command
