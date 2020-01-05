@@ -64,9 +64,9 @@ function bar_color() {
 # make tmux responsive as it will only display certain features in status bar
 # based on current window width
 currDate="$(date +'%T')"
-if [[ $windowWidth -ge 120 ]]; then
+if [[ $windowWidth -gt 120 ]]; then
   echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)] #[fg=colour233,bg=colour245] $currDate "
-elif [[ $windowWidth -ge 80 ]]; then
+elif [[ $windowWidth -gt 80 ]]; then
   echo -e "#[fg=colour233,bg=colour245] ${currDate} "
 else
   echo -e ""
