@@ -1,52 +1,120 @@
-source "gpg -d ~/.mutt/passwords.gpg |"
+#
+# mutt setup for AWS email using servers at:
+# https://docs.aws.amazon.com/workmail/latest/userguide/using_IMAP_client.html
+#
+# Use GPG to encrypt password file for email:
+# 1) make sure to create a key pair (https://wiki.archlinux.org/index.php/GnuPG#Create_a_key_pair)
+# 2) Create a temp file 'password' with password like:
+#     set my_pass = "password"
+# 3) Encrypt the file as:
+#     $ gpg -r <gpg_username> -e password
+# 4) Move GPG encrypted file to ~/.mutt/
+source "gpg -dq ~/.mutt/password.gpg |"
 
+
+# Basics/Name -----------------------------------------------------------------
 set realname = "John Gentile"
-set from = "<johncgentile17@gmail.com>"
+set from = "<john.gentile@gent-systems.com>"
 set use_from = yes
 set envelope_from = yes
 
-set imap_user = "johncgentile17@gmail.com"
-set imap_keepalive = 30
-unset imap_passive # allow mutt to open new IMAP connection automatically
-set folder = "imaps://imap.gmail.com:993"
-set ssl_force_tls = yes
-set spoolfile = "+INBOX"
-set postponed = "+[Gmail]/Drafts"
+
+# Paths -----------------------------------------------------------------------
 set header_cache = ~/.mutt/jgentile/headers
 set message_cachedir = ~/.mutt/jgentile/bodies
 set certificate_file = ~/.mutt/certificates
-set smtp_url = "smtp://johncgentile17@gmail.com@smtp.gmail.com:587/"
-set move = no # Don't move msg out of inbox on quit
-set timeout = 60 # idle time before scanning
-set mail_check = 60 # how often to check for updates
 
-set editor = "vim"
+
+# AWS IMAP RX -----------------------------------------------------------------
+set imap_user = "john.gentile@gent-systems.com"
+set imap_pass = "$my_pass" # imported from GPG file
+set imap_keepalive = 30
+unset imap_passive # allow mutt to open new IMAP connection automatically
+set folder = "imaps://imap.mail.us-west-2.awsapps.com:993"
+set ssl_force_tls = yes
+set spoolfile = "+INBOX"
+set postponed = "+DRAFTS"
+
+
+# AWS SMTP TX -----------------------------------------------------------------
+set smtp_url = "smtps://$imap_user:$my_pass@smtp.mail.us-west-2.awsapps.com:465/"
+
+
+# Editor Options --------------------------------------------------------------
+set editor = "$EDITOR"
 set edit_headers = yes
 set charset = "utf-8"
 
-set beep_new # bell on new msg
-set pipe_decode # strip headers and eval mimes when piping
-set thorough_search # "" when searching
 
-# Gmail macros
-macro index,pager I  <set-flag>O      "Mark as read"
-macro index,pager U  <clear-flag>O    "Mark as unread"
-macro index,pager g0 <change-folder>=0inbox<enter>            "Go to 0inbox"
-macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>"        "Go to all mail"
-macro index,pager gs <change-folder>=[Gmail]/Starred<enter>   "Go to 'Starred'"
-macro index,pager gd <change-folder>=[Gmail]/Drafts<enter>    "Go to 'Drafts'"
-macro index,pager gl <change-folder>?                         "Go to 'Label'"
-macro index,pager gi <change-folder>=INBOX<enter>             "Go to inbox"
-macro index,pager gt "<change-folder>=[Gmail]/Sent Mail<enter>"       "Go to 'Sent Mail'"
-macro index,pager d "<save-message>=[Gmail]/Trash<enter>" "Trash"
-macro index,pager +  <save-message>=[Gmail]/Important<enter> "Mark as important"
-#macro index,pager !  <save-message>=[Gmail]/Spam<enter> "Report spam"
-#macro index,pager e  "<save-message>=[All]/Gmail Mail<enter><enter>" "Archive conversation"
-macro index,pager 0  "<save-message>=0inbox<enter>" "0inbox conversation"
+# Options/Settings ------------------------------------------------------------
+set move = no         # Don't move msg out of inbox on quit
+set timeout = 15      # idle time before scanning
+set mail_check = 60   # how often to check for updates
+set net_inc = 5       # Display download progress every 5K
+set beep_new          # bell on new msg
+set pipe_decode       # strip headers and eval mimes when piping
+set thorough_search   # "" when searching
+set fast_reply = yes  # don't prompt for recipient & subject in replu\y
+set include = yes
+set sleep_time = 0    # speed up folders switch
+set wait_key = no
+set mbox_type = Maildir
+# don't ask, just do it!
+set delete
+unset confirmappend
+set quit
+unset mark_old        # use only read/new
 
-#folder-hook +INBOX 'macro index,pager y "<save-message>=[Gmail]/All Mail<enter><enter>" "Archive conversation"'
-folder-hook +[Gmail]/Trash macro index,pager y <save-message>=INBOX<enter> "Move to inbox"
-folder-hook +0inbox 'macro index,pager y <save-message>=INBOX<enter> "Move to inbox"'
-folder-hook +[Gmail]/Starred bind  index,pager y flag-message #"Toggle star"
 
+# Sidebar ---------------------------------------------------------------------
+set sidebar_visible = no
+set sidebar_width = 20
+set sidebar_short_path = no
+
+
+# Index View Options ----------------------------------------------------------
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+# sort emails by date and group by conversation
+set sort = threads
+set sort_aux = reverse-last-date-received
+set uncollapse_jump # don't collapse on an unread message
+set sort_re # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+
+# Index Keybindings -----------------------------------------------------------
+bind index gg       first-entry
+bind index G        last-entry
+bind index R        group-reply
+bind index <tab>    sync-mailbox
+bind index za       collapse-thread
+# manually refresh IMAP mail
+bind index "^" imap-fetch-mail
+# Ctrl-R to mark all as read
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+
+
+# Pager View Options ----------------------------------------------------------
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+
+# Pager Key Bindings ----------------------------------------------------------
+bind pager k  previous-line
+bind pager j  next-line
+bind pager gg top
+bind pager G  bottom
+bind pager R  group-reply
+# View attachments properly.
+bind attach <return> view-mailcap
+
+
+# Colorscheme -----------------------------------------------------------------
 source ~/.mutt/mutt-colors-solarized-dark-256.muttrc
