@@ -89,6 +89,7 @@ bind index G        last-entry
 bind index R        group-reply
 bind index <tab>    sync-mailbox
 bind index za       collapse-thread
+bind index zA       collapse-all
 # manually refresh IMAP mail
 bind index "^" imap-fetch-mail
 # Ctrl-R to mark all as read
