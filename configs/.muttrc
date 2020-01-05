@@ -2,6 +2,10 @@
 # mutt setup for AWS email using servers at:
 # https://docs.aws.amazon.com/workmail/latest/userguide/using_IMAP_client.html
 #
+# Other useful articles can be found at:
+# - https://wiki.archlinux.org/index.php/mutt#Tips_and_tricks
+# - https://stevelosh.com/blog/2012/10/the-homely-mutt/
+#
 # Use GPG to encrypt password file for email:
 # 1) make sure to create a key pair (https://wiki.archlinux.org/index.php/GnuPG#Create_a_key_pair)
 # 2) Create a temp file 'password' with password like:
