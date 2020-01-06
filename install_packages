@@ -321,6 +321,7 @@ elif [ "$pkgApp" = "yum" ]; then
     llvm-toolset-7-clang-tools-extra \
     llvm-toolset-7-llvm-devel \
     make \
+    minicom \
     nano \
     nasm \
     neovim \
@@ -404,6 +405,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     lm_sensors \
     mediawriter \
     mesa-libGLU-devel \
+    minicom \
     mutt \
     nano \
     nasm \
