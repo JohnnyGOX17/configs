@@ -112,6 +112,8 @@ if [ "$pkgApp" = "apt" ]; then
   sudo apt -y dist-upgrade
 
 elif [ "$pkgApp" = "yum" ]; then
+  sudo yum -y install yum-utils
+
   #msg "Installing Google chrome repo file"
   #sudo cat << EOF > /etc/yum.repos.d/google-chrome.repo
   #[google-chrome]
@@ -128,6 +130,9 @@ elif [ "$pkgApp" = "yum" ]; then
   msg "Install VSCode repos"
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
   sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+
+  msg "Installing Docker repos"
+  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
   msg "yum upgrade (update and remove obsolete packages)"
   # Clean cache if needed:
@@ -154,9 +159,12 @@ elif [ "$pkgApp" = "dnf" ]; then
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
 
-  msg "Install VSCode repos"
+  msg "Installing VSCode repos"
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
   sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+
+  msg "Installing Docker repo"
+  sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
   sudo dnf -y upgrade
 
@@ -261,7 +269,6 @@ if [ "$pkgApp" = "apt" ]; then
   sudo apt -y autoremove
 
 elif [ "$pkgApp" = "yum" ]; then
-  sudo yum -y install yum-utils
   sudo yum -y groupinstall "Development Tools" \
     "Compatibility Libraries" \
     #"GNOME Desktop" \
@@ -284,10 +291,14 @@ elif [ "$pkgApp" = "yum" ]; then
     clang-devel \
     cmake \
     code \
+    containerd.io \
     ctags \
     curl \
     curl-devel \
+    device-mapper-persistent-data \
     devtoolset-8 \
+    docker-ce \
+    docker-ce-cli \
     g++ \
     gcc \
     gcc-arm-linux-gnu \
@@ -320,6 +331,7 @@ elif [ "$pkgApp" = "yum" ]; then
     llvm-toolset-7-clang-devel \
     llvm-toolset-7-clang-tools-extra \
     llvm-toolset-7-llvm-devel \
+    lvm2 \
     make \
     minicom \
     nano \
@@ -378,9 +390,12 @@ elif [ "$pkgApp" = "dnf" ]; then
     clang-devel \
     cmake \
     code \
+    containerd.io \
     csbuild \
     curl-devel \
     dkms \
+    docker-ce \
+    docker-ce-cli \
     gcc-gnat \
     gimp \
     ghdl \
