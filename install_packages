@@ -826,6 +826,7 @@ popd > /dev/null
 
 # install tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+msg "Tmux Plugin manager installed. NOTE: still need to install plugins with <prefix>+I"
 
 popd > /dev/null
 
