@@ -92,11 +92,10 @@ export MANPAGER='less -X'
 if [ "$(uname -s)" = "Linux" ]; then
   # add paths for - NVCC NVIDIA CUDA Compiler
   #               - MATLAB R2018b
-  #               - Vivado & SDK 2018.2
-  #               - Linaro build tools
+  #               - Vivado 2019.2
   #               - Ruby `rbenv`
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/bin/Xilinx/Vivado/2018.2/bin/:/home/jgentile/bin/Xilinx/SDK/2018.2/bin/:/home/jgentile/src/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin:/home/jgentile/data/apps/xilinx/Vivado/2019.2/bin
   export RTE_SDK=/home/jgentile/src/dpdk-19.02
   export RTE_TARGET=x86_64-native-linuxapp-gcc
   # Prevent ioctl error when gpg2 signing
