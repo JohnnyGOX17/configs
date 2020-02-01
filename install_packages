@@ -816,12 +816,17 @@ vim +'PlugInstall --sync' +qa
 # YCM seems to be the only plug-in requiring this extra step...
 ~/.vim/plugged/YouCompleteMe/install.py --all
 
-# vim-colorschemes
+# Vim & KiCad Colorschemes
 pushd ~/src > /dev/null
 git clone https://github.com/flazz/vim-colorschemes.git --depth=1
 mkdir -p ~/.vim/colors/
 cp vim-colorschemes/colors/* ~/.vim/colors/
 rm -rf vim-colorschemes/
+
+git clone https://github.com/pointhi/kicad-color-schemes.git
+pushd kicad-color-schemes > /dev/null
+python3 patch.py behave-dark/ ~/.config/kicad
+popd > /dev/null
 popd > /dev/null
 
 # install tmux plugin manager
