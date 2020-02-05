@@ -396,6 +396,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     dkms \
     docker-ce \
     docker-ce-cli \
+    dtc \
     gcc-gnat \
     gimp \
     ghdl \
