@@ -444,6 +444,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     rust \
     sqlite-devel \
     stress \
+    texlive-scheme-full \
     the_silver_searcher \
     tmux \
     vim \
