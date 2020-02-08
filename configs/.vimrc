@@ -37,7 +37,8 @@ endif
 " Use system CLIPBOARD register. Vim must be built w/clipboard support
 if (g:my_os == "Darwin") || (g:my_os == "Windows")
   set clipboard=unnamed
-else "*nix
+else
+  " *nix OS
   set clipboard=unnamedplus
 endif
 
@@ -447,6 +448,23 @@ call plug#begin('~/.vim/plugged')
 
   " VimSurround: Plugin to quickly edit brackers, quotes, tags, etc. ---------
   Plug 'tpope/vim-surround'
+
+
+  " VimTex: LaTeX writing support
+  Plug 'lervag/vimtex'
+  let g:tex_flavor='latex'
+  if (g:my_os == "Darwin")
+    let g:vimtex_view_method='skim'
+  else
+    let g:vimtex_view_method='zathura'
+  endif
+  let g:vimtex_quickfix_mode=0
+  set conceallevel=1
+  let g:tex_conceal='abdmg'
+  " use nvr to support `--servername` sync
+  if (g:my_os == "Linux")
+    let g:vimtex_compiler_progname = 'nvr'
+  endif
 
 
   " YouCompleteMe: Smart code-completion engine ------------------------------

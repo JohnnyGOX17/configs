@@ -95,7 +95,7 @@ if [ "$(uname -s)" = "Linux" ]; then
   #               - Vivado 2019.2
   #               - Ruby `rbenv`
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin:/home/jgentile/data/apps/xilinx/Vivado/2019.2/bin
+  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin:/home/jgentile/data/apps/xilinx/Vivado/2019.2/bin:/home/jgentile/.local/bin
   export RTE_SDK=/home/jgentile/src/dpdk-19.02
   export RTE_TARGET=x86_64-native-linuxapp-gcc
   # Prevent ioctl error when gpg2 signing

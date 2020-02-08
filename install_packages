@@ -577,6 +577,7 @@ sudo pip install awscli \
   proselint \
   speedtest-cli \
   vim-vint
+pip3 install neovim-remote --user
 
 ###############################################################################
 msg "Installing source-based programs"
