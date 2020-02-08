@@ -829,7 +829,11 @@ rm -rf vim-colorschemes/
 
 git clone https://github.com/pointhi/kicad-color-schemes.git
 pushd kicad-color-schemes > /dev/null
-python3 patch.py behave-dark/ ~/.config/kicad
+if [ "$(uname -s)" = "Darwin" ]; then
+  python3 patch.py behave-dark/ ~/Library/Preferences/kicad
+else
+  python3 patch.py behave-dark/ ~/.config/kicad
+fi
 popd > /dev/null
 popd > /dev/null
 
