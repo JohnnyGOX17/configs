@@ -476,6 +476,8 @@ elif [ "$pkgApp" = "brew" ]; then
     calibre \
     google-chrome \
     iterm2 \
+    kicad \
+    skim \
     visual-studio-code \
     vlc
 
