@@ -407,6 +407,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     htop \
     httpd-devel \
     infiniband-diags \
+    inkscape \
     irssi \
     kernel-devel \
     kernel-headers \
