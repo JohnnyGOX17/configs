@@ -452,7 +452,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     vsftpd \
     wine \
     xclip \
-    xrdp
+    xrdp \
+    zathura
 
   # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
   # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
