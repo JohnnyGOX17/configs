@@ -481,6 +481,7 @@ elif [ "$pkgApp" = "brew" ]; then
     google-chrome \
     iterm2 \
     kicad \
+    mactex \
     skim \
     visual-studio-code \
     vlc
