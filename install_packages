@@ -513,6 +513,7 @@ elif [ "$pkgApp" = "brew" ]; then
     grep --with-default-names \
     gtkwave \
     gzip \
+    handbrake \
     htop \
     icarus-verilog \
     irssi \
