@@ -550,7 +550,8 @@ elif [ "$pkgApp" = "brew" ]; then
     weechat \
     wget \
     wine \
-    winetricks
+    winetricks \
+    youtube-dl
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
   brew cleanup
