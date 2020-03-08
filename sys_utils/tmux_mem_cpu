@@ -29,14 +29,15 @@ elif [ "$osTyp" = "Darwin" ]; then
   psVal="${psVal1}:$(echo "$topPs" | awk '{print $3}')"
 
   # iStats: https://github.com/Chris911/iStats (install varies)
-  iStatLoc="/usr/local/lib/ruby/gems/2.6.0/bin/istats"
-  cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
+  #iStatLoc="/usr/local/lib/ruby/gems/2.6.0/bin/istats"
+  #cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
   # Uncomment & replace if you want thresholding for when temp should display
   #cpuTempThresh=40.0
   #if (( $(echo "${cpuTemp} > ${cpuTempThresh}" | bc -l) )); then
   #  cpuTempStr="#[bold] ♨ CPU Temp:#[nobold] ${cpuTemp}°C |"
   #fi
-  cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp}°C |"
+  #cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp}°C |"
+  cpuTempStr=""
 fi
 
 cpuVal="$(echo "$topPs" | awk '{print $1}')"
