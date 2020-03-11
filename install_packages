@@ -412,6 +412,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     kernel-devel \
     kernel-headers \
     kicad \
+    kicad-doc \
+    kicad-packages3d \
     libibverbs-utils \
     libyaml-devel \
     libXi-devel \
