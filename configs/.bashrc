@@ -217,19 +217,19 @@ fi
 # Find if ssh-agent process is already running. If not, start it and auto add
 # private key from default location. If running do nothing. If more than one
 # process running, kill last one
-#case "$(pidof ssh-agent | wc -w)" in
-#  0) eval "$(ssh-agent)"
-#    ssh-add
-#    ;;
-#  1)
-#    ;;
-#  *) kill "$(pidof ssh-agent | awk '{print $1}')"
-#    ;;
-#esac
-# NOTE: changed to below as above had scenarios when creating new terminal windows
+case "$(pidof ssh-agent | wc -w)" in
+  0) eval "$(ssh-agent)"
+    ssh-add
+    ;;
+  1)
+    ;;
+  *) kill "$(pidof ssh-agent | awk '{print $1}')"
+    ;;
+esac
+# NOTE: change to below when above has scenarios when creating new terminal windows
 #       that did not add SSH properly, especially with static tmux windows
-eval "$(ssh-agent)"
-ssh-add
+#eval "$(ssh-agent)"
+#ssh-add
 
 # Initiate Ruby environment
 if [ $(command -v rbenv) ]; then
