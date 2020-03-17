@@ -847,6 +847,26 @@ fi
 popd > /dev/null
 popd > /dev/null
 
+# KiCad Plugins
+mkdir -p ~/.kicad_plugins
+pushd ~/.kicad_plugins > /dev/null
+git clone https://github.com/MitjaNemec/Kicad_action_plugins.git
+mv Kicad_action_plugins/* ./
+rm -rf Kicad_action_plugins/
+
+git clone https://github.com/NilujePerchut/kicad_scripts.git
+mv kicad_scripts/teardrops/ ./
+rm -rf kicad_scripts/
+
+git clone https://github.com/easyw/RF-tools-KiCAD.git
+
+git clone https://github.com/easyw/kicad-action-scripts.git
+mv kicad-action-scripts/CircularZone ./
+mv kicad-action-scripts/ViaStitching ./
+rm -rf kicad-action-scripts/
+pip install pyclipper --user
+popd > /dev/null
+
 # install tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 msg "Tmux Plugin manager installed. NOTE: still need to install plugins with <prefix>+I"
