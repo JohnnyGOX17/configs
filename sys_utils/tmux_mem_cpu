@@ -1,74 +1,74 @@
 #!/bin/bash
 
-osTyp="$(uname -s)"
-topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
-cpuTempStr=""
 windowWidth=$(tmux display-message -p "#{window_width}")
-
-if [ "$osTyp" = "Linux" ]; then
-  memStr="$(free -m)"
-  memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
-  memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
-  psVal="$(echo "$topPs" | awk '{print $2 ":" $3}')"
-
-  # Machine specific for now since lm-sensors output is weird w/mobo
-  cpuTemp=$(sensors | awk '$1 ~ /^temp3/' | cut -c16-21)
-  cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp} |"
-
-elif [ "$osTyp" = "Darwin" ]; then
-  # NOTE: below not used since top is slow on Mac and reflects "inactive" memory as well as active
-  #memStr="$(top -l 1 -s 0 | grep PhysMem)"
-  #memVal="$(echo "$memStr" | awk '{ print int(1000*$2/($2+$6))/10 }')"
-  #memUse="$(echo "$memStr" | awk '{ print int($2/10.24)/100 }')"
-  # reflect only active memory usage
-  memUse="$(vm_stat | sed -n 's/^Pages active:\ *\([0-9]\)/\1/p' | awk '{print (int($1 * 100 * (4096/(1024*1024*1024))))/100}')"
-  memTot="$(sysctl -a | sed -n 's/^hw.memsize: \([0-9]\)/\1/p' | awk '{print $1/(1024*1024*1024)}')"
-  memVal="$(echo "scale=2 ; 100 * $memUse / $memTot" | bc)"
-  # macOS sometimes prints full path of executable so parse out
-  psVal1="$(echo "$topPs" | awk '{print $2 }' | xargs -n 1 basename)"
-  psVal="${psVal1}:$(echo "$topPs" | awk '{print $3}')"
-
-  # iStats: https://github.com/Chris911/iStats (install varies)
-  #iStatLoc="/usr/local/lib/ruby/gems/2.6.0/bin/istats"
-  #cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
-  # Uncomment & replace if you want thresholding for when temp should display
-  #cpuTempThresh=40.0
-  #if (( $(echo "${cpuTemp} > ${cpuTempThresh}" | bc -l) )); then
-  #  cpuTempStr="#[bold] ♨ CPU Temp:#[nobold] ${cpuTemp}°C |"
-  #fi
-  #cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp}°C |"
+if [[ $windowWidth -gt 80 ]]; then # only continue if wider than 80 chars
+  osTyp="$(uname -s)"
+  topPs="$(ps -eo pcpu,comm,pid | sort -rn | head -n 1)"
   cpuTempStr=""
-fi
 
-cpuVal="$(echo "$topPs" | awk '{print $1}')"
+  if [ "$osTyp" = "Linux" ]; then
+    memStr="$(free -m)"
+    memVal="$(echo "$memStr" | awk '/Mem:/ { print int($3*1000/$2)/10 } ')"
+    memUse="$(echo "$memStr" | awk '/Mem:/ { print int($3/10.24)/100 }')"
+    psVal="$(echo "$topPs" | awk '{print $2 ":" $3}')"
 
-function bar_color() {
-  if (( $(echo "$1 < 12.5" | bc -l) )); then
-    echo "#[fg=colour28]▁#[default]"
-  elif (( $(echo "$1 < 25" | bc -l) )); then
-    echo "#[fg=colour40]▂#[default]"
-  elif (( $(echo "$1 < 37.5" | bc -l) )); then
-    echo "#[fg=colour193]▃#[default]"
-  elif (( $(echo "$1 < 50" | bc -l) )); then
-    echo "#[fg=colour190]▄#[default]"
-  elif (( $(echo "$1 < 62.5" | bc -l) )); then
-    echo "#[fg=colour220]▅#[default]"
-  elif (( $(echo "$1 < 75" | bc -l) )); then
-    echo "#[fg=colour202]▆#[default]"
-  elif (( $(echo "$1 < 87.5" | bc -l) )); then
-    echo "#[fg=colour196]▇#[default]"
-  else
-    echo "#[fg=colour160]█#[default]"
+    # Machine specific for now since lm-sensors output is weird w/mobo
+    cpuTemp=$(sensors | awk '$1 ~ /^temp3/' | cut -c16-21)
+    cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp} |"
+
+  elif [ "$osTyp" = "Darwin" ]; then
+    # NOTE: below not used since top is slow on Mac and reflects "inactive" memory as well as active
+    #memStr="$(top -l 1 -s 0 | grep PhysMem)"
+    #memVal="$(echo "$memStr" | awk '{ print int(1000*$2/($2+$6))/10 }')"
+    #memUse="$(echo "$memStr" | awk '{ print int($2/10.24)/100 }')"
+    # reflect only active memory usage
+    memUse="$(vm_stat | sed -n 's/^Pages active:\ *\([0-9]\)/\1/p' | awk '{print (int($1 * 100 * (4096/(1024*1024*1024))))/100}')"
+    memTot="$(sysctl -a | sed -n 's/^hw.memsize: \([0-9]\)/\1/p' | awk '{print $1/(1024*1024*1024)}')"
+    memVal="$(echo "scale=2 ; 100 * $memUse / $memTot" | bc)"
+    # macOS sometimes prints full path of executable so parse out
+    psVal1="$(echo "$topPs" | awk '{print $2 }' | xargs -n 1 basename)"
+    psVal="${psVal1}:$(echo "$topPs" | awk '{print $3}')"
+
+    # iStats: https://github.com/Chris911/iStats (install varies)
+    #iStatLoc="/usr/local/lib/ruby/gems/2.6.0/bin/istats"
+    #cpuTemp=$(${iStatLoc} cpu temp --value-only | tr -d ' ')
+    # Uncomment & replace if you want thresholding for when temp should display
+    #cpuTempThresh=40.0
+    #if (( $(echo "${cpuTemp} > ${cpuTempThresh}" | bc -l) )); then
+    #  cpuTempStr="#[bold] ♨ CPU Temp:#[nobold] ${cpuTemp}°C |"
+    #fi
+    #cpuTempStr="#[bold] CPU Temp:#[nobold] ${cpuTemp}°C |"
+    cpuTempStr=""
   fi
-}
 
-# make tmux responsive as it will only display certain features in status bar
-# based on current window width
-currDate="$(date +'%T')"
-if [[ $windowWidth -gt 120 ]]; then
-  echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)] #[fg=colour233,bg=colour245] $currDate "
-elif [[ $windowWidth -gt 80 ]]; then
-  echo -e "#[fg=colour233,bg=colour245] ${currDate} "
-else
-  echo -e ""
+  cpuVal="$(echo "$topPs" | awk '{print $1}')"
+
+  function bar_color() {
+    if (( $(echo "$1 < 12.5" | bc -l) )); then
+      echo "#[fg=colour28]▁#[default]"
+    elif (( $(echo "$1 < 25" | bc -l) )); then
+      echo "#[fg=colour40]▂#[default]"
+    elif (( $(echo "$1 < 37.5" | bc -l) )); then
+      echo "#[fg=colour193]▃#[default]"
+    elif (( $(echo "$1 < 50" | bc -l) )); then
+      echo "#[fg=colour190]▄#[default]"
+    elif (( $(echo "$1 < 62.5" | bc -l) )); then
+      echo "#[fg=colour220]▅#[default]"
+    elif (( $(echo "$1 < 75" | bc -l) )); then
+      echo "#[fg=colour202]▆#[default]"
+    elif (( $(echo "$1 < 87.5" | bc -l) )); then
+      echo "#[fg=colour196]▇#[default]"
+    else
+      echo "#[fg=colour160]█#[default]"
+    fi
+  }
+
+  # make tmux responsive as it will only display certain features in status bar
+  # based on current window width
+  currDate="$(date +'%T')"
+  if [[ $windowWidth -gt 120 ]]; then
+    echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)] #[fg=colour233,bg=colour245] $currDate "
+  else # [[ $windowWidth -gt 80 ]]; then
+    echo -e "#[fg=colour233,bg=colour245] ${currDate} "
+  fi
 fi
