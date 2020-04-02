@@ -580,13 +580,22 @@ if [ "$pkgApp" = "brew" ]; then
   sudo gem install iStats
 fi
 
-# TODO: system dependent pip?
+# Install Python packages w/pip as the current user
 msg "Installing Python modules via pip"
-sudo pip install awscli \
+python -m pip install --user \
+  awscli \
+  ipython \
+  jupyter \
+  matplotlib \
+  neovim-remote \
+  nose \
+  numpy \
+  pandas \
   proselint \
+  scipy \
   speedtest-cli \
+  sympy \
   vim-vint
-pip3 install neovim-remote --user
 
 ###############################################################################
 msg "Installing source-based programs"
