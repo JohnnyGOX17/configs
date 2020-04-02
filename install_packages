@@ -237,6 +237,7 @@ if [ "$pkgApp" = "apt" ]; then
     python3-dev \
     python-neovim \
     python3-neovim \
+    python3-matplotlib \
     python-pydot \
     python-pydot-ng \
     python-sphinx \
@@ -348,6 +349,7 @@ elif [ "$pkgApp" = "yum" ]; then
     python34 \
     python34-devel \
     python3-neovim \
+    python3-matplotlib \
     qemu \
     qemu-kvm \
     qperf \
@@ -438,6 +440,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     python-devel \
     python3-devel \
     python3-neovim \
+    python3-matplotlib \
     qemu \
     qemu-kvm \
     ranger \
