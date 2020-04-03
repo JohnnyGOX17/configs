@@ -208,6 +208,7 @@ if [ "$pkgApp" = "apt" ]; then
     gimp \
     git \
     gnat-5 \
+    gnuradio \
     google-chrome-stable \
     graphviz \
     gtkwave \
@@ -307,6 +308,7 @@ elif [ "$pkgApp" = "yum" ]; then
     gimp \
     git-core \
     gnome-tweaks \
+    gnuradio \
     google-chrome-stable \
     gtkwave \
     htop \
@@ -403,6 +405,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     gimp \
     ghdl \
     gnome-tweaks \
+    gnuradio \
     golang \
     google-chrome-stable \
     gtkwave \
