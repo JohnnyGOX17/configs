@@ -460,6 +460,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     VirtualBox-6.0 \
     vsftpd \
     wine \
+    wireshark \
     xclip \
     xrdp \
     zathura \
