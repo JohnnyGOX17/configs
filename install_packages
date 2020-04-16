@@ -433,6 +433,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     mutt \
     nano \
     nasm \
+    ncurses-compat-libs \
     neovim \
     nmap \
     nodejs \
