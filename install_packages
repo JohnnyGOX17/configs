@@ -389,6 +389,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     bear \
     calibre \
     cargo \
+    chrpath \
     clang \
     clang-analyzer \
     clang-devel \
@@ -451,6 +452,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     readline-devel \
     ruby-devel \
     rust \
+    socat \
     sqlite-devel \
     stress \
     texlive-scheme-full \
@@ -464,6 +466,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     wireshark \
     xclip \
     xrdp \
+    xterm \
     zathura \
     zathura-plugins-all
 
