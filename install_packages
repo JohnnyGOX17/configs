@@ -450,6 +450,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     qemu-kvm \
     ranger \
     readline-devel \
+    rpcgen \
     ruby-devel \
     rust \
     socat \
