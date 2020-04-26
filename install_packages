@@ -462,6 +462,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     vim \
     vim-X11 \
     VirtualBox-6.0 \
+    virtualenv \
     vsftpd \
     wine \
     wireshark \
