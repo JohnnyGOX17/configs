@@ -94,6 +94,7 @@ if [ "$pkgApp" = "apt" ]; then
   # VirtualBox 5.x- use repo for Ubuntu 16.04 (Xenial)
   echo "deb http://download.virtualbox.org/virtualbox/debian xenial contrib" > /etc/apt/sources.list.d/virtualbox.list
   wget -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add -
+  msg "NOTE: VirtualBox Extension pack still needs to be manually installed since covered by different, Oracle license"
 
   # Wine stable 2.0+ and Play on linux
   dpkg --add-architecture i386
@@ -126,6 +127,7 @@ elif [ "$pkgApp" = "yum" ]; then
 
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/rhel/virtualbox.repo -P /etc/yum.repos.d/
+  msg "NOTE: VirtualBox Extension pack still needs to be manually installed since covered by different, Oracle license"
 
   msg "Install VSCode repos"
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -158,6 +160,7 @@ elif [ "$pkgApp" = "dnf" ]; then
 
   msg "Installing latest VirtualBox repo file"
   sudo wget http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo -P /etc/yum.repos.d/
+  msg "NOTE: VirtualBox Extension pack still needs to be manually installed since covered by different, Oracle license"
 
   msg "Installing VSCode repos"
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
