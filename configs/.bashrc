@@ -118,6 +118,8 @@ fi
 
 # set terminal since other machines likely don't have our funky term settings
 alias ssh='TERM=xterm-256color ssh'
+# start SSH & add key for current session
+alias ssh-init='eval "$(ssh-agent)" && ssh-add'
 
 # easy updating for package management
 if [ "$(uname -s)" = "Linux" ]; then
@@ -183,9 +185,6 @@ alias ranger='source ranger'
 # tmux should assume 256 color terminal support
 alias tmux='tmux -2'
 
-# PetaLinux environment configs (don't source on entry since can take awhile)
-alias peta_init='. ~/src/petalinux/2018.2/settings.sh > /dev/null'
-
 # create daily logbook
 function lb() {
   mkdir -p ~/logbook
@@ -213,23 +212,6 @@ complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-
 if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
   tmux new-session -A -s dev
 fi
-
-# Find if ssh-agent process is already running. If not, start it and auto add
-# private key from default location. If running do nothing. If more than one
-# process running, kill last one
-case "$(pidof ssh-agent | wc -w)" in
-  0) eval "$(ssh-agent)"
-    ssh-add
-    ;;
-  1)
-    ;;
-  *) kill "$(pidof ssh-agent | awk '{print $1}')"
-    ;;
-esac
-# NOTE: change to below when above has scenarios when creating new terminal windows
-#       that did not add SSH properly, especially with static tmux windows
-#eval "$(ssh-agent)"
-#ssh-add
 
 # Initiate Ruby environment
 if [ $(command -v rbenv) ]; then
