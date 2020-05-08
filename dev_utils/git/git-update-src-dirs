@@ -6,20 +6,21 @@ RED='\033[1;31m'
 BLU='\033[1;34m'
 NC='\033[0m'
 
+# @JCG: not used, use `ssh-init` macro in bashrc instead for each term sesh
 # Find if ssh-agent process is already running. If not, start it and auto add
 # private key from default location. If running do nothing. If more than one
 # process running, kill last one
-case "$(pidof ssh-agent | wc -w)" in
-  0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
-    eval "$(ssh-agent)"
-    ssh-add
-    ;;
-  1) echo -e "\n${BLU}ssh-agent already running: $(pidof ssh-agent)${NC}"
-    ;;
-  *) echo -e "\n${RED}Removing double process of ssh-agent: $(pidof ssh-agent | awk '{print $1}')${NC}"
-    kill "$(pidof ssh-agent | awk '{print $1}')"
-    ;;
-esac
+#case "$(pidof ssh-agent | wc -w)" in
+#  0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
+#    eval "$(ssh-agent)"
+#    ssh-add
+#    ;;
+#  1) echo -e "\n${BLU}ssh-agent already running: $(pidof ssh-agent)${NC}"
+#    ;;
+#  *) echo -e "\n${RED}Removing double process of ssh-agent: $(pidof ssh-agent | awk '{print $1}')${NC}"
+#    kill "$(pidof ssh-agent | awk '{print $1}')"
+#    ;;
+#esac
 
 pushd ~/src > /dev/null
 
