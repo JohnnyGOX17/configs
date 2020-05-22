@@ -219,6 +219,7 @@ if [ "$pkgApp" = "apt" ]; then
     helix-p4d \
     highlight \
     htop \
+    hugo \
     ike \
     irssi \
     kicad \
@@ -317,6 +318,7 @@ elif [ "$pkgApp" = "yum" ]; then
     htop \
     httpd \
     httpd-devel \
+    hugo \
     ibutils \
     infiniband-diags \
     kernel-devel \
@@ -418,6 +420,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     gtkwave \
     htop \
     httpd-devel \
+    hugo \
     infiniband-diags \
     inkscape \
     irssi \
@@ -537,6 +540,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gzip \
     handbrake \
     htop \
+    hugo \
     icarus-verilog \
     irssi \
     less \
