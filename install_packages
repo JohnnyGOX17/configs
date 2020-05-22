@@ -408,6 +408,9 @@ elif [ "$pkgApp" = "dnf" ]; then
     gcc-gnat \
     gimp \
     ghdl \
+    ghdl-grt \
+    ghdl-llvm \
+    ghdl-llvm-grt \
     gnome-tweaks \
     gnuradio \
     golang \
