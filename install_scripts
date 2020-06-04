@@ -3,6 +3,7 @@
 insLoc=/usr/local/bin/
 
 cp ./dev_utils/generate-sitemap          $insLoc
+cp ./dev_utils/lsusb_sysdevpath          $insLoc
 cp ./dev_utils/git/git-print-TODOs       $insLoc
 cp ./dev_utils/git/git-rewrite-author    $insLoc
 cp ./dev_utils/git/git-status-src-dirs   $insLoc
