@@ -470,7 +470,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     tmux \
     vim \
     vim-X11 \
-    VirtualBox-6.0 \
+    VirtualBox \
+    virtualbox-guest-additions \
     virtualenv \
     vsftpd \
     wine \
