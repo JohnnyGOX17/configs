@@ -460,6 +460,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     ranger \
     readline-devel \
     rpcgen \
+    rtl-sdr \
+    rtl-sdr-devel \
     ruby-devel \
     rust \
     socat \
