@@ -417,6 +417,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     gnuradio \
     golang \
     google-chrome-stable \
+    gqrx \
     gtkwave \
     htop \
     httpd-devel \
@@ -431,6 +432,8 @@ elif [ "$pkgApp" = "dnf" ]; then
     kicad-packages3d \
     libibverbs-utils \
     libyaml-devel \
+    libusb \
+    libusb-devel \
     libXi-devel \
     libXmu-devel \
     libX11-devel \
