@@ -482,13 +482,12 @@ elif [ "$pkgApp" = "dnf" ]; then
     wine \
     wireshark \
     xclip \
+    xorg-x11-drv-nvidia \
+    xorg-x11-drv-nvidia-cuda \
     xrdp \
     xterm \
     zathura \
     zathura-plugins-all
-
-  # Follow steps to install NVIDIA drivers like: https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
-  # And/or install CUDA: https://www.if-not-true-then-false.com/2018/install-nvidia-cuda-toolkit-on-fedora/
 
   msg "GHDL: if seeing linking errors due to libgnat-* version mismatch see: https://forums.fedoraforum.org/showthread.php?318086-ghdl-in-Fedora-28"
 
