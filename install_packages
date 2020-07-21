@@ -539,6 +539,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gnu-tar --with-default-names \
     gnu-which --with-default-names \
     gnutls \
+    go \
     gpatch \
     grep --with-default-names \
     gtkwave \
