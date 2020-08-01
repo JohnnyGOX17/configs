@@ -610,6 +610,7 @@ fi
 msg "Installing Python modules via pip"
 python -m pip install --user \
   awscli \
+  black \
   ipython \
   jupyter \
   matplotlib \
