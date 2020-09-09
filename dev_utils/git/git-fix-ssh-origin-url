@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# When using REST API to clone repos, the SSH URL is often in the form of:
+# git://SERVER.com/USER/REPO.git
+# but the format should be:
+# git@SERVER.com:USER/REPO.git
+# also transforms HTTPS URLs -> SSH
+# Similar to -> https://gist.github.com/m14t/3056747
+
+oldOrigin="$(git remote get-url origin)"
+domainName="$(echo $oldOrigin | awk -F[/:] '{print $4}')"
+if [ -z "$domainName" ]; then
+  echo "ERROR: Domain name not found"
+  exit
+fi
+userName="$(echo $oldOrigin | awk -F[/:] '{print $5}')"
+if [ -z "$userName" ]; then
+  echo "ERROR: User name not found"
+  exit
+fi
+repoName="$(echo $oldOrigin | awk -F[/:] '{print $6}')"
+if [ -z "$repoName" ]; then
+  echo "ERROR: Repo name not found"
+  exit
+fi
+
+newOrigin="git@$domainName:$userName/$repoName"
+git remote set-url origin $newOrigin
+echo -e "Changed git origin URL from:\n\t$oldOrigin ->\n\t$newOrigin"
