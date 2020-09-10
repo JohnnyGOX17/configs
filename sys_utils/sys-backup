@@ -59,14 +59,14 @@ pushd ~/ > /dev/null
 if [ -d "$localDir" ]; then
   msg "Doing dry run to check differences: ${delOpt}"
   # to understand -i itemized rsync output see http://www.staroceans.org/e-book/understanding-the-output-of-rsync-itemize-changes.html
-  rsync -aivhzPn ${delOpt} --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
+  rsync -aivhzPn ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   echo
 
   read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     msg "Syncing data:"
-    rsync -avhzP ${delOpt} --stats --exclude '.DS_Store' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
+    rsync -avhzP ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' $fromDir $toDir
   else
     msg "No file changes made. Exiting..."
     exit 0
