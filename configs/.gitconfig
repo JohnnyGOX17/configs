@@ -56,3 +56,5 @@
 [user]
 	name = Gentile, John
 	email = johncgentile17@gmail.com
+[pull]
+	rebase = false
