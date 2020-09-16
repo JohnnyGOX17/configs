@@ -211,9 +211,9 @@ set foldlevel=99
 " Backups (move '~' appended files to temp dir)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/tmp
 set backupskip=/tmp//*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/tmp
 set writebackup
 
 
