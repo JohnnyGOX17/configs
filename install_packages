@@ -236,6 +236,7 @@ if [ "$pkgApp" = "apt" ]; then
     nasm \
     neovim \
     nmap \
+    npm \
     okular \
     playonlinux \
     python-dev \
@@ -252,6 +253,7 @@ if [ "$pkgApp" = "apt" ]; then
     remmina \
     remmina-plugin-rdp \
     remmina-plugin-secret \
+    ruby \
     scrot \
     shellcheck \
     silversearcher-ag \
