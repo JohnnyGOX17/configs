@@ -36,5 +36,4 @@ sys_utils/
 
 ## Todo
 
-- [ ] make a hidden file in user dir to compare git hash to know if anything needs to be updated from repo
 - [ ] add tmux line to let know if git repos need updating and/or if updates need to be made due to this repo
