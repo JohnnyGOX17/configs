@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Colors for printing
+BLU='\033[1;34m'
+NC='\033[0m'
+
+# change for differenct src directory
+pushd ~/src > /dev/null
+
+# Iterate through directories in src/ and check git status
+i=0
+for d in */ ; do
+  pushd $d > /dev/null
+  if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+    oldOrigin="$(git remote get-url origin)"
+    if [[ $oldOrigin == git@* ]]; then # build git:// URL so no auth needed to check
+      domainName="$(echo $oldOrigin | awk -F[@/:] '{print $2}')"
+      userName="$(echo $oldOrigin | awk -F[@/:] '{print $3}')"
+      repoName="$(echo $oldOrigin | awk -F[@/:] '{print $4}')"
+      git fetch git://$domainName/$userName/$repoName &> /dev/null
+    else # no authentication needed
+      git fetch origin > /dev/null
+    fi
+    gitDiffStr="$(git diff HEAD origin/master)"
+    if [ -n "$gitDiffStr" ]; then
+      echo -e "\n${BLU}[$d]${NC}"
+      git diff HEAD origin/master
+      let i++
+    fi;
+  fi;
+  popd > /dev/null
+done
+
+if [ $i -gt 0 ]; then
+  echo " ⚙ Git Repo Updates Available: $i " > /tmp/sys_git_updates
+else
+  echo "" > /tmp/sys_git_updates
+fi;
+
+popd > /dev/null
