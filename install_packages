@@ -272,7 +272,8 @@ if [ "$pkgApp" = "apt" ]; then
     weechat \
     wget \
     winehq-stable \
-    xclip
+    xclip \
+    zathura
 
   sudo apt -y autoremove
 
