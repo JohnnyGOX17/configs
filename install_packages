@@ -223,8 +223,12 @@ if [ "$pkgApp" = "apt" ]; then
     ike \
     irssi \
     kicad \
+    latexmk \
     libelf-dev \
     libevent-dev \
+    libgtk-3-dev \
+    libmagic-dev \
+    libsynctex-dev \
     libvirt-bin \
     lldb-5.0 \
     lld-5.0 \
