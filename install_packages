@@ -264,6 +264,7 @@ if [ "$pkgApp" = "apt" ]; then
     spotify-client \
     stress \
     tcl \
+    texlive-full \
     tree \
     unrar \
     urlview \
