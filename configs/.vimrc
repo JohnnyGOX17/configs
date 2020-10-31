@@ -125,6 +125,7 @@ augroup END
 " Searching & Movement
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch       " search as characters are entered
+set inccommand=nosplit
 set hlsearch        " highlight matches
 set ignorecase      " Ignore case when searching
 " highlight last inserted text
