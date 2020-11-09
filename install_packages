@@ -107,6 +107,11 @@ if [ "$pkgApp" = "apt" ]; then
   sh -c 'echo "deb https://weechat.org/ubuntu $(lsb_release -cs) main" >>  /etc/apt/sources.list.d/weechat.list'
   apt-key adv --keyserver keys.gnupg.net --recv-keys
 
+  # Bazel
+  curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+  sudo mv bazel.gpg /etc/apt/trusted.gpg.d/
+  echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+
   # Update and pull in all new repos
   sudo apt update
   # Use dist-upgrade to smart dependency changing and conflict resolution
@@ -813,6 +818,16 @@ if [ "$pkgApp" != "apt" ] && [ "$pkgApp" != "dnf" ]; then
   rm -rf fonts/
   popd > /dev/null
 fi
+
+msg "Installing gTile window tiling for Gnome DM"
+pushd ~/src/ > /dev/null
+git clone --depth=1 https://github.com/gTile/gTile.git
+pushd gTile/ > /dev/null
+bazel run :install-extension
+popd > /dev/null
+rm -rf gTile/
+popd > /dev/null
+
 
 popd > /dev/null
 
