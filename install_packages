@@ -609,6 +609,7 @@ fi
 msg "Installing npm packages"
 sudo npm install -g grunt-cli \
   gulp-cli \
+  speed-test \
   write-good
 
 msg "Installing Gems"
