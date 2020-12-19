@@ -627,6 +627,7 @@ python -m pip install --user \
   black \
   ipython \
   jupyter \
+  jupyterlab \
   matplotlib \
   neovim-remote \
   nose \
