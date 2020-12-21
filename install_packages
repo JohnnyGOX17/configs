@@ -562,6 +562,8 @@ elif [ "$pkgApp" = "brew" ]; then
     hugo \
     icarus-verilog \
     irssi \
+    ipython \
+    jupyter \
     less \
     m4 \
     make \
@@ -571,6 +573,7 @@ elif [ "$pkgApp" = "brew" ]; then
     neovim \
     nmap \
     node \
+    numpy \
     openssh \
     perl \
     pidof \
@@ -580,6 +583,7 @@ elif [ "$pkgApp" = "brew" ]; then
     ranger \
     reattach-to-user-namespace \
     rsync \
+    scipy \
     svn \
     tcl-tk \
     the_silver_searcher \
