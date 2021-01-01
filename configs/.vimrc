@@ -318,6 +318,9 @@ call plug#begin('~/.vim/plugged')
   \ 'vhdl': ['ghdl'],
   \ 'verilog': ['vlog'],
   \}
+  " For VHDL 2008, use openieee for IEEE packages:
+  " https://github.com/ghdl/ghdl/issues/1255#issuecomment-619308878
+  let g:ale_vhdl_ghdl_options = '--std=08 --enable-openieee'
 
 
   " CtrlP: Full path fuzzy file, buffer, mru, tag... finder ------------------
