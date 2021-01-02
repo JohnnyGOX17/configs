@@ -629,6 +629,7 @@ msg "Installing Python modules via pip"
 python -m pip install --user \
   awscli \
   black \
+  cocotb \
   ipython \
   jupyter \
   jupyterlab \
