@@ -186,6 +186,9 @@ msg "Install Basic Development Parts & General Tools"
 # NOTE: If certain programs/packages are not wanted they can be easily commented out
 msg "Installing applications using $pkgApp"
 
+# path/executable for python/pip install
+pythonExe=""
+
 if [ "$pkgApp" = "apt" ]; then
   sudo apt-get -y --install-recommends install \
     autoconf \
@@ -215,6 +218,7 @@ if [ "$pkgApp" = "apt" ]; then
     gcc \
     gimp \
     git \
+    gnat \
     gnat-5 \
     gnuradio \
     google-chrome-stable \
@@ -283,9 +287,12 @@ if [ "$pkgApp" = "apt" ]; then
     wget \
     winehq-stable \
     xclip \
-    zathura
+    zathura \
+    zlib1g-dev
 
   sudo apt -y autoremove
+
+  pythonExe="pip3"
 
 elif [ "$pkgApp" = "yum" ]; then
   sudo yum -y groupinstall "Development Tools" \
@@ -395,6 +402,8 @@ elif [ "$pkgApp" = "yum" ]; then
   # KiCad install
   # Flatpak _should_ be installed by default in CentOS 7+
   flatpak install --from https://flathub.org/repo/appstream/org.kicad_pcb.KiCad.flatpakref
+
+  pythonExe="pip3"
 
 elif [ "$pkgApp" = "dnf" ]; then
   # Assuming standard, modern Fedora install
@@ -516,6 +525,8 @@ elif [ "$pkgApp" = "dnf" ]; then
 
   msg "NOTE: to use shared folders in VirtualBox, do: '# /usr/lib/virtualbox/vboxdrv.sh setup && usermod -a -G vboxusers $USER'"
 
+  pythonExe="pip3"
+
 elif [ "$pkgApp" = "brew" ]; then
   brew cask install \
     amethyst \
@@ -605,8 +616,8 @@ elif [ "$pkgApp" = "brew" ]; then
   brew cleanup
 
   # Seperately install Python Neovim support for macOS
-  #pip2 install neovim --upgrade
   pip3 install neovim --upgrade
+  pythonExe="pip3"
 
 fi
 
@@ -626,7 +637,8 @@ fi
 
 # Install Python packages w/pip as the current user
 msg "Installing Python modules via pip"
-python -m pip install --user \
+#python -m pip install --user \
+${pythonExe} install --user \
   awscli \
   black \
   cocotb \
@@ -642,7 +654,8 @@ python -m pip install --user \
   scipy \
   speedtest-cli \
   sympy \
-  vim-vint
+  vim-vint \
+  vunit_hdl
 
 ###############################################################################
 msg "Installing source-based programs"
@@ -674,7 +687,7 @@ if [ "$pkgApp" = "brew" ]; then
   tar -xzvf ghdl-0.36-macosx-llvm.tgz
   rm -f ghdl-0.36-macosx-llvm.tgz
   popd > /dev/null
-elif [ "$pkgApp" != "dnf" ]; then
+elif [ "$pkgApp" != "dnf" ]; then # TODO: maybe other *nix distros too?
   msg "Installing GHDL from source..."
   if [ -d "ghdl" ]; then
     pushd ghdl/ > /dev/null
