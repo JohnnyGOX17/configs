@@ -231,6 +231,7 @@ if [ "$pkgApp" = "apt" ]; then
     hugo \
     ike \
     irssi \
+    iverilog \
     kicad \
     latexmk \
     libelf-dev \
@@ -642,6 +643,7 @@ ${pythonExe} install --user \
   awscli \
   black \
   cocotb \
+  gprof2dot \
   ipython \
   jupyter \
   jupyterlab \
