@@ -134,6 +134,9 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   alias sys-update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
 fi
 
+# Upgrade all pip packages: https://stackoverflow.com/questions/2720014/how-to-upgrade-all-python-packages-with-pip
+alias pip-upgrade-all='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
+
 # ls macros
 alias ll='ls -lhXG'
 alias ls='ls --color=auto'
