@@ -15,6 +15,7 @@ cp -u ~/.gitconfig ./configs/.gitconfig
 cp -u ~/.bashrc ./configs/.bashrc
 cp -u ~/.bash_profile ./configs/.bash_profile
 cp -u ~/.inputrc ./configs/.inputrc
+cp -u ~/.profile ./configs/.profile
 cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.profile
 cp -u ~/.vimrc ./configs/.vimrc
 cp -u ~/.config/nvim/init.vim ./configs/init.vim
@@ -31,6 +32,7 @@ cp -u ./configs/.gitconfig ~/.gitconfig
 cp -u ./configs/.bashrc ~/.bashrc
 cp -u ./configs/.bash_profile ~/.bash_profile
 cp -u ./configs/.inputrc ~/.inputrc
+cp -u ./configs/.profile ~/.profile
 cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 cp -u ./configs/.vimrc ~/.vimrc
 cp -u ./configs/init.vim ~/.config/nvim/init.vim

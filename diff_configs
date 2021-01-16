@@ -11,6 +11,7 @@ $diffProg ./configs/.gitconfig ~/.gitconfig
 $diffProg ./configs/.bashrc ~/.bashrc
 $diffProg ./configs/.bash_profile ~/.bash_profile
 $diffProg ./configs/.inputrc ~/.inputrc
+$diffProg ./configs/.profile ~/.profile
 $diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 $diffProg ./configs/.vimrc ~/.vimrc
 $diffProg ./configs/init.vim ~/.config/nvim/init.vim

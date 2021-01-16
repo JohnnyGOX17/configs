@@ -9,12 +9,16 @@
 # Terminal & Path additions/edits/exports
 # =============================================================================
 
-# Source global definitions if existent
+# Source global definitions if exists
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
+
+# Source bash completion if exists (support multiple possible locations)
 if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
+elif [ -f /usr/local/etc/bash_completion ]; then
+  . /usr/local/etc/bash_completion
 fi
 # Some distros make use of a profile.d script to import completion
 if [ -f /etc/profile.d/bash_completion.sh ]; then
@@ -89,26 +93,41 @@ export LESS_TERMCAP_md="${yellow}"
 # Don’t clear the screen after quitting a manual page
 export MANPAGER='less -X'
 
-if [ "$(uname -s)" = "Linux" ]; then
-  # add paths for - NVCC NVIDIA CUDA Compiler
-  #               - MATLAB R2018b
-  #               - Vivado 2019.2
-  #               - Ruby `rbenv`
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-  export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:/usr/local/MATLAB/R2018b/bin:/home/jgentile/.rbenv/bin:/home/jgentile/bin:/home/jgentile/data/apps/xilinx/Vivado/2019.2/bin:/home/jgentile/.local/bin
-  export RTE_SDK=/home/jgentile/src/dpdk-19.02
-  export RTE_TARGET=x86_64-native-linuxapp-gcc
-  # Prevent ioctl error when gpg2 signing
-  export GPG_TTY=$(tty)
-  # Enable GCC 8 & LLVM 7 in CentOS
-  if [ -f /etc/centos-release ]; then
-    source scl_source enable devtoolset-8 llvm-toolset-7
+# Set PATH & library variables
+if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
+  if [ "$(uname -s)" = "Linux" ]; then
+    # TODO: add check for non-Ubuntu system?
+    # add paths for - NVCC NVIDIA CUDA Compiler
+    #               - Go
+    #               - Rust
+    #               - Ruby `rbenv`
+    #               - Xilinx Vivado 2020.2 (Ubuntu data HDD install)
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/cuda/lib64:/usr/lib/cuda/include
+    export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.rbenv/bin:$HOME/data/apps/Xilinx/Vivado/2020.2/bin
+    # TODO: better way for DPDK include?
+    #export RTE_SDK=$HOME/src/dpdk-19.02
+    #export RTE_TARGET=x86_64-native-linuxapp-gcc
+    # Prevent ioctl error when gpg2 signing
+    export GPG_TTY=$(tty)
+    # Enable GCC 8 & LLVM 7 in CentOS
+    if [ -f /etc/centos-release ]; then
+      source scl_source enable devtoolset-8 llvm-toolset-7
+    fi
+  elif [ "$(uname -s)" = "Darwin" ]; then
+    # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
+    export PATH="/usr/local/opt/ruby/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+    export LDFLAGS="-L/usr/local/opt/ruby/lib"
+    export CPPFLAGS="-I/usr/local/opt/ruby/include"
   fi
-elif [ "$(uname -s)" = "Darwin" ]; then
-  # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
-  export PATH="/usr/local/opt/ruby/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/go/bin:~/.cargo/bin:$PATH"
-  export LDFLAGS="-L/usr/local/opt/ruby/lib"
-  export CPPFLAGS="-I/usr/local/opt/ruby/include"
+
+  # set PATH so it includes user's private bin if it exists
+  if [ -d "$HOME/bin" ] ; then
+      PATH="$HOME/bin:$PATH"
+  fi
+  # set PATH so it includes user's private bin if it exists
+  if [ -d "$HOME/.local/bin" ] ; then
+      PATH="$HOME/.local/bin:$PATH"
+  fi
 fi
 
 
