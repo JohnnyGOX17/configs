@@ -158,9 +158,12 @@ alias pip-upgrade-all='pip3 list --outdated --format=freeze | grep -v '^\-e' | c
 
 # ls macros
 alias ll='ls -lhXG'
-alias ls='ls --color=auto'
-alias lsa='ls -A --color=auto'
-alias lsn='ls -a --color=no'
+if [ "$(uname -s)" = "Darwin" ]; then
+  alias ls='ls -G'
+else
+  alias ls='ls --color=auto'
+fi
+alias lsa='ls -A'
 alias lsd="ls -alF | grep /$"
 
 # color grep by default
