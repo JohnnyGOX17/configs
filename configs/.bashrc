@@ -9,6 +9,15 @@
 # Terminal & Path additions/edits/exports
 # =============================================================================
 
+# Stop path_helper from pre-pending dirs to PATH on macOS:
+# https://superuser.com/questions/544989/does-tmux-sort-the-path-variable
+if [ "$(uname -s)" = "Darwin" ]; then
+  if [ -f /etc/profile ]; then
+      PATH=""
+      source /etc/profile
+  fi
+fi
+
 # Source global definitions if exists
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
@@ -94,7 +103,7 @@ export LESS_TERMCAP_md="${yellow}"
 export MANPAGER='less -X'
 
 # Set PATH & library variables
-if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
+#if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
   if [ "$(uname -s)" = "Linux" ]; then
     # TODO: add check for non-Ubuntu system?
     # add paths for - NVCC NVIDIA CUDA Compiler
@@ -114,21 +123,24 @@ if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
       source scl_source enable devtoolset-8 llvm-toolset-7
     fi
   elif [ "$(uname -s)" = "Darwin" ]; then
+    # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
+    # Can also add $(brew --prefix coreutils)/libexec/gnubin for dynamic (not needed...) path to utils
     # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
-    export PATH="/usr/local/opt/ruby/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/ruby/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
     export LDFLAGS="-L/usr/local/opt/ruby/lib"
     export CPPFLAGS="-I/usr/local/opt/ruby/include"
   fi
 
   # set PATH so it includes user's private bin if it exists
   if [ -d "$HOME/bin" ] ; then
-      PATH="$HOME/bin:$PATH"
+      PATH="$PATH:$HOME/bin"
   fi
   # set PATH so it includes user's private bin if it exists
   if [ -d "$HOME/.local/bin" ] ; then
-      PATH="$HOME/.local/bin:$PATH"
+      PATH="$PATH:$HOME/.local/bin"
   fi
-fi
+#fi
 
 
 # =============================================================================
