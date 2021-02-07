@@ -656,6 +656,7 @@ ${pythonExe} install --user \
   pandas \
   proselint \
   scipy \
+  seaborn \
   speedtest-cli \
   sympy \
   vim-vint \
