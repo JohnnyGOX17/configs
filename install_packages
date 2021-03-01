@@ -655,6 +655,7 @@ ${pythonExe} install --user \
   numpy \
   pandas \
   proselint \
+  scikit-learn \
   scipy \
   seaborn \
   speedtest-cli \
