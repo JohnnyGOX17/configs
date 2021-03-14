@@ -660,6 +660,7 @@ ${pythonExe} install --user \
   seaborn \
   speedtest-cli \
   sympy \
+  tqdm \
   vim-vint \
   vunit_hdl
 
