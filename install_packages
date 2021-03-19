@@ -385,6 +385,7 @@ elif [ "$pkgApp" = "yum" ]; then
     qperf \
     readline \
     readline-devel \
+    ShellCheck \
     sqlite-devel \
     stress \
     the_silver_searcher \
@@ -492,6 +493,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     rtl-sdr-devel \
     ruby-devel \
     rust \
+    ShellCheck \
     socat \
     sqlite-devel \
     stress \
@@ -598,6 +600,7 @@ elif [ "$pkgApp" = "brew" ]; then
     reattach-to-user-namespace \
     rsync \
     scipy \
+    shellcheck \
     svn \
     tcl-tk \
     the_silver_searcher \
