@@ -663,6 +663,7 @@ ${pythonExe} install --user \
   seaborn \
   speedtest-cli \
   sympy \
+  tensorflow-model-optimization \
   tqdm \
   vim-vint \
   vunit_hdl
