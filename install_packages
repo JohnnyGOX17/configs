@@ -649,6 +649,7 @@ ${pythonExe} install --user \
   black \
   cocotb \
   gprof2dot \
+  h5py \
   ipython \
   jupyter \
   jupyterlab \
