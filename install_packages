@@ -587,6 +587,7 @@ elif [ "$pkgApp" = "brew" ]; then
     mutt \
     nano \
     neovim \
+    netron \
     nmap \
     node \
     numpy \
