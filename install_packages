@@ -247,6 +247,7 @@ if [ "$pkgApp" = "apt" ]; then
     llvm \
     lm-sensors \
     make \
+    minicom \
     mutt \
     nano \
     nasm \
