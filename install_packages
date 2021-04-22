@@ -207,6 +207,7 @@ if [ "$pkgApp" = "apt" ]; then
     clang-5.0-examples \
     cmake \
     curl \
+    device-tree-compiler \
     dkms \
     doxygen \
     editorconfig \
