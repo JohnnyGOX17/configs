@@ -11,7 +11,7 @@ if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
   pushd ${git_root} > /dev/null
   printf "| File | Line | Comment |\n| ---- | ---- | ------- |\n" > TODO.md
   # TODO: change to meet file pattern/extension needs from stdin
-  grep --include=\*.{c,h,cpp,hpp,v,vhd} -rnw './' -e "TODO" | awk -F':' '{ printf "| ["; system("basename " $1 " | head -c -1"); printf "]"; print "(" $1 "#L" $2 ")" " | " $2 " | " $4 " |" }' | tee -a TODO.md
+  grep --include=\*.{c,h,cpp,hpp,py,sh,v,vhd} -rnw './' -e "TODO" | awk -F':' '{ printf "| ["; system("basename " $1 " | head -c -1"); printf "]"; print "(" $1 "#L" $2 ")" " | " $2 " | " $4 " |" }' | tee -a TODO.md
   popd > /dev/null
 else
   echo "Not in a git repo!"
