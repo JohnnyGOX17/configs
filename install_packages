@@ -297,6 +297,9 @@ if [ "$pkgApp" = "apt" ]; then
 
   sudo apt -y autoremove
 
+  # snap installs
+  snap install netron
+
   pythonExe="pip3"
 
 elif [ "$pkgApp" = "yum" ]; then
