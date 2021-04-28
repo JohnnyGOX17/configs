@@ -90,7 +90,7 @@ augroup code_extensions_and_syntax
   " versions of Vim) and launch `Goyo` plugin automatically
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   "au BufNewFile,BufFilePre,BufRead *.md Goyo
-  au BufNewFile,BufFilePre,BufRead *.{md,txt} setlocal spell spelllang=en_us
+  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} setlocal spell spelllang=en_us
 
   " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
