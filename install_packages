@@ -656,6 +656,7 @@ ${pythonExe} install --user \
   cocotb \
   gprof2dot \
   h5py \
+  hls4ml[profiling] \
   ipython \
   jupyter \
   jupyterlab \
