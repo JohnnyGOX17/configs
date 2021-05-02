@@ -256,6 +256,7 @@ if [ "$pkgApp" = "apt" ]; then
     nmap \
     npm \
     okular \
+    pandoc \
     playonlinux \
     python-dev \
     python3-dev \
