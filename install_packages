@@ -624,6 +624,7 @@ elif [ "$pkgApp" = "brew" ]; then
     wget \
     wine \
     winetricks \
+    xquartz \
     youtube-dl
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
