@@ -110,10 +110,10 @@ export MANPAGER='less -X'
     #               - Go
     #               - Rust
     #               - Ruby `rbenv`
-    #               - Xilinx Vivado 2020.2 (Ubuntu data HDD install)
+    #               - Xilinx Vivado & Vitis 2021.1
     #               - ModelSim Starter Edition (Ubuntu data HDD install)
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/cuda/lib64:/usr/lib/cuda/include
-    export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.rbenv/bin:$HOME/data/apps/Xilinx/Vivado/2020.2/bin:$HOME/data/apps/intelFPGA_lite/20.1/modelsim_ase/bin
+    export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.rbenv/bin:$HOME/bin_nvme/Xilinx/Vitis/2021.1/bin:$HOME/bin_nvme/Xilinx/Vivado/2021.1/bin:$HOME/data/apps/intelFPGA_lite/20.1/modelsim_ase/bin
     # TODO: better way for DPDK include?
     #export RTE_SDK=$HOME/src/dpdk-19.02
     #export RTE_TARGET=x86_64-native-linuxapp-gcc
