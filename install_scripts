@@ -12,7 +12,7 @@ cp ./dev_utils/git/git-rm-dos-whitespace  $insLoc
 cp ./dev_utils/git/git-acp                $insLoc
 cp ./dev_utils/git/git-list-large         $insLoc
 cp ./dev_utils/git/git-fix-ssh-origin-url $insLoc
-cp ./dev_utils/git/git-check-orig-master-changes $insLoc
+cp ./dev_utils/git/git-check-remote-changes $insLoc
 
 cp ./sys_utils/backup_data                $insLoc
 cp ./sys_utils/mvrms                      $insLoc

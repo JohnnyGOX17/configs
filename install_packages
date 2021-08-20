@@ -894,21 +894,24 @@ fi
 
 # check for brew package updates & git repo updates every 5 min
 # pipe to /dev/null so we don't get entries in /var/mail/<user>
+# NOTE: also add to local server
+# 0 */4 * * * /usr/local/bin/backup_data
+#
 msg "Installing crontab entries"
 cronLine=""
 if [ "$pkgApp" = "apt" ]; then
   cronLine='*/5 * * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then echo " ⚑ Apt Updates Available: $(/usr/bin/apt list --upgradable | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/git-check-orig-master-changes &> /dev/null'
+*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
 elif [ "$pkgApp" = "yum" ]; then
   cronLine='*/5 * * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Yum Updates Available: $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/git-check-orig-master-changes &> /dev/null'
+*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
 elif [ "$pkgApp" = "dnf" ]; then
   cronLine='*/5 * * * * if [ $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then echo " ⚑ Dnf Updates Available: $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/git-check-orig-master-changes &> /dev/null'
+*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
   # Backup directories every 4 hours:  0 */4 * * * /usr/local/bin/backup_data
 elif [ "$pkgApp" = "brew" ]; then
   cronLine='*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [[ $(/usr/local/bin/brew outdated) ]] ; then echo " ⚑ Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/git-check-orig-master-changes &> /dev/null'
+*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
 fi
 # NOTE: overwrites any crontab entries, echo current entries before pipe if looking to keep
 echo "$cronLine" | crontab -
@@ -983,6 +986,20 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 msg "Tmux Plugin manager installed. NOTE: still need to install plugins with <prefix>+I"
 
 popd > /dev/null
+
+###############################################################################
+# Pull down Git repos
+###############################################################################
+
+# Use GitHub REST API to get list of repos and automatically clone them into
+# src/ directory
+# Iterate through PAGE variable if more than 100 repos per user
+PAGE=1
+echo -e "\n${BLU}Pulling remotes from JohnnyGOX17 GitHub${NC}"
+curl -# "https://api.github.com/users/JohnnyGOX17/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone 2> /dev/null
+echo -e "\n${BLU}Pulling remotes from Gent-Systems GitHub${NC}"
+curl -# "https://api.github.com/orgs/Gent-Systems/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone 2> /dev/null
+
 
 ###############################################################################
 # Clean & exit

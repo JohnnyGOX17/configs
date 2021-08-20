@@ -32,12 +32,16 @@ for d in */ ; do
   percent=$(awk "BEGIN { pc=100*${iter}/${dirCount}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
   echo -en "\r\033[K ${BLU}[${percent}%]${NC} ${d%/}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
-    # get all updates from remote and merge only master then switch back to
-    # current branch
+    # Get remote (often 'origin')
+    repoRemote="$(git remote)"
+    # Get default branch from remote
+    defBranch="$(git remote show $repoRemote | sed -n '/HEAD branch/s/.*: //p' )"
+
+    # get all updates from remote and merge only default branch, then switch back to current branch
     curr_branch=$(git symbolic-ref --short HEAD)
-    git fetch origin
-    git checkout -q master
-    git merge --ff-only -q origin/master
+    git fetch $repoRemote
+    git checkout -q $defBranch
+    git merge --ff-only -q $repoRemote/$defBranch
     git checkout -q "$curr_branch"
   fi;
   popd > /dev/null
@@ -46,14 +50,5 @@ for d in */ ; do
 done
 echo -en "\r\033[K"
 echo ""
-
-# Use GitHub REST API to get list of repos and automatically clone them into
-# src/ directory
-# Iterate through PAGE variable if more than 100 repos per user
-PAGE=1
-echo -e "\n${BLU}Pulling remotes from JohnnyGOX17 GitHub${NC}"
-curl -# "https://api.github.com/users/JohnnyGOX17/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone 2> /dev/null
-echo -e "\n${BLU}Pulling remotes from Gent-Systems GitHub${NC}"
-curl -# "https://api.github.com/orgs/Gent-Systems/repos?page=$PAGE&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone 2> /dev/null
 
 popd > /dev/null
