@@ -603,6 +603,7 @@ elif [ "$pkgApp" = "brew" ]; then
     openssh \
     perl \
     pidof \
+    plantuml \
     python \
     # `python` should now default to Python 3 in brew
     python@2 \
