@@ -51,4 +51,8 @@ done
 echo -en "\r\033[K"
 echo ""
 
+# clear Git update file
+echo "" > /tmp/sys_git_updates
+
 popd > /dev/null
+
