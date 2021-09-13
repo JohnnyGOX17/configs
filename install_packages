@@ -563,6 +563,7 @@ elif [ "$pkgApp" = "brew" ]; then
     diffutils \
     djvu2pdf \
     doxygen \
+    drawio \
     ed --with-default-names \
     editorconfig \
     file-formula \
