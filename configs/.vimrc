@@ -449,6 +449,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'google/vim-searchindex'
 
 
+  " VimPolyglot: a collection of language packs
+  Plug 'sheerun/vim-polyglot'
+
+
   " VimSnippets: Language snippets for UltiSnips plugin
   Plug 'honza/vim-snippets'
 
@@ -517,4 +521,7 @@ call plug#end()
 " Colors (loaded last)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme monokai
+
+" disable background for transparent terminals
+hi Normal guibg=NONE ctermbg=NONE
 
