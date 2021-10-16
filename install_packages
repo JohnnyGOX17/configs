@@ -217,6 +217,8 @@ if [ "$pkgApp" = "apt" ]; then
     fonts-powerline \
     g++ \
     gcc \
+    gdb \
+    gdb-multiarch \
     gimp \
     git \
     gnat \
@@ -257,6 +259,7 @@ if [ "$pkgApp" = "apt" ]; then
     nmap \
     npm \
     okular \
+    openocd \
     pandoc \
     playonlinux \
     python-dev \
@@ -269,6 +272,7 @@ if [ "$pkgApp" = "apt" ]; then
     python-sphinx \
     qemu \
     qemu-kvm \
+    qemu-system-arm \
     ranger \
     remmina \
     remmina-plugin-rdp \
