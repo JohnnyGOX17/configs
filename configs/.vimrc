@@ -504,15 +504,15 @@ call plug#begin('~/.vim/plugged')
   " YouCompleteMe: Smart code-completion engine ------------------------------
   " for special installation considerations, see GitHub page for
   " more information https://github.com/Valloric/YouCompleteMe
-  Plug 'Valloric/YouCompleteMe'
+  "Plug 'Valloric/YouCompleteMe'
   " remove limit on YCM diagnostics to display
   " if running into issues, drop down to sensible # (default = 30)
-  let g:ycm_max_diagnostics_to_display = 0
-  let g:ycm_autoclose_preview_window_after_completion = 1
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  " make YCM compatible with UltiSnips (using supertab)
-  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+  "let g:ycm_max_diagnostics_to_display = 0
+  "let g:ycm_autoclose_preview_window_after_completion = 1
+  "let g:ycm_collect_identifiers_from_tags_files = 1
+  "" make YCM compatible with UltiSnips (using supertab)
+  "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+  "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 call plug#end()
 
@@ -521,7 +521,4 @@ call plug#end()
 " Colors (loaded last)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme monokai
-
-" disable background for transparent terminals
-hi Normal guibg=NONE ctermbg=NONE
 
