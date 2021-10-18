@@ -51,7 +51,7 @@ hi Identifier ctermfg=81 ctermbg=NONE cterm=italic guifg=#66d9ef guibg=NONE gui=
 hi Keyword ctermfg=197 ctermbg=NONE cterm=NONE guifg=#f92672 guibg=NONE gui=NONE
 hi Label ctermfg=186 ctermbg=NONE cterm=NONE guifg=#e6db74 guibg=NONE gui=NONE
 " For non-transparent EOF background, set: ctermbg=236 & guibg=#31322c
-hi NonText ctermfg=59 ctermbg=NONE cterm=NONE guifg=#49483e guibg=#NONE gui=NONE
+hi NonText ctermfg=59 ctermbg=NONE cterm=NONE guifg=#49483e guibg=NONE gui=NONE
 hi Number ctermfg=141 ctermbg=NONE cterm=NONE guifg=#ae81ff guibg=NONE gui=NONE
 hi Operator ctermfg=197 ctermbg=NONE cterm=NONE guifg=#f92672 guibg=NONE gui=NONE
 hi PreProc ctermfg=197 ctermbg=NONE cterm=NONE guifg=#f92672 guibg=NONE gui=NONE
