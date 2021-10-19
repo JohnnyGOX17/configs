@@ -204,18 +204,20 @@ nnoremap <leader>a :Ack!<Space>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable folding by default
 set foldenable
+" Indent by indentation, not syntax or marker, some files like VHDL don't work
+" will with syntax setting
 set foldmethod=indent
+" High-value here means files open unfolded by default
 set foldlevel=99
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Backups (move '~' appended files to temp dir)
+" Backup, Swap & Undo Files in /tmp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/tmp
-set backupskip=/tmp//*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/tmp
-set writebackup
+" Put backup, swap & undo tree files in /tmp with appended path ("//")
+set backupdir=/tmp//
+set directory=/tmp//
+set undodir=/tmp//
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -372,7 +374,7 @@ call plug#begin('~/.vim/plugged')
 
 
   " TagBar: displays tags in window ordered by scope -------------------------
-  Plug 'majutsushi/tagbar'
+  Plug 'preservim/tagbar'
 
 
   " UltiSnips: Plugin for snippets -------------------------------------------
@@ -468,7 +470,14 @@ call plug#begin('~/.vim/plugged')
     let g:vimtex_view_general_viewer='/Applications/Skim.app/Contents/SharedSupport/displayline'
     let g:vimtex_view_general_options='-r @line @pdf @tex'
     " This adds a callback hook that updates Skim after compilation
-    let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
+    " 2021-10-18: updated from deprecated g:vimtex_compiler_callback_hooks
+    " like in https://github.com/jdhao/nvim-config/blob/master/core/plugins.vim
+
+    augroup vimtex_mac
+      autocmd!
+      autocmd User VimtexEventCompileSuccess call UpdateSkim()
+    augroup END
+
     function! UpdateSkim(status)
       if !a:status | return | endif
 
