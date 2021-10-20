@@ -771,6 +771,15 @@ if [ "$pkgApp" != "dnf" ]; then
   curl https://sh.rustup.rs -sSf | sh
 fi
 
+# Rust analyzer
+mkdir -p ~/.local/bin/
+if [ "$pkgApp" != "brew" ]; then
+  curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+else
+  curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+fi
+chmod +x ~/.local/bin/rust-analyzer
+
 # tmux 2.9a install from src
 if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   msg "Installing tmux from source..."
