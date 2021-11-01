@@ -578,7 +578,6 @@ elif [ "$pkgApp" = "brew" ]; then
     fd \
     file-formula \
     findutils --with-default-names \
-    font-hack-nerd-font \
     fpp \
     gawk \
     gdb \
@@ -643,6 +642,10 @@ elif [ "$pkgApp" = "brew" ]; then
     winetricks \
     xquartz \
     youtube-dl
+
+  # install nerd-fonts (https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts)
+  brew tap homebrew/cask-fonts
+  brew install --cask font-hack-nerd-font
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
   brew cleanup
