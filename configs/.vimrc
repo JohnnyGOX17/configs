@@ -1,6 +1,20 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """
 """ .vimrc- VIM settings by John Gentile <johncgentile17@gmail.com>
 """
+""" Prerequisites:
+"""  - neovim >= 0.5 (for built-in LSP support)
+"""  - rust-analyzer: https://rust-analyzer.github.io/manual.html#rust-analyzer-language-server-binary
+"""
+""" Install Steps:
+"""  - :PlugInstall
+"""  - Restart
+"""
+""" References:
+"""  - https://sharksforarms.dev/posts/neovim-rust/
+"""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Interface & Built-In Options
@@ -24,6 +38,19 @@ set laststatus=2   " always shows status line (usefule for Airline plugin)
 set noshowmode     " turn off default mode indicator since we have plugin
 set autoread       " Autoload changes when switching buffers or gaining focus
 set timeoutlen=300 " Quicker timeout for events (default: 1000 ms)
+set updatetime=300 " Set updatetime for CursorHold
+set shortmess+=c   " Avoid showing extra messages when using completion
+" have a fixed column for the diagnostics to appear in
+" this removes the jitter when warnings/errors flow in
+" setting from static 'yes' -> 'number' merges number and diag's to one column
+"   like -> https://www.reddit.com/r/neovim/comments/neaeej/only_just_discovered_set_signcolumnnumber_i_like/
+set signcolumn=number
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
 
 " Determine OS being used (NOTE: `uname` not present on Windows)
 if !exists("g:my_os")
@@ -53,20 +80,7 @@ endif
 " For VHDL syntax highlighting, indent similar to C-syntax operation
 " (e.g. by shiftwidth())
 let g:vhdl_indent_genportmap = 0
-
-" Built-in File Browser
-let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=4  " open in prior window
-let g:netrw_altv=1          " open splits to the right
-let g:netrw_liststyle=3     " tree view
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
-" Neovim specific
-"if has('nvim')
-"  " return cursor to blinking iBeam after exit (see ":help 'guicursor'")
-"  au VimLeave * set guicursor=a:ver4-blinkon500
-"endif
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -91,6 +105,8 @@ augroup code_extensions_and_syntax
   au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
   "au BufNewFile,BufFilePre,BufRead *.md Goyo
   au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} setlocal spell spelllang=en_us
+  " Don't number lines on these text files
+  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} set nonu
 
   " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
@@ -120,6 +136,10 @@ augroup code_extensions_and_syntax
 
 augroup END
 
+" Show diagnostic popup on cursor hover
+"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching & Movement
@@ -130,6 +150,7 @@ set hlsearch        " highlight matches
 set ignorecase      " Ignore case when searching
 " highlight last inserted text
 nnoremap gV '[v']
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -198,6 +219,23 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " Start using Ack.vim (targeting `ag`) but don't jump to 1st match
 nnoremap <leader>a :Ack!<Space>
 
+" Code navigation shortcuts as found in :help lsp
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+" Quick-fix
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
@@ -209,6 +247,7 @@ set foldenable
 set foldmethod=indent
 " High-value here means files open unfolded by default
 set foldlevel=99
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -218,6 +257,7 @@ set foldlevel=99
 set backupdir=/tmp//
 set directory=/tmp//
 set undodir=/tmp//
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -288,6 +328,7 @@ function! s:goyo_leave()
     endif
   endif
 endfunction
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -297,7 +338,6 @@ endfunction
 " Plugin specific documentation can be found at https://github.com/<Plug>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-
   " AckVim: plugin using `ag` text search ------------------------------------
   Plug 'mileszs/ack.vim'
   if executable('ag')
@@ -364,25 +404,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'hankchiutw/nerdtree-ranger.vim'
 
 
-  " SuperTab: Allow all Vim plugins insert modes to be fired off of <Tab> ----
-  Plug 'ervandew/supertab'
-  let g:SuperTabDefaultCompletionType = '<C-n>'
-
-
   " Tabular: Easy text alignment plugin --------------------------------------
   Plug 'godlygeek/tabular'
 
 
   " TagBar: displays tags in window ordered by scope -------------------------
   Plug 'preservim/tagbar'
-
-
-  " UltiSnips: Plugin for snippets -------------------------------------------
-  Plug 'SirVer/ultisnips'
-  " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = "<tab>"
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 
   " Vader: Vader test framework ----------------------------------------------
@@ -418,10 +445,6 @@ call plug#begin('~/.vim/plugged')
   let g:gitgutter_eager = 0
 
 
-  " VimGo: Go plugin for syntax, completion and other helpful functions ------
-  "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-
   " VimGutentags: manages & auto-(re)generates tag files for project ---------
   Plug 'ludovicchabant/vim-gutentags'
   set statusline+=%{gutentags#statusline()}
@@ -453,10 +476,6 @@ call plug#begin('~/.vim/plugged')
 
   " VimPolyglot: a collection of language packs
   Plug 'sheerun/vim-polyglot'
-
-
-  " VimSnippets: Language snippets for UltiSnips plugin
-  Plug 'honza/vim-snippets'
 
 
   " VimSurround: Plugin to quickly edit brackers, quotes, tags, etc. ---------
@@ -509,25 +528,174 @@ call plug#begin('~/.vim/plugged')
     let g:vimtex_compiler_progname = 'nvr'
   endif
 
+  " Collection of common configurations for the Nvim LSP client
+  "  used over coc (https://github.com/neoclide/coc.nvim/)
+  Plug 'neovim/nvim-lspconfig'
 
-  " YouCompleteMe: Smart code-completion engine ------------------------------
-  " for special installation considerations, see GitHub page for
-  " more information https://github.com/Valloric/YouCompleteMe
-  "Plug 'Valloric/YouCompleteMe'
-  " remove limit on YCM diagnostics to display
-  " if running into issues, drop down to sensible # (default = 30)
-  "let g:ycm_max_diagnostics_to_display = 0
-  "let g:ycm_autoclose_preview_window_after_completion = 1
-  "let g:ycm_collect_identifiers_from_tags_files = 1
-  "" make YCM compatible with UltiSnips (using supertab)
-  "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+  " Autocompletion framework
+  Plug 'hrsh7th/nvim-cmp'
+  " cmp LSP completion
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  " cmp Snippet completion
+  Plug 'hrsh7th/cmp-vsnip'
+  " cmp Path completion
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-buffer'
 
+  " Adds extra functionality over rust analyzer
+  Plug 'simrat39/rust-tools.nvim'
+
+  " Snippet engine
+  Plug 'hrsh7th/vim-vsnip'
+
+  " Optional
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+
+  " Nord colorscheme
+  Plug 'arcticicestudio/nord-vim'
+
+  " LSP diagnostics prettifier (bottom tray error/warn display)
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
+
+  " LSP high-performant UI in Lua
+  "Plug 'glepnir/lspsaga.nvim'
 call plug#end()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Colors (loaded last)
+" Lua extensions for rust-tools
+"
+" Configure LSP through rust-tools.nvim plugin.
+" rust-tools will configure and enable certain LSP features for us.
+" See https://github.com/simrat39/rust-tools.nvim#configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme monokai
+lua <<EOF
+
+-- nvim_lsp object
+local nvim_lsp = require'lspconfig'
+
+local opts = {
+    tools = {
+        autoSetHints = true,
+        hover_with_actions = true,
+        runnables = {
+            use_telescope = true
+        },
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
+
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+    server = {
+        -- on_attach is a callback called when the language server attachs to the buffer
+        -- on_attach = on_attach,
+        settings = {
+            -- to enable rust-analyzer settings visit:
+            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+            ["rust-analyzer"] = {
+                -- enable clippy on save
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+}
+
+require('rust-tools').setup(opts)
+EOF
+
+" Setup Completion
+" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+lua <<EOF
+local cmp = require'cmp'
+cmp.setup({
+  snippet = {
+    expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    -- Add tab support
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    })
+  },
+
+  -- Installed sources
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+    { name = 'path' },
+    { name = 'buffer' },
+  },
+})
+EOF
+
+" Enable pyright (https://github.com/microsoft/pyright)
+lua <<EOF
+require'lspconfig'.pyright.setup{}
+EOF
+
+" Trouble config (https://github.com/folke/trouble.nvim)
+lua << EOF
+  require("trouble").setup {
+    auto_open = true,
+    auto_close = true
+  }
+EOF
+
+" Customize nvim-lspconfig UI (https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter)
+lua << EOF
+-- Automatically update diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  underline = true,
+  update_in_insert = false,
+  virtual_text = false,
+})
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+
+for type, icon in pairs(signs) do
+  local hl = "LspDiagnosticsSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+EOF
+
+" lspsaga.nvim config (https://github.com/glepnir/lspsaga.nvim)
+"lua << EOF
+"require("lspsaga").init_lsp_saga()
+"EOF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors & Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Favorites are 'nord' || 'monokai'
+colorscheme nord
+" show trailing whitespace as red
+hi ExtraWhitespace ctermfg=NONE ctermbg=red cterm=NONE guifg=NONE guibg=red gui=NONE
+" italicize comments
+hi Comment cterm=italic gui=italic
+hi SpecialComment cterm=italic gui=italic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

@@ -212,6 +212,7 @@ if [ "$pkgApp" = "apt" ]; then
     doxygen \
     editorconfig \
     exuberant-ctags \
+    fd-find \
     ffmpegthumbnailer \
     filezilla \
     fonts-powerline \
@@ -277,6 +278,7 @@ if [ "$pkgApp" = "apt" ]; then
     remmina \
     remmina-plugin-rdp \
     remmina-plugin-secret \
+    ripgrep \
     ruby \
     scrot \
     shellcheck \
@@ -340,6 +342,7 @@ elif [ "$pkgApp" = "yum" ]; then
     devtoolset-8 \
     docker-ce \
     docker-ce-cli \
+    fd-find \
     g++ \
     gcc \
     gcc-arm-linux-gnu \
@@ -445,6 +448,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     docker-ce \
     docker-ce-cli \
     dtc \
+    fd-find \
     gcc-gnat \
     gimp \
     ghdl \
@@ -500,6 +504,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     qemu-kvm \
     ranger \
     readline-devel \
+    ripgrep \
     rpcgen \
     rtl-sdr \
     rtl-sdr-devel \
@@ -570,8 +575,10 @@ elif [ "$pkgApp" = "brew" ]; then
     drawio \
     ed --with-default-names \
     editorconfig \
+    fd \
     file-formula \
     findutils --with-default-names \
+    font-hack-nerd-font \
     fpp \
     gawk \
     gdb \
@@ -614,6 +621,8 @@ elif [ "$pkgApp" = "brew" ]; then
     python@2 \
     ranger \
     reattach-to-user-namespace \
+    ripgrep \
+    rust-analyzer \
     rsync \
     scipy \
     shellcheck \
@@ -647,6 +656,8 @@ fi
 msg "Installing npm packages"
 sudo npm install -g grunt-cli \
   gulp-cli \
+  neovim \
+  pyright \
   speed-test \
   write-good
 
@@ -774,11 +785,13 @@ fi
 # Rust analyzer
 mkdir -p ~/.local/bin/
 if [ "$pkgApp" != "brew" ]; then
-  curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-apple-darwin.gz | gunzip -c - > ~/.local/bin/rust-analyzer
-else
   curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+  chmod +x ~/.local/bin/rust-analyzer
 fi
-chmod +x ~/.local/bin/rust-analyzer
+
+# Rust package installs
+rustup update
+rustup component add clippy
 
 # tmux 2.9a install from src
 if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
