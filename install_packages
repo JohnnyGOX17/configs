@@ -218,7 +218,6 @@ if [ "$pkgApp" = "apt" ]; then
     fd-find \
     ffmpegthumbnailer \
     filezilla \
-    fonts-powerline \
     g++ \
     gcc \
     gdb \
@@ -497,7 +496,6 @@ elif [ "$pkgApp" = "dnf" ]; then
     okular \
     openssl-devel \
     perl \
-    powerline-fonts \
     python-devel \
     python3-devel \
     python3-neovim \
@@ -644,10 +642,6 @@ elif [ "$pkgApp" = "brew" ]; then
     winetricks \
     xquartz \
     youtube-dl
-
-  # install nerd-fonts (https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts)
-  brew tap homebrew/cask-fonts
-  brew install --cask font-hack-nerd-font
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
   brew cleanup
@@ -884,16 +878,20 @@ if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   rbenv global 2.4.1
 fi
 
-# Note meslo S is a good macOS-like powerline font
-msg "Installing Powerline fonts"
-if [ "$pkgApp" != "apt" ] && [ "$pkgApp" != "dnf" ]; then
+# Patched fonts with Powerline and other symbols
+msg "Installing Nerd Fonts"
+if [ "$pkgApp" != "brew" ]; then
   pushd ~/src/ > /dev/null
-  git clone https://github.com/powerline/fonts.git --depth=1
+  git clone https://github.com/ryanoasis/nerd-fonts.git --depth=1
   pushd fonts > /dev/null
   ./install.sh
   popd > /dev/null
   rm -rf fonts/
   popd > /dev/null
+else
+  # install nerd-fonts (https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts)
+  brew tap homebrew/cask-fonts
+  brew install --cask font-hack-nerd-font
 fi
 
 msg "Installing gTile window tiling for Gnome DM"
