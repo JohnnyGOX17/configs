@@ -272,6 +272,7 @@ if [ "$pkgApp" = "apt" ]; then
     python-pydot \
     python-pydot-ng \
     python-sphinx \
+    python3-venv \
     qemu \
     qemu-kvm \
     qemu-system-arm \
@@ -674,6 +675,7 @@ msg "Installing Python modules via pip"
 ${pythonExe} install --user \
   awscli \
   black \
+  build \
   cocotb \
   gprof2dot \
   h5py \
