@@ -69,6 +69,8 @@ msg "Add Optional Repos: Update and upgrade"
 msg "Updating current repo lists and adding any additional groups"
 
 if [ "$pkgApp" = "apt" ]; then
+  # prerequisites
+  sudo apt install apt-transport-https curl gnupg
 
   # NOTE: a lot of these are out of date!
 
@@ -197,6 +199,7 @@ if [ "$pkgApp" = "apt" ]; then
     autoconf \
     automake \
     bash-completion \
+    bazel \
     bear \
     brackets \
     build-essential \
@@ -223,9 +226,13 @@ if [ "$pkgApp" = "apt" ]; then
     gdb \
     gdb-multiarch \
     gimp \
+    gir1.2-clutter-1.0 \
+    gir1.2-gtop-2.0 \
+    gir1.2-nm-1.0 \
     git \
     gnat \
     gnat-5 \
+    gnome-system-monitor \
     gnuradio \
     google-chrome-stable \
     gqrx-sdr \
@@ -457,6 +464,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     ghdl-grt \
     ghdl-llvm \
     ghdl-llvm-grt \
+    gnome-system-monitor \
     gnome-tweaks \
     gnuradio \
     golang \
@@ -474,6 +482,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     kicad \
     kicad-doc \
     kicad-packages3d \
+    libgtop2-devel \
     libibverbs-utils \
     libyaml-devel \
     libusb \
@@ -492,6 +501,7 @@ elif [ "$pkgApp" = "dnf" ]; then
     nasm \
     ncurses-compat-libs \
     neovim \
+    NetworkManager-libnm-devel \
     nmap \
     nodejs \
     okular \
@@ -896,14 +906,46 @@ else
   brew install --cask font-hack-nerd-font
 fi
 
-msg "Installing gTile window tiling for Gnome DM"
-pushd ~/src/ > /dev/null
-git clone --depth=1 https://github.com/gTile/gTile.git
-pushd gTile/ > /dev/null
-bazel run :install-extension
-popd > /dev/null
-rm -rf gTile/
-popd > /dev/null
+
+# Install Gnome extensions on Linux (assumed Gnome WDM)
+if [ "$pkgApp" != "brew" ]; then
+  msg "Installing Gnome Extensions"
+  pushd ~/src/ > /dev/null
+
+  git clone https://github.com/paradoxxxzero/gnome-shell-system-monitor-applet
+  pushd gnome-shell-system-monitor-applet > /dev/null
+  make install
+  popd > /dev/null
+
+  git clone git://gitlab.com/jenslody/gnome-shell-extension-openweather.git
+  pushd gnome-shell-extension-openweather > /dev/null
+  ./autogen.sh && make local-install
+  popd > /dev/null
+
+  git clone --depth=1 https://github.com/gTile/gTile.git
+  pushd gTile > /dev/null
+  bazel run :install-extension
+  popd > /dev/null
+
+  git clone https://github.com/adaxi/audio-output-switcher.git ~/.local/share/gnome-shell/extensions/audio-output-switcher@anduchs
+
+  git clone https://LukasKnuth@bitbucket.org/LukasKnuth/backslide.git BackSlide
+  pushd BackSlide > /dev/null
+  # NOTE: there are multiple stable branches based on Gnome Version. EXAMPLE: Build for an older GnomeShell version
+  # git checkout gnome-3.8 # ONLY if you need to!
+  # "Compile" the settings-schema:
+  glib-compile-schemas backslide\@codeisland.org/schemas/
+  # Copy the files over to the local extension directory:
+  cp -r backslide\@codeisland.org/ ~/.local/share/gnome-shell/extensions/
+  popd > /dev/null
+
+  # disable explicit Gnome version checking of extensions (prevents early breakage)
+  dconf write /org/gnome/shell/disable-extension-version-validation true
+
+  msg "Gnome Extensions installed: reload Gnome shell with Alt+F2, type 'r' and hit enter"
+  msg "NOTE: local extensions can be enabled/disabled or installed/removed with https://extensions.gnome.org/ or 'gnome-tweaks' tool"
+  popd > /dev/null
+fi
 
 
 popd > /dev/null
