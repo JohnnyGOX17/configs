@@ -84,164 +84,6 @@ let g:vhdl_indent_genportmap = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocommands
-"
-" Use autocommand enclosures to prevent double-loading of autocommands
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" DEBUG: Be verbose when executing autocommands (mostly keep commented out)
-"set verbose=9
-
-augroup multi_buffer
-  au!
-  au FocusGained, BufEnter * :silent! !
-  " Autosave when leaving a buffer or vim (but run no save hooks to be faster)
-  au FocusLost, WinLeave * :silent! noautocmd w
-augroup END
-
-augroup code_extensions_and_syntax
-  au!
-  " automatically associate *.md files with Markdown syntax (maybe NA for newer
-  " versions of Vim) and launch `Goyo` plugin automatically
-  au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-  "au BufNewFile,BufFilePre,BufRead *.md Goyo
-  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} setlocal spell spelllang=en_us
-  " Don't number lines on these text files
-  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} set nonu
-
-  " Automatically remove all trailing whitespace when buffer is saved
-  " except for the file extensions in `trail_blk_list`
-  let g:trail_blk_list = ['markdown', 'text']
-  au BufWritePre * if index(g:trail_blk_list, &ft) < 0 | %s/\s\+$//e
-  " Matching autocommand for highlighting extra whitespace in red
-  " Uncomment below to match while typing (little aggressive)
-  "match ExtraWhitespace /\s\+$/
-  au BufWinEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
-  au InsertEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+\%#\@<!$/
-  au InsertLeave * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
-  " Clear when leaving for performance issues
-  au BufWinLeave * call clearmatches()
-
-  " Close vim automatically if the only window left open is `NERDTree` plugin
-  au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-  " Set cursorline only when not in insert mode
-  au InsertLeave,WinEnter * set cursorline
-  au InsertEnter,WinLeave * set nocursorline
-
-  " Set .xdc to TCL
-  au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
-
-  " Default to LinuxCStyle for C apps
-  au FileType c StyleLinuxC
-
-  " Execute current Python buffer (https://stackoverflow.com/a/18948530)
-  autocmd FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
-  autocmd FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
-
-augroup END
-
-" Show diagnostic popup on cursor hover
-"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Searching & Movement
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set incsearch       " search as characters are entered
-set inccommand=nosplit
-set hlsearch        " highlight matches
-set ignorecase      " Ignore case when searching
-" highlight last inserted text
-nnoremap gV '[v']
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Key & Leader Shortcuts/Remapping
-"
-" ALWAYS use nonrecursive mapping to prevent unintended consequences
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:mapleader=' '
-" `jk` to escape
-inoremap jk <esc>
-" Map arrow keys to graphical movements
-nnoremap <Up> gk
-nnoremap <Down> gj
-" Remove all trailing whitespace by pressing F7 (also see above for autoremove
-" trailing whitespace on buffer save for specific filetypes)j
-nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-" Toggle spell checking (default off)
-nnoremap <F5> :set spell! spelllang=en_us<CR>
-
-" Open new empty buffer
-nnoremap <leader>n :enew<CR>
-" Move to next open buffer (`f` for home row)
-nnoremap <leader>fl :bnext<CR>
-" Move to previous buffer (`f` for home row)
-nnoremap <leader>fh :bprevious<CR>
-" Close current buffer and move to previous one (similar to closing tab)
-nnoremap <leader>fq :bp <BAR> bd #<CR>
-" Vertical split (into another window) current file
-nnoremap <leader>v :vsplit<CR>
-" Horizontal split (into another window) current file
-nnoremap <leader>s :split<CR>
-" Move to window left
-nnoremap <leader>h <C-w><Left>
-" Move to window right
-nnoremap <leader>l <C-w><Right>
-" Move to window up
-nnoremap <leader>k <C-w><Up>
-" Move to window down
-nnoremap <leader>j <C-w><Down>
-" Close current window
-nnoremap <leader>q :hide<CR>
-" Enlarge current window height by 10 lines
-nnoremap <leader>K :res +10<CR>
-" Shrink current window height by 10 lines
-nnoremap <leader>J :res -10<CR>
-" Enlarge current window width by 10 lines
-nnoremap <leader>L :vertical resize +10<CR>
-" Shrink current window width by 10 lines
-nnoremap <leader>H :vertical resize -10<CR>
-
-" Open/toggle `NERDTree` file viewer plugin
-nnoremap <leader>t :NERDTreeToggle<CR>
-" Open/toggle `Tagbar` tag viewer plugin
-nnoremap <leader>y :TagbarToggle<CR>
-" Toggle `gundo` undo search plugin
-nnoremap <leader>u :GundoToggle<CR>
-" Open `CtrlP` plugin fuzzy search tool
-nnoremap <leader>p :CtrlP<CR>
-" Remap `GitGutter` keys that conflict with <Space/leader>+h
-nnoremap <leader>gsh <Plug>GitGutterStageHunk
-nnoremap <leader>guh <Plug>GitGutterUndoHunk
-nnoremap <leader>gph <Plug>GitGutterPreviewHunk
-" ALE navigate between errors
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-" Start using Ack.vim (targeting `ag`) but don't jump to 1st match
-nnoremap <leader>a :Ack!<Space>
-
-" Code navigation shortcuts as found in :help lsp
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-" Quick-fix
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable folding by default
@@ -286,6 +128,14 @@ func! LinuxCStyle()
   setlocal noexpandtab     " don't expand tabs to spaces
 endfu
 com! StyleLinuxC call LinuxCStyle()
+
+" Apply Python Style guidelines
+func! PythonStyle()
+  setlocal softtabstop=4   " edit file as if tab == 4 spaces to match shiftwidth
+  setlocal shiftwidth=4    " indent 4 spaces for one tab/indent
+  setlocal noexpandtab     " don't expand tabs to spaces
+endfu
+com! StylePython call PythonStyle()
 
 " Reset any Style changes
 func! ResetStyle()
@@ -688,6 +538,165 @@ EOF
 "lua << EOF
 "require("lspsaga").init_lsp_saga()
 "EOF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autocommands
+"
+" Use autocommand enclosures to prevent double-loading of autocommands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" DEBUG: Be verbose when executing autocommands (mostly keep commented out)
+"set verbose=9
+
+augroup multi_buffer
+  au!
+  au FocusGained, BufEnter * :silent! !
+  " Autosave when leaving a buffer or vim (but run no save hooks to be faster)
+  au FocusLost, WinLeave * :silent! noautocmd w
+augroup END
+
+augroup code_extensions_and_syntax
+  au!
+  " automatically associate *.md files with Markdown syntax (maybe NA for newer
+  " versions of Vim) and launch `Goyo` plugin automatically
+  au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
+  "au BufNewFile,BufFilePre,BufRead *.md Goyo
+  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} setlocal spell spelllang=en_us
+  " Don't number lines on these text files
+  au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} set nonu
+
+  " Automatically remove all trailing whitespace when buffer is saved
+  " except for the file extensions in `trail_blk_list`
+  let g:trail_blk_list = ['markdown', 'text']
+  au BufWritePre * if index(g:trail_blk_list, &ft) < 0 | %s/\s\+$//e
+  " Matching autocommand for highlighting extra whitespace in red
+  " Uncomment below to match while typing (little aggressive)
+  "match ExtraWhitespace /\s\+$/
+  au BufWinEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
+  au InsertEnter * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+\%#\@<!$/
+  au InsertLeave * if index(trail_blk_list, &ft) < 0 | match ExtraWhitespace /\s\+$/
+  " Clear when leaving for performance issues
+  au BufWinLeave * call clearmatches()
+
+  " Close vim automatically if the only window left open is `NERDTree` plugin
+  au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " Set cursorline only when not in insert mode
+  au InsertLeave,WinEnter * set cursorline
+  au InsertEnter,WinLeave * set nocursorline
+
+  " Set .xdc to TCL
+  au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
+
+  " Default to LinuxCStyle for C apps
+  au FileType c StyleLinuxC
+
+  " Execute current Python buffer (https://stackoverflow.com/a/18948530)
+  au FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  au FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  au FileType python StylePython
+
+augroup END
+
+" Show diagnostic popup on cursor hover
+"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Searching & Movement
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch       " search as characters are entered
+set inccommand=nosplit
+set hlsearch        " highlight matches
+set ignorecase      " Ignore case when searching
+" highlight last inserted text
+nnoremap gV '[v']
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Key & Leader Shortcuts/Remapping
+"
+" ALWAYS use nonrecursive mapping to prevent unintended consequences
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:mapleader=' '
+" `jk` to escape
+inoremap jk <esc>
+" Map arrow keys to graphical movements
+nnoremap <Up> gk
+nnoremap <Down> gj
+" Remove all trailing whitespace by pressing F7 (also see above for autoremove
+" trailing whitespace on buffer save for specific filetypes)j
+nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+" Toggle spell checking (default off)
+nnoremap <F5> :set spell! spelllang=en_us<CR>
+
+" Open new empty buffer
+nnoremap <leader>n :enew<CR>
+" Move to next open buffer (`f` for home row)
+nnoremap <leader>fl :bnext<CR>
+" Move to previous buffer (`f` for home row)
+nnoremap <leader>fh :bprevious<CR>
+" Close current buffer and move to previous one (similar to closing tab)
+nnoremap <leader>fq :bp <BAR> bd #<CR>
+" Vertical split (into another window) current file
+nnoremap <leader>v :vsplit<CR>
+" Horizontal split (into another window) current file
+nnoremap <leader>s :split<CR>
+" Move to window left
+nnoremap <leader>h <C-w><Left>
+" Move to window right
+nnoremap <leader>l <C-w><Right>
+" Move to window up
+nnoremap <leader>k <C-w><Up>
+" Move to window down
+nnoremap <leader>j <C-w><Down>
+" Close current window
+nnoremap <leader>q :hide<CR>
+" Enlarge current window height by 10 lines
+nnoremap <leader>K :res +10<CR>
+" Shrink current window height by 10 lines
+nnoremap <leader>J :res -10<CR>
+" Enlarge current window width by 10 lines
+nnoremap <leader>L :vertical resize +10<CR>
+" Shrink current window width by 10 lines
+nnoremap <leader>H :vertical resize -10<CR>
+
+" Open/toggle `NERDTree` file viewer plugin
+nnoremap <leader>t :NERDTreeToggle<CR>
+" Open/toggle `Tagbar` tag viewer plugin
+nnoremap <leader>y :TagbarToggle<CR>
+" Toggle `gundo` undo search plugin
+nnoremap <leader>u :GundoToggle<CR>
+" Open `CtrlP` plugin fuzzy search tool
+nnoremap <leader>p :CtrlP<CR>
+" Remap `GitGutter` keys that conflict with <Space/leader>+h
+nnoremap <leader>gsh <Plug>GitGutterStageHunk
+nnoremap <leader>guh <Plug>GitGutterUndoHunk
+nnoremap <leader>gph <Plug>GitGutterPreviewHunk
+" ALE navigate between errors
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" Start using Ack.vim (targeting `ag`) but don't jump to 1st match
+nnoremap <leader>a :Ack!<Space>
+
+" Code navigation shortcuts as found in :help lsp
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+" Quick-fix
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
