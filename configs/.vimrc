@@ -134,6 +134,10 @@ augroup code_extensions_and_syntax
   " Default to LinuxCStyle for C apps
   au FileType c StyleLinuxC
 
+  " Execute current Python buffer (https://stackoverflow.com/a/18948530)
+  autocmd FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
+  autocmd FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
 augroup END
 
 " Show diagnostic popup on cursor hover
