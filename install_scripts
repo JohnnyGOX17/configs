@@ -13,6 +13,7 @@ cp ./dev_utils/git/git-acp                $insLoc
 cp ./dev_utils/git/git-list-large         $insLoc
 cp ./dev_utils/git/git-fix-ssh-origin-url $insLoc
 cp ./dev_utils/git/git-check-remote-changes $insLoc
+cp ./dev_utils/check-python-outdated      $insLoc
 
 cp ./sys_utils/backup_data                $insLoc
 cp ./sys_utils/mvrms                      $insLoc

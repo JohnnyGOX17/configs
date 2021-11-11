@@ -1,0 +1,13 @@
+#!/bin/bash
+
+num_list=$(pip3 list --outdated 2> /dev/null | wc -l)
+# subtract two top lines for list header
+num_outdated="$((num_list - 2))"
+
+
+if [ $num_outdated -gt 0 ]; then
+  printf " \ue235 Pip Updates Available: %s " $num_outdated > /tmp/pip_update_cnt
+else
+  printf "" > /tmp/pip_update_cnt
+fi;
+
