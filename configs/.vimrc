@@ -597,6 +597,10 @@ augroup code_extensions_and_syntax
   au FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
   au FileType python StylePython
 
+  " Build & execute current Rust project
+  au FileType rust map <buffer> <F9> :up<CR>:exec '!cargo run'<CR>
+  au FileType rust imap <buffer> <F9> <esc>:up<CR>:exec '!cargo run'<CR>
+
 augroup END
 
 " Show diagnostic popup on cursor hover
