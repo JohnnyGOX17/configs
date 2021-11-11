@@ -37,9 +37,10 @@ for d in */ ; do
 done
 
 if [ $i -gt 0 ]; then
-  echo " ⚙ Git Repo Updates Available: $i " > /tmp/sys_git_updates
+  # NOTE: requires [NerdFonts](https://github.com/ryanoasis/nerd-fonts)
+  printf " \ue725 Git Repo Updates Available: $i " > /tmp/sys_git_updates
 else
-  echo "" > /tmp/sys_git_updates
+  printf "" > /tmp/sys_git_updates
 fi;
 
 popd > /dev/null
