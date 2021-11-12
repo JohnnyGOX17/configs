@@ -327,7 +327,6 @@ if [ "$pkgApp" = "apt" ]; then
 elif [ "$pkgApp" = "yum" ]; then
   sudo yum -y groupinstall "Development Tools" \
     "Compatibility Libraries" \
-    #"GNOME Desktop" \
     "Security Tools" \
     "System Administration Tools"
 
@@ -647,7 +646,6 @@ elif [ "$pkgApp" = "brew" ]; then
     tree \
     unzip \
     vim --override-system-vi \
-    # macvim --override-system-vim --custom-system-icons \
     wakeonlan \
     watch \
     wdiff --with-gettext \
@@ -732,7 +730,7 @@ else
 fi
 fppInstallLoc=/usr/local/bin/fpp
 if [ ! -f $fppInstallLoc ]; then
-  sudo ln -s $(pwd)/PathPicker/fpp $fppInstallLoc
+  sudo ln -s "$(pwd)"/PathPicker/fpp $fppInstallLoc
 fi
 
 # GHDL- FOSS VHDL compiler & simulator
@@ -769,12 +767,12 @@ if [ -d /usr/local/go ]; then
 fi
 pushd /tmp/ > /dev/null
 msg "NOTE: Check for Go release updates at https://golang.org/dl/"
-goOS=$(echo "$(uname)" | awk '{print tolower($0)}')
+goOS=$(uname | awk '{print tolower($0)}')
 if [ "$(uname -m)" != "x86_64" ]; then
   err "Expecting x86_64 architecture to install Go!"
 fi
-wget https://dl.google.com/go/go1.12.9.${goOS}-amd64.tar.gz
-sudo tar -C /usr/local/ -xzf go1.12.9.${goOS}-amd64.tar.gz
+wget "https://dl.google.com/go/go1.12.9.${goOS}-amd64.tar.gz"
+sudo tar -C /usr/local/ -xzf "go1.12.9.${goOS}-amd64.tar.gz"
 popd > /dev/null
 
 # Mono-project repo & install
@@ -958,7 +956,7 @@ popd > /dev/null
 ###############################################################################
 msg "Installing config files and environment settings"
 ###############################################################################
-pushd $execPath > /dev/null
+pushd "$execPath" > /dev/null || exit
 
 msg "Installing terminal settings. Run 'term_test' after to confirm proper operation."
 if [ "$pkgApp" = "brew" ]; then
@@ -993,7 +991,8 @@ elif [ "$pkgApp" = "dnf" ]; then
 */5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
   # Backup directories every 4 hours:  0 */4 * * * /usr/local/bin/backup_data
 elif [ "$pkgApp" = "brew" ]; then
-  cronLine='*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [[ $(/usr/local/bin/brew outdated) ]] ; then printf " \uf302 Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
+  # Nerd Font char used explicitly here in cron command since there's some weirdness with printf on macOS...
+  cronLine='*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [[ $(/usr/local/bin/brew outdated) ]] ; then printf "  Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
 */5 * * * * /usr/local/bin/check-python-outdated &> /dev/null
 */5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
 fi

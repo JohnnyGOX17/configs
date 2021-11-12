@@ -18,11 +18,11 @@ for d in */ ; do
     defBranch="$(git remote show "$repoRemote" | sed -n '/HEAD branch/s/.*: //p' )"
 
     oldOrigin="$(git remote get-url "$repoRemote")"
-    if [[ $oldOrigin == git@* ]]; then # build git:// URL so no auth needed to check
-      domainName="$(echo "$oldOrigin" | awk -F[@/:] '{print $2}')"
-      userName="$(echo "$oldOrigin" | awk -F[@/:] '{print $3}')"
-      repoName="$(echo "$oldOrigin" | awk -F[@/:] '{print $4}')"
-      git fetch "git://$domainName/$userName/$repoName" &> /dev/null
+    if [[ $oldOrigin == git@* ]]; then # build git:// URL (no auth needed compared to SSH)
+      # the path is done like since some git repos have more than 1 level of git
+      # directory levels to traverse
+      repoPath="$(echo "$oldOrigin" | awk -F[@/:] '{for(i=2;i<=NF;++i) printf "/"$i}')"
+      git fetch "git:/$repoPath" &> /dev/null
     else # no authentication needed
       git fetch "$repoRemote" > /dev/null
     fi
