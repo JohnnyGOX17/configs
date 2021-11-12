@@ -37,3 +37,8 @@ sys_utils/
 ## Todo
 
 - [ ] add tmux line to let know if git repos need updating and/or if updates need to be made due to this repo
+
+## Other References & Inspitation
+
+* [GitHub dotfiles](https://dotfiles.github.io/)
+
