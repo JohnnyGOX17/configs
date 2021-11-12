@@ -12,7 +12,6 @@ i=0
 for d in */ ; do
   pushd "$d" > /dev/null || exit
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
-    echo "$d"
     # Get remote (often 'origin')
     repoRemote="$(git remote)"
     # Get default branch from remote
