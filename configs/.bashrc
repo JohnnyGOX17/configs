@@ -167,7 +167,7 @@ elif [ "$(uname -s)" = "Darwin" ]; then
 fi
 
 # Upgrade all pip packages: https://stackoverflow.com/questions/2720014/how-to-upgrade-all-python-packages-with-pip
-alias pip-upgrade-all='pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U'
+alias pip-upgrade-all="pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U && echo '' > /tmp/pip_update_cnt"
 
 # ls macros
 alias ll='ls -lhXG'
