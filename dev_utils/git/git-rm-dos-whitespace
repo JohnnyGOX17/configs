@@ -3,9 +3,9 @@
 # More aggressive removal of DOS line endings found in a repo
 # Could be useful in git hook, replace find pattern based on filetypes
 
-if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
   git_root="$(git rev-parse --show-toplevel)"
-  pushd ${git_root} > /dev/null
+  pushd "$git_root" > /dev/null || exit
   # find files w/DOS line-endings and pipe to 'dos2unix' to convert to Unix EOLs
   find . -type f \( -iname \*.vhd -o -iname \*.v \) -exec file "{}" ";" | grep CRLF | sed 's/:.*//' | xargs dos2unix
   # replace any Posix-defined trailing whitespace chars from selected files
@@ -16,5 +16,5 @@ if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
   else
     echo "Success"
   fi
-  popd > /dev/null
+  popd > /dev/null || exit
 fi

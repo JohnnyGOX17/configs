@@ -2,51 +2,35 @@
 # Automate `git pull` of `src` directories
 
 # Colors for printing
-RED='\033[1;31m'
 BLU='\033[1;34m'
 NC='\033[0m'
 
-# @JCG: not used, use `ssh-init` macro in bashrc instead for each term sesh
-# Find if ssh-agent process is already running. If not, start it and auto add
-# private key from default location. If running do nothing. If more than one
-# process running, kill last one
-#case "$(pidof ssh-agent | wc -w)" in
-#  0) echo -e "\n${BLU}Restarting ssh-agent:${NC}"
-#    eval "$(ssh-agent)"
-#    ssh-add
-#    ;;
-#  1) echo -e "\n${BLU}ssh-agent already running: $(pidof ssh-agent)${NC}"
-#    ;;
-#  *) echo -e "\n${RED}Removing double process of ssh-agent: $(pidof ssh-agent | awk '{print $1}')${NC}"
-#    kill "$(pidof ssh-agent | awk '{print $1}')"
-#    ;;
-#esac
-
-pushd ~/src > /dev/null
+pushd ~/src > /dev/null || exit
 
 # iterate through directories in src/ directory to automatically pull
-dirCount=$(ls -d */ | wc -l)
+# find is used to better handled non-alphanumeric directories (-1 ignore ./)
+dirCount=$(( $(find ./ -maxdepth 1 -type d | wc -l) - 1 ))
 iter=0
 for d in */ ; do
-  pushd "$d" > /dev/null
+  pushd "$d" > /dev/null || exit
   percent=$(awk "BEGIN { pc=100*${iter}/${dirCount}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
   echo -en "\r\033[K ${BLU}[${percent}%]${NC} ${d%/}"
   if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     # Get remote (often 'origin')
     repoRemote="$(git remote)"
     # Get default branch from remote
-    defBranch="$(git remote show $repoRemote | sed -n '/HEAD branch/s/.*: //p' )"
+    defBranch="$(git remote show "$repoRemote" | sed -n '/HEAD branch/s/.*: //p' )"
 
     # get all updates from remote and merge only default branch, then switch back to current branch
     curr_branch=$(git symbolic-ref --short HEAD)
-    git fetch $repoRemote
-    git checkout -q $defBranch
-    git merge --ff-only -q $repoRemote/$defBranch
+    git fetch "$repoRemote"
+    git checkout -q "$defBranch"
+    git merge --ff-only -q "$repoRemote/$defBranch"
     git checkout -q "$curr_branch"
   fi;
-  popd > /dev/null
+  popd > /dev/null || exit
 
-  iter=$(( $iter + 1))
+  iter=$((iter + 1))
 done
 echo -en "\r\033[K"
 echo ""
@@ -54,5 +38,5 @@ echo ""
 # clear Git update file
 echo "" > /tmp/sys_git_updates
 
-popd > /dev/null
+popd > /dev/null || exit
 

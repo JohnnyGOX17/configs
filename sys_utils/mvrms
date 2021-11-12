@@ -2,4 +2,5 @@
 # quickly removes whitespace from filename/path
 
 newName=$(echo "$1" | tr ' ' '_')
-mv "$1" $newName
+mv "$1" "$newName"
+

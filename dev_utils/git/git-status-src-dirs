@@ -6,19 +6,20 @@ BLU='\033[1;34m'
 NC='\033[0m'
 
 # change for differenct src directory
-pushd ~/src > /dev/null
+pushd ~/src > /dev/null || exit
 
 # Iterate through directories in src/ and check git status
 for d in */ ; do
-  pushd $d > /dev/null
-  if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+  pushd "$d" > /dev/null || exit
+  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
     gitStatStr="$(git status -s)"
     if [ -n "$gitStatStr" ]; then
       echo -e "\n${BLU}[$d]${NC}"
       echo -e "$gitStatStr"
     fi;
   fi;
-  popd > /dev/null
+  popd > /dev/null || exit
 done
 
-popd > /dev/null
+popd > /dev/null || exit
+

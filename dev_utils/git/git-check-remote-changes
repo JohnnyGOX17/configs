@@ -5,43 +5,44 @@ BLU='\033[1;34m'
 NC='\033[0m'
 
 # change for differenct src directory
-pushd ~/src > /dev/null
+pushd ~/src > /dev/null || exit
 
 # Iterate through directories in src/ and check git status
 i=0
 for d in */ ; do
-  pushd $d > /dev/null
-  if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+  pushd "$d" > /dev/null || exit
+  if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
+    echo "$d"
     # Get remote (often 'origin')
     repoRemote="$(git remote)"
     # Get default branch from remote
-    defBranch="$(git remote show $repoRemote | sed -n '/HEAD branch/s/.*: //p' )"
+    defBranch="$(git remote show "$repoRemote" | sed -n '/HEAD branch/s/.*: //p' )"
 
-    oldOrigin="$(git remote get-url $repoRemote)"
+    oldOrigin="$(git remote get-url "$repoRemote")"
     if [[ $oldOrigin == git@* ]]; then # build git:// URL so no auth needed to check
-      domainName="$(echo $oldOrigin | awk -F[@/:] '{print $2}')"
-      userName="$(echo $oldOrigin | awk -F[@/:] '{print $3}')"
-      repoName="$(echo $oldOrigin | awk -F[@/:] '{print $4}')"
-      git fetch git://$domainName/$userName/$repoName &> /dev/null
+      domainName="$(echo "$oldOrigin" | awk -F[@/:] '{print $2}')"
+      userName="$(echo "$oldOrigin" | awk -F[@/:] '{print $3}')"
+      repoName="$(echo "$oldOrigin" | awk -F[@/:] '{print $4}')"
+      git fetch "git://$domainName/$userName/$repoName" &> /dev/null
     else # no authentication needed
-      git fetch $repoRemote > /dev/null
+      git fetch "$repoRemote" > /dev/null
     fi
-    gitDiffStr="$(git diff HEAD $repoRemote/$defBranch)"
+    gitDiffStr="$(git diff HEAD "$repoRemote/$defBranch")"
     if [ -n "$gitDiffStr" ]; then
       echo -e "\n${BLU}[$d]${NC}"
-      git diff HEAD $repoRemote/$defBranch
-      let i++
+      git diff HEAD "$repoRemote/$defBranch"
+      ((i++))
     fi;
   fi;
-  popd > /dev/null
+  popd > /dev/null || exit
 done
 
 if [ $i -gt 0 ]; then
   # NOTE: requires [NerdFonts](https://github.com/ryanoasis/nerd-fonts)
-  printf " \ue725 Git Repo Updates Available: $i " > /tmp/sys_git_updates
+  printf " \ue725 Git Repo Updates Available: %s" $i > /tmp/sys_git_updates
 else
   printf "" > /tmp/sys_git_updates
 fi;
 
-popd > /dev/null
+popd > /dev/null || exit
 

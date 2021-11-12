@@ -6,13 +6,13 @@
 # case and semicolon (e.x. "// TODO: stuff") but need not have a '#' or '@' or
 # other comment char preceding
 
-if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
   git_root="$(git rev-parse --show-toplevel)"
-  pushd ${git_root} > /dev/null
+  pushd "$git_root" > /dev/null || exit
   printf "| File | Line | Comment |\n| ---- | ---- | ------- |\n" > TODO.md
   # TODO: change to meet file pattern/extension needs from stdin
   grep --include=\*.{c,h,cpp,hpp,py,sh,tex,v,vhd} -rnw './' -e "TODO" | awk -F':' '{ printf "| ["; system("basename " $1 " | head -c -1"); printf "]"; print "(" $1 "#L" $2 ")" " | " $2 " | " $4 " |" }' | tee -a TODO.md
-  popd > /dev/null
+  popd > /dev/null || exit
 else
   echo "Not in a git repo!"
 fi

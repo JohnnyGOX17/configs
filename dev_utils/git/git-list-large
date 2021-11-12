@@ -19,12 +19,12 @@ elif [ "$#" -ne 0 ]; then
   usage
 fi
 
-if [ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]; then
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
   git rev-list --objects --all \
     | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
     | sed -n 's/^blob //p' \
     | sort --numeric-sort --key=2 \
     | cut -c 1-12,41- \
     | $(command -v gnufmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest \
-    | tail -n $num_lines
+    | tail -n "$num_lines"
 fi

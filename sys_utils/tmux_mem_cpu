@@ -67,7 +67,7 @@ if [[ $windowWidth -gt 80 ]]; then # only continue if wider than 80 chars
   # based on current window width
   currDate="$(date +'%T')"
   if [[ $windowWidth -gt 120 ]]; then
-    echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color $memVal)] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color $cpuVal)] #[fg=colour233,bg=colour245] $currDate "
+    echo -e "${cpuTempStr} #[bold]Mem:#[nobold] ${memUse}GB (${memVal}%) [$(bar_color "$memVal")] | #[bold]TopPs#[nobold]: $psVal ($cpuVal%) [$(bar_color "$cpuVal")] #[fg=colour233,bg=colour245] $currDate "
   else # [[ $windowWidth -gt 80 ]]; then
     echo -e "#[fg=colour233,bg=colour245] ${currDate} "
   fi
