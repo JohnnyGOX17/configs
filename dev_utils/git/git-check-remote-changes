@@ -36,9 +36,9 @@ for d in */ ; do
   popd > /dev/null || exit
 done
 
-if [ $i -gt 0 ]; then
+if [ "$i" -gt 0 ]; then
   # NOTE: requires [NerdFonts](https://github.com/ryanoasis/nerd-fonts)
-  printf " \ue725 Git Repo Updates Available: %s" $i > /tmp/sys_git_updates
+  printf "  Git Repo Updates Available: %s" "$i" > /tmp/sys_git_updates
 else
   printf "" > /tmp/sys_git_updates
 fi;
