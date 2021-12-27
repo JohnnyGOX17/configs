@@ -596,6 +596,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gawk \
     gdb \
     ghdl \
+    gifski \
     git \
     gnu-indent --with-default-names \
     gnu-sed --with-default-names \
