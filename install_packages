@@ -74,8 +74,9 @@ if [ "$pkgApp" = "apt" ]; then
 
   # NOTE: a lot of these are out of date!
 
+  # NOTE: for Neovim, suggested to use [snap install](https://github.com/neovim/neovim/wiki/Installing-Neovim#snap)
   # Neovim ppa
-  sudo apt-add-repository --yes ppa:neovim-ppa/stable
+  #sudo apt-add-repository --yes ppa:neovim-ppa/stable
 
   # Brackets editor
   sudo apt-add-repository --yes ppa:webupd8team/brackets
