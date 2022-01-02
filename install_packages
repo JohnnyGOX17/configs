@@ -596,7 +596,6 @@ elif [ "$pkgApp" = "brew" ]; then
     fpp \
     gawk \
     gdb \
-    ghdl \
     gifski \
     git \
     gnu-indent --with-default-names \
@@ -737,11 +736,12 @@ fi
 
 # GHDL- FOSS VHDL compiler & simulator
 if [ "$pkgApp" = "brew" ]; then
-  msg "NOTE: Check for macOS release updates at https://github.com/ghdl/ghdl/releases"
   pushd /usr/local/ > /dev/null
-  wget https://github.com/ghdl/ghdl/releases/download/v0.36/ghdl-0.36-macosx-llvm.tgz
-  tar -xzvf ghdl-0.36-macosx-llvm.tgz
-  rm -f ghdl-0.36-macosx-llvm.tgz
+  msg "NOTE: Check for macOS release updates at https://github.com/ghdl/ghdl/releases, currently using Nightly"
+  GHDL_TARBALL="ghdl-macos-11.0-mcode.tgz"
+  sudo wget "https://github.com/ghdl/ghdl/releases/download/nightly/$GHDL_TARBALL"
+  sudo tar -xzvf "$GHDL_TARBALL"
+  sudo rm -f "$GHDL_TARBALL"
   popd > /dev/null
 elif [ "$pkgApp" != "dnf" ]; then # TODO: maybe other *nix distros too?
   msg "Installing GHDL from source..."
