@@ -102,6 +102,9 @@ export LESS_TERMCAP_md="${yellow}"
 # Don’t clear the screen after quitting a manual page
 export MANPAGER='less -X'
 
+# Added env safety for log4shell vuln
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
+
 # Set PATH & library variables
 #if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
   if [ "$(uname -s)" = "Linux" ]; then
