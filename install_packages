@@ -735,31 +735,18 @@ if [ ! -f $fppInstallLoc ]; then
 fi
 
 # GHDL- FOSS VHDL compiler & simulator
+msg "Installing GHDL from GitHub releases..."
+msg "NOTE: Check for release updates at https://github.com/ghdl/ghdl/releases, currently using Nightly"
+pushd /usr/local/ > /dev/null
 if [ "$pkgApp" = "brew" ]; then
-  pushd /usr/local/ > /dev/null
-  msg "NOTE: Check for macOS release updates at https://github.com/ghdl/ghdl/releases, currently using Nightly"
   GHDL_TARBALL="ghdl-macos-11.0-mcode.tgz"
-  sudo wget "https://github.com/ghdl/ghdl/releases/download/nightly/$GHDL_TARBALL"
-  sudo tar -xzvf "$GHDL_TARBALL"
-  sudo rm -f "$GHDL_TARBALL"
-  popd > /dev/null
-elif [ "$pkgApp" != "dnf" ]; then # TODO: maybe other *nix distros too?
-  msg "Installing GHDL from source..."
-  if [ -d "ghdl" ]; then
-    pushd ghdl/ > /dev/null
-    git pull
-  else
-    git clone https://github.com/ghdl/ghdl.git
-    pushd ghdl/ > /dev/null
-  fi
-  mkdir -p build
-  pushd build/
-  ../configure --with-llvm-config --prefix=/usr/local
-  make
-  sudo make install
-  popd > /dev/null
-  popd > /dev/null
+elif [ "$pkgApp" = "apt" ]; then
+  GHDL_TARBALL="ghdl-gha-ubuntu-20.04-mcode.tgz"
 fi
+sudo wget "https://github.com/ghdl/ghdl/releases/download/nightly/$GHDL_TARBALL"
+sudo tar -xzvf "$GHDL_TARBALL"
+sudo rm -f "$GHDL_TARBALL"
+popd > /dev/null
 
 # Go Lang tools
 msg "Installing Go from source..."
