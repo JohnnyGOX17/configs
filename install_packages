@@ -702,6 +702,7 @@ ${pythonExe} install --user \
   numpy \
   pandas \
   proselint \
+  pytest \
   scikit-learn \
   scipy \
   seaborn \

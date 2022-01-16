@@ -133,7 +133,7 @@ com! StyleLinuxC call LinuxCStyle()
 func! PythonStyle()
   setlocal softtabstop=4   " edit file as if tab == 4 spaces to match shiftwidth
   setlocal shiftwidth=4    " indent 4 spaces for one tab/indent
-  setlocal noexpandtab     " don't expand tabs to spaces
+  setlocal expandtab     " don't expand tabs to spaces
 endfu
 com! StylePython call PythonStyle()
 
@@ -220,6 +220,10 @@ call plug#begin('~/.vim/plugged')
   let g:ale_vhdl_ghdl_options = '--std=08 --enable-openieee'
   " vcom option defaults: https://github.com/dense-analysis/ale/blob/master/ale_linters/vhdl/vcom.vim
   " vlog option defaults: https://github.com/dense-analysis/ale/blob/master/ale_linters/verilog/vlog.vim
+
+
+  " Black: Python formatter --------------------------------------------------
+  Plug 'psf/black'
 
 
   " CtrlP: Full path fuzzy file, buffer, mru, tag... finder ------------------
@@ -598,6 +602,8 @@ augroup code_extensions_and_syntax
   au FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
   au FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
   au FileType python StylePython
+  " Run Black formatter on save: https://black.readthedocs.io/en/stable/integrations/editors.html#vim
+  au FileType python autocmd BufWritePre *.py execute ':Black'
 
   " Build & execute current Rust project
   au FileType rust map <buffer> <F9> :up<CR>:exec '!cargo run'<CR>
