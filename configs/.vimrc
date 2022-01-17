@@ -214,6 +214,7 @@ call plug#begin('~/.vim/plugged')
   let g:ale_linters = {
   \ 'vhdl': ['vcom'],
   \ 'verilog': ['vlog'],
+  \ 'systemverilog': ['vlog'],
   \}
   " For VHDL 2008, use openieee for IEEE packages:
   " https://github.com/ghdl/ghdl/issues/1255#issuecomment-619308878
