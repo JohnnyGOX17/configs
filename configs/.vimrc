@@ -637,6 +637,9 @@ nnoremap gV '[v']
 let g:mapleader=' '
 " `jk` to escape
 inoremap jk <esc>
+" Since 'chage inner word' allows you to not have the cursor at the beginning
+" of the word, map ciw -> cw by default.
+nnoremap cw ciw
 " Map arrow keys to graphical movements
 nnoremap <Up> gk
 nnoremap <Down> gj
