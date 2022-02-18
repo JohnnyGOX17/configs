@@ -389,40 +389,42 @@ call plug#begin('~/.vim/plugged')
     let g:vimtex_compiler_progname = 'nvr'
   endif
 
-  " Collection of common configurations for the Nvim LSP client
-  "  used over coc (https://github.com/neoclide/coc.nvim/)
-  Plug 'neovim/nvim-lspconfig'
-
-  " Autocompletion framework
-  Plug 'hrsh7th/nvim-cmp'
-  " cmp LSP completion
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  " cmp Snippet completion
-  Plug 'hrsh7th/cmp-vsnip'
-  " cmp Path completion
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-buffer'
-
-  " Adds extra functionality over rust analyzer
-  Plug 'simrat39/rust-tools.nvim'
-
-  " Snippet engine
-  Plug 'hrsh7th/vim-vsnip'
-
-  " Optional
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-
   " Nord colorscheme
   Plug 'arcticicestudio/nord-vim'
 
-  " LSP diagnostics prettifier (bottom tray error/warn display)
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'folke/trouble.nvim'
+  if has('nvim')
+    " Collection of common configurations for the Nvim LSP client
+    "  used over coc (https://github.com/neoclide/coc.nvim/)
+    Plug 'neovim/nvim-lspconfig'
 
-  " LSP high-performant UI in Lua
-  "Plug 'glepnir/lspsaga.nvim'
+    " Autocompletion framework
+    Plug 'hrsh7th/nvim-cmp'
+    " cmp LSP completion
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    " cmp Snippet completion
+    Plug 'hrsh7th/cmp-vsnip'
+    " cmp Path completion
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-buffer'
+
+    " Adds extra functionality over rust analyzer
+    Plug 'simrat39/rust-tools.nvim'
+
+    " Snippet engine
+    Plug 'hrsh7th/vim-vsnip'
+
+    " Optional
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+
+    " LSP diagnostics prettifier (bottom tray error/warn display)
+    Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'folke/trouble.nvim'
+
+    " LSP high-performant UI in Lua
+    "Plug 'glepnir/lspsaga.nvim'
+  endif
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -434,6 +436,7 @@ call plug#end()
 " rust-tools will configure and enable certain LSP features for us.
 " See https://github.com/simrat39/rust-tools.nvim#configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
 lua <<EOF
 
 -- nvim_lsp object
@@ -545,6 +548,7 @@ EOF
 "lua << EOF
 "require("lspsaga").init_lsp_saga()
 "EOF
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -621,7 +625,9 @@ augroup END
 " Searching & Movement
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch       " search as characters are entered
-set inccommand=nosplit
+if has('nvim')
+  set inccommand=nosplit
+endif
 set hlsearch        " highlight matches
 set ignorecase      " Ignore case when searching
 " highlight last inserted text
