@@ -646,6 +646,7 @@ elif [ "$pkgApp" = "brew" ]; then
     tmux \
     tree \
     unzip \
+    verilator \
     vim --override-system-vi \
     wakeonlan \
     watch \
