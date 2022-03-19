@@ -565,7 +565,7 @@ elif [ "$pkgApp" = "dnf" ]; then
   pythonExe="pip3"
 
 elif [ "$pkgApp" = "brew" ]; then
-  brew cask install \
+  brew install --cask \
     amethyst \
     calibre \
     google-chrome \
