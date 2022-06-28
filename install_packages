@@ -586,6 +586,8 @@ elif [ "$pkgApp" = "brew" ]; then
     ctags \
     diffutils \
     djvu2pdf \
+    docker \
+    docker-compose \
     doxygen \
     drawio \
     ed --with-default-names \
