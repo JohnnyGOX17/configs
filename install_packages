@@ -568,6 +568,7 @@ elif [ "$pkgApp" = "brew" ]; then
   brew install --cask \
     amethyst \
     calibre \
+    docker \
     google-chrome \
     iterm2 \
     kicad \
@@ -586,7 +587,6 @@ elif [ "$pkgApp" = "brew" ]; then
     ctags \
     diffutils \
     djvu2pdf \
-    docker \
     docker-compose \
     doxygen \
     drawio \
