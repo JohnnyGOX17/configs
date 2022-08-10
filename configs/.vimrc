@@ -123,9 +123,9 @@ com! WP call WordProcessorMode()
 
 " Apply Linux C Style guidelines
 func! LinuxCStyle()
-  setlocal softtabstop=8   " edit file as if tab == 8 spaces to match shiftwidth
-  setlocal shiftwidth=8    " indent 8 spaces for one tab/indent
-  setlocal noexpandtab     " don't expand tabs to spaces
+  setlocal softtabstop=4   " edit file as if tab == 8 spaces to match shiftwidth
+  setlocal shiftwidth=4    " indent 8 spaces for one tab/indent
+  setlocal expandtab       " expand tabs to spaces
 endfu
 com! StyleLinuxC call LinuxCStyle()
 
@@ -133,7 +133,7 @@ com! StyleLinuxC call LinuxCStyle()
 func! PythonStyle()
   setlocal softtabstop=4   " edit file as if tab == 4 spaces to match shiftwidth
   setlocal shiftwidth=4    " indent 4 spaces for one tab/indent
-  setlocal expandtab     " don't expand tabs to spaces
+  setlocal expandtab       " expand tabs to spaces
 endfu
 com! StylePython call PythonStyle()
 
@@ -625,7 +625,7 @@ augroup code_extensions_and_syntax
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
 
   " Default to LinuxCStyle for C apps
-  au FileType c StyleLinuxC
+  au FileType c,cpp StyleLinuxC
 
   " Execute current Python buffer (https://stackoverflow.com/a/18948530)
   au FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
