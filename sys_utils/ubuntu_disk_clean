@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -eu
+
+keepJouDays=3
+
+echo "INFO: Clearing apt packages no longer required"
+sudo apt-get autoremove
+
+echo "INFO: Clearing apt cache"
+dirClean="/var/cache/apt"
+echo -e "\tBefore: $(sudo du -sh $dirClean)"
+sudo apt-get clean
+echo -e "\tAfter:  $(sudo du -sh $dirClean)"
+
+echo "INFO: Clearing journal logs older than $keepJouDays Days"
+journalctl --disk-usage
+sudo journalctl --vacuum-time=${keepJouDays}d
+
+echo "INFO: Clearing old snap app versions"
+echo "NOTE: CLOSE ALL SNAPS BEFORE RUNNING"
+dirClean="/var/lib/snapd/snaps/"
+echo -e "\tBefore: $(du -h $dirClean)"
+snap list --all | awk '/disabled/{print $1, $3}' |
+  while read snapname revision; do
+    sudo snap remove "$snapname" --revision="$revision"
+  done
+
+echo -e "\tAfter:  $(du -h $dirClean)"
+
+echo "INFO: Clearing file manager thumbnail cache"
+dirClean="$HOME/.cache/thumbnails"
+echo -e "\tBefore: $(du -sh $dirClean)"
+rm -rf "$HOME/.cache/thumbnails/*"
+echo -e "\tAfter:  $(du -sh $dirClean)"
+
