@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Fixes errors in XCode CLI tools (e.g. clang/llvm, hexdumps in brew, etc.)
+#
+# References:
+#  * https://apple.stackexchange.com/a/439668
+#  * https://apple.stackexchange.com/a/446563
+#
+
+echo "Removing old CommandLineTools to force upgrade..."
+sudo rm -rf /Library/Developer/CommandLineTools
+
+echo "Install latest CommandLineTools (NOTE: accept EULA pop-up)..."
+sudo xcode-select --install
+sudo xcode-select -switch /Library/Developer/CommandLineTools
+
