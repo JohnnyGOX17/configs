@@ -25,9 +25,9 @@ set number         " turn on line numbering
 set hidden         " hide buffers instead of closing them
 syntax enable      " turn on syntax highlighting
 filetype indent on " use indentation based on filetype in $RUNTIME/indent
-set tabstop=8      " tab char == default 8 spaces
-set softtabstop=2  " edit file as if tab == 2 spaces to match shiftwidth
-set shiftwidth=2   " indent 2 spaces (instead of 8) for one tab
+set tabstop=4      " tab char == 4 spaces
+set softtabstop=4  " edit file as if tab == 4 spaces to match shiftwidth
+set shiftwidth=4   " indent 4 spaces (instead of 8) for one tab
 set expandtab      " make sure tabs expand to spaces
 set backspace=2    " make backspace work like most other text editors
 set cursorline     " highlight current line horizontally
@@ -120,30 +120,6 @@ func! WordProcessorMode()
   syntax off
 endfu
 com! WP call WordProcessorMode()
-
-" Apply Linux C Style guidelines
-func! LinuxCStyle()
-  setlocal softtabstop=4   " edit file as if tab == 8 spaces to match shiftwidth
-  setlocal shiftwidth=4    " indent 8 spaces for one tab/indent
-  setlocal expandtab       " expand tabs to spaces
-endfu
-com! StyleLinuxC call LinuxCStyle()
-
-" Apply Python Style guidelines
-func! PythonStyle()
-  setlocal softtabstop=4   " edit file as if tab == 4 spaces to match shiftwidth
-  setlocal shiftwidth=4    " indent 4 spaces for one tab/indent
-  setlocal expandtab       " expand tabs to spaces
-endfu
-com! StylePython call PythonStyle()
-
-" Reset any Style changes
-func! ResetStyle()
-  setlocal softtabstop=2   " edit file as if tab == 2 spaces to match shiftwidth
-  setlocal shiftwidth=2    " indent 2 spaces (instead of 8) for one tab/indent
-  setlocal expandtab       " make sure tabs expand to spaces
-endfu
-com! StyleReset call ResetStyle()
 
 " NOTE: to debug tab/spaces/EOLs in a file use `:set list`
 func! SpacesToTabs()
@@ -601,6 +577,10 @@ augroup code_extensions_and_syntax
   " Don't number lines on these text files
   au BufNewFile,BufFilePre,BufRead *.{md,tex,txt} set nonu
 
+  " Show tabs in files
+  set list
+  set listchars=tab:\»\ ,extends:>,precedes:<,nbsp:+
+
   " Automatically remove all trailing whitespace when buffer is saved
   " except for the file extensions in `trail_blk_list`
   let g:trail_blk_list = ['markdown', 'text']
@@ -624,13 +604,9 @@ augroup code_extensions_and_syntax
   " Set .xdc to TCL
   au BufNewFile,BufFilePre,BufRead *.xdc set filetype=tcl
 
-  " Default to LinuxCStyle for C apps
-  au FileType c,cpp StyleLinuxC
-
   " Execute current Python buffer (https://stackoverflow.com/a/18948530)
   au FileType python map <buffer> <F9> :up<CR>:exec '!python3' shellescape(@%, 1)<CR>
   au FileType python imap <buffer> <F9> <esc>:up<CR>:exec '!python3' shellescape(@%, 1)<CR>
-  au FileType python StylePython
   " Run Black formatter on save: https://black.readthedocs.io/en/stable/integrations/editors.html#vim
   au FileType python autocmd BufWritePre *.py execute ':Black'
 
