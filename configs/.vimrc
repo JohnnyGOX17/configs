@@ -40,6 +40,7 @@ set autoread       " Autoload changes when switching buffers or gaining focus
 set timeoutlen=300 " Quicker timeout for events (default: 1000 ms)
 set updatetime=300 " Set updatetime for CursorHold
 set shortmess+=c   " Avoid showing extra messages when using completion
+set mouse=         " disable mouse/cursor movements
 " have a fixed column for the diagnostics to appear in
 " this removes the jitter when warnings/errors flow in
 " setting from static 'yes' -> 'number' merges number and diag's to one column
@@ -445,7 +446,6 @@ local nvim_lsp = require'lspconfig'
 local opts = {
     tools = {
         autoSetHints = true,
-        hover_with_actions = true,
         runnables = {
             use_telescope = true
         },
