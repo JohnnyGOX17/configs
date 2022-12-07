@@ -161,6 +161,10 @@ alias ssh='TERM=xterm-256color ssh'
 # start SSH & add key for current session
 alias ssh-init='eval "$(ssh-agent)" && ssh-add'
 
+# run sudo with current PATH environment variable:
+#  $ mysudo <command> [arguments]
+alias mysudo='sudo -E env "PATH=$PATH"'
+
 # easy updating for package management
 if [ "$(uname -s)" = "Linux" ]; then
   if [ -n "$(command -v apt)" ]; then
