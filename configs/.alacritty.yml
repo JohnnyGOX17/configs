@@ -1,0 +1,80 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator
+#  Inspired by: https://github.com/tmcdonell/config-alacritty
+
+font:
+  normal:
+    family: "Hack Nerd Font Mono"
+    style: Regular
+
+  bold:
+    family: "Hack Nerd Font Mono"
+    style: Bold
+
+  italic:
+    family: "Hack Nerd Font Mono"
+    style: Italic
+
+  size: 12.0
+
+  # Thin stroke font rendering (macOS only):
+  # NOTE: `use_thin_strokes` is now deprecated, instead in terminal set Font 
+  # Smoothing using (then restarting):
+  #  $ defaults write -g AppleFontSmoothing -int 0
+  # See https://github.com/alacritty/alacritty/issues/4616#issuecomment-1236413444
+
+# Color schema (and much more colors) from repo:
+#  https://github.com/aarowill/base16-alacritty
+# Base16 Default Dark - alacritty color config
+# Chris Kempson (http://chriskempson.com)
+colors:
+  # Default colors
+  primary:
+    background: '0x181818'
+    foreground: '0xd8d8d8'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '0x181818'
+    cursor: '0xd8d8d8'
+
+  # Normal colors
+  normal:
+    black:   '0x181818'
+    red:     '0xab4642'
+    green:   '0xa1b56c'
+    yellow:  '0xf7ca88'
+    blue:    '0x7cafc2'
+    magenta: '0xba8baf'
+    cyan:    '0x86c1b9'
+    white:   '0xd8d8d8'
+
+  # Bright colors
+  bright:
+    black:   '0x585858'
+    red:     '0xdc9656'
+    green:   '0x282828'
+    yellow:  '0x383838'
+    blue:    '0xb8b8b8'
+    magenta: '0xe8e8e8'
+    cyan:    '0xa16946'
+    white:   '0xf8f8f8'
+
+draw_bold_text_with_bright_colors: false
+
+key_bindings:
+  # Helpful ticket thread on keybinding changes for tmux:
+  #  https://github.com/alacritty/alacritty/issues/93
+  # In .tmux.conf Alt+A is prefix key sequence for tmux commands
+  - { key: A,        mods: Alt,     chars: "\x1ba"                       }
+  # Similarly, Alt+[h,j,k,l] is used for pane movement
+  - { key: J,        mods: Alt,     chars: "\x1bj"                       }
+  - { key: K,        mods: Alt,     chars: "\x1bk"                       }
+  - { key: H,        mods: Alt,     chars: "\x1bh"                       }
+  - { key: L,        mods: Alt,     chars: "\x1bl"                       }
+
+mouse:
+  # If this is `true`, the cursor is temporarily hidden when typing.
+  hide_when_typing: true
+
+# Live config reload (changes require restart)
+live_config_reload: true

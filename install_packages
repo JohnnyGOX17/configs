@@ -566,6 +566,7 @@ elif [ "$pkgApp" = "dnf" ]; then
 
 elif [ "$pkgApp" = "brew" ]; then
   brew install --cask \
+    alacritty \
     amethyst \
     calibre \
     docker \

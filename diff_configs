@@ -14,7 +14,7 @@ $diffProg ./configs/.inputrc ~/.inputrc
 $diffProg ./configs/.profile ~/.profile
 $diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 $diffProg ./configs/.vimrc ~/.vimrc
-$diffProg ./configs/init.vim ~/.config/nvim/init.vim
+$diffProg ./configs/init.lua ~/.config/nvim/init.lua
 $diffProg ./configs/monokai.vim ~/.vim/colors/monokai.vim
 $diffProg ./configs/.tmux.conf ~/.tmux.conf
 $diffProg ./configs/rc.conf ~/.config/ranger/rc.conf
@@ -22,3 +22,4 @@ $diffProg ./configs/scope.sh ~/.config/ranger/scope.sh
 $diffProg ./configs/.muttrc ~/.muttrc
 $diffProg ./configs/.ctags ~/.ctags
 $diffProg ./configs/.glbl_gitignore ~/.glbl_gitignore
+$diffProg ./configs/.alacritty.yml ~/.alacritty.yml
