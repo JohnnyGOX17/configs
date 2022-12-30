@@ -17,7 +17,7 @@ font:
   size: 12.0
 
   # Thin stroke font rendering (macOS only):
-  # NOTE: `use_thin_strokes` is now deprecated, instead in terminal set Font 
+  # NOTE: `use_thin_strokes` is now deprecated, instead in terminal set Font
   # Smoothing using (then restarting):
   #  $ defaults write -g AppleFontSmoothing -int 0
   # See https://github.com/alacritty/alacritty/issues/4616#issuecomment-1236413444

@@ -8,6 +8,7 @@
 --
 -- Install Steps:
 --  * Packer will run on first invocation, then restart
+--  * Run `:TSInstall vim` to add treesitter support for vim script
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
