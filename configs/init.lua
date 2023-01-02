@@ -9,6 +9,7 @@
 -- Install Steps:
 --  * Packer will run on first invocation, then restart
 --  * Run `:TSInstall vim` to add treesitter support for vim script
+--  * Run `:TSInstall latex` to add treesitter support for LaTeX
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
@@ -77,6 +78,15 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  use({ -- Nice diagnositc lines
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  })
+
+  use 'gaoDean/autolist.nvim' -- Helpful formatter to Markdown lists
+
   -- Git related plugins
   use 'tpope/vim-fugitive'
   use 'tpope/vim-eunuch'
@@ -86,6 +96,7 @@ require('packer').startup(function(use)
   -- Color theme plugins
   use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'arcticicestudio/nord-vim'
+  use 'folke/tokyonight.nvim'
 
   use 'editorconfig/editorconfig-vim' -- Maintain consistent coding styles for projects
 
@@ -104,6 +115,8 @@ require('packer').startup(function(use)
   use 'psf/black' -- Black Python formatter
 
   use 'plasticboy/vim-markdown' -- Markdown highlighting
+
+  use 'jbyuki/nabla.nvim' -- Generate ASCII math from LaTeX equations in popup
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -192,7 +205,7 @@ vim.o.laststatus = 3
 -- this removes the jitter when warnings/errors flow in
 -- setting from static 'yes' -> 'number' merges number and diag's to one column
 --   like -> https://www.reddit.com/r/neovim/comments/neaeej/only_just_discovered_set_signcolumnnumber_i_like/
-vim.o.signcolumn="number"
+vim.o.signcolumn = "number"
 
 -- disable netrw at the very start of your init.lua (strongly advised for nvim-tree)
 vim.g.loaded_netrw = 1
@@ -200,7 +213,8 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme tokyonight-night]]
+vim.cmd [[hi WinSeparator guifg=orange]]
 -- show trailing whitespace as red
 vim.cmd [[hi ExtraWhitespace ctermfg=NONE ctermbg=red cterm=NONE guifg=NONE guibg=red gui=NONE]]
 -- Italicize comments (not needed, already in theme)
@@ -317,7 +331,7 @@ vim.api.nvim_create_autocmd(
 -- See `:help lualine.txt`
 require('lualine').setup {
   options = {
-    theme = 'horizon',
+    theme = 'tokyonight',
   },
 }
 
@@ -383,6 +397,8 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<CR>')
+
+vim.keymap.set('n', '<leader>p', ':lua require("nabla").popup()<CR>')
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -605,13 +621,15 @@ require("nvim-tree").setup({
   },
 })
 
+require('autolist').setup({})
+
 -- Customize nvim-lspconfig UI (https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter)
 -- Automatically update diagnostics
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = false, -- disable end of line diagnostic message since using lsp_lines plugin
   signs = true,
   underline = true,
-  update_in_insert = false,
+  update_in_insert = true,
   severity_sort = false,
 })
 
