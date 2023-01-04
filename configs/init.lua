@@ -523,19 +523,25 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- Enable the following language servers
+-- Enable the following language servers (LSPs):
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
+-- Available LSPs: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
 local servers = {
-  clangd = {},
-  -- gopls = {},
-  pyright = {},
-   rust_analyzer = {},
-  -- tsserver = {},
+  bashls = {}, -- Bash
+  clangd = {}, -- C/C++
+  cssls = {}, -- CSS
+  -- gopls = {}, -- Go
+  html = {}, -- HTML
+  jsonls = {}, -- JSON
+  jdtls = {}, -- Java
+  pyright = {}, -- Python
+  rust_analyzer = {}, -- Rust
+  tsserver = {}, -- JavaScript/TypeScript
 
-  sumneko_lua = {
+  sumneko_lua = { -- Lua
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
