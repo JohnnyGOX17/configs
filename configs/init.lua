@@ -8,8 +8,6 @@
 --
 -- Install Steps:
 --  * Packer will run on first invocation, then restart
---  * Run `:TSInstall vim` to add treesitter support for vim script
---  * Run `:TSInstall latex` to add treesitter support for LaTeX
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
@@ -413,7 +411,7 @@ end, vim.api.nvim_create_namespace "auto_hlsearch")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help' },
+  ensure_installed = { 'bash', 'c', 'cpp', 'cuda', 'dockerfile', 'go', 'html', 'java', 'javascript', 'latex', 'lua', 'python', 'rust', 'typescript', 'verilog', 'vim', 'help' },
 
   highlight = { enable = true },
   indent = { enable = true, disable = { 'python' } },
