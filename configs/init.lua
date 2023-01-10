@@ -3,11 +3,12 @@
 -- Neovim Configuration
 --
 -- Prerequisites:
---  * neovim >= 0.5 (for built-in LSP support)
---  * rust-analyzer: https://rust-analyzer.github.io/manual.html#rust-analyzer-language-server-binary
+--  * neovim >= 0.8 (for built-in LSP and other features)
+--  * LSP and associated tools like [rust-analyzer](https://rust-analyzer.github.io/manual.html#rust-analyzer-language-server-binary)
 --
 -- Install Steps:
---  * Packer will run on first invocation, then restart
+--  * Place this file in '$HOME/.config/nvim/'
+--  * Packer will run on first invocation, then restart Neovim
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
@@ -81,6 +82,33 @@ require('packer').startup(function(use)
     config = function()
       require("lsp_lines").setup()
     end,
+  })
+
+  use({
+    "folke/noice.nvim",
+    config = function()
+      require("noice").setup({
+        lsp = {
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        presets = {
+          --bottom_search = true, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+      })
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    }
   })
 
   use 'gaoDean/autolist.nvim' -- Helpful formatter to Markdown lists
@@ -295,17 +323,17 @@ vim.api.nvim_create_autocmd(
 -- Highlight trailing whitespace as match to ExtraWhitespace
 vim.api.nvim_create_autocmd(
   { "BufWinEnter", "InsertLeave" },
-  { pattern = "*", command = "match ExtraWhitespace /\\s\\+$/" }
+  { pattern = "*.{c,cpp,h,hpp,py,rs,sh,sv,v,vhd}", command = "match ExtraWhitespace /\\s\\+$/" }
 )
--- Clear when leaving for performance issues
+-- Don't highlight while in insert mode and clear when leaving for performance issues
 vim.api.nvim_create_autocmd(
-  "BufWinLeave",
-  { pattern = "*", command = "call clearmatches()" }
+  { "InsertEnter", "BufWinLeave" },
+  { pattern = "*.{c,cpp,h,hpp,py,rs,sh,sv,v,vhd}", command = "call clearmatches()" }
 )
 -- Automatically remove all trailing whitespace when buffer is saved
 vim.api.nvim_create_autocmd(
   "BufWritePre",
-  { pattern = "*", command = "%s/\\s\\+$//e" }
+  { pattern = "*.{c,cpp,h,hpp,py,rs,sh,sv,v,vhd}", command = "%s/\\s\\+$//e" }
 )
 
 -- Need to force Black python formatter to run on buffer write
@@ -411,7 +439,28 @@ end, vim.api.nvim_create_namespace "auto_hlsearch")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'bash', 'c', 'cpp', 'cuda', 'dockerfile', 'go', 'html', 'java', 'javascript', 'latex', 'lua', 'python', 'rust', 'typescript', 'verilog', 'vim', 'help' },
+  ensure_installed = {
+    'bash',
+    'c',
+    'cpp',
+    'cuda',
+    'dockerfile',
+    'go',
+    'html',
+    'java',
+    'javascript',
+    'latex',
+    'lua',
+    'markdown',
+    --'markdown_inline',
+    'python',
+    'regex',
+    'rust',
+    'typescript',
+    'verilog',
+    'vim',
+    'help'
+  },
 
   highlight = { enable = true },
   indent = { enable = true, disable = { 'python' } },
