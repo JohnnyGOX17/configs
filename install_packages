@@ -223,6 +223,7 @@ if [ "$pkgApp" = "apt" ]; then
     doxygen \
     editorconfig \
     exuberant-ctags \
+    fail2ban \
     fd-find \
     ffmpegthumbnailer \
     filezilla \
