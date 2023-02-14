@@ -9,11 +9,17 @@
 -- Install Steps:
 --  * Place this file in '$HOME/.config/nvim/'
 --  * Packer will run on first invocation, then restart Neovim
+--  * Do `$ python3 -m pip install --user --upgrade pynvim` to have provider available below
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
 --
 -- ////////////////////////////////////////////////////////////////////////////
+
+-- Manually set the Python3 host path to make startup much faster (https://neovim.io/doc/user/provider.html)
+-- This makes a drastic difference in startup time: https://www.reddit.com/r/neovim/comments/r9acxp/comment/hnbuwy7/?utm_source=share&utm_medium=web2x&context=3
+-- NOTE: for now, this path should be manually changed on each system
+vim.g.python3_host_prog = '/usr/local/bin/python3'
 
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
@@ -578,7 +584,7 @@ end
 -- Available LSPs: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
 local servers = {
   bashls = {}, -- Bash
-  clangd = {}, -- C/C++
+  clangd = {}, -- C/C++, see https://clangd.llvm.org/installation.html
   cssls = {}, -- CSS
   -- gopls = {}, -- Go
   html = {}, -- HTML
@@ -588,12 +594,12 @@ local servers = {
   rust_analyzer = {}, -- Rust
   tsserver = {}, -- JavaScript/TypeScript
 
-  sumneko_lua = { -- Lua
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
+  --sumneko_lua = { -- Lua
+  --  Lua = {
+  --    workspace = { checkThirdParty = false },
+  --    telemetry = { enable = false },
+  --  },
+  --},
 }
 
 -- Setup neovim lua configuration
