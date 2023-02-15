@@ -462,7 +462,7 @@ require('nvim-treesitter.configs').setup {
     'latex',
     'lua',
     'markdown',
-    --'markdown_inline',
+    'markdown_inline',
     'python',
     'regex',
     'rust',
