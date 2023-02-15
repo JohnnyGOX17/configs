@@ -13,12 +13,15 @@
 --
 -- References:
 --  * Based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
+--  * [How to Configure Neovim to make it Amazing - typecraft YouTube](https://www.youtube.com/watch?v=J9yqSdvAKXY)
+--  * [Neovim from Scratch - chris@machine YouTube Series](https://www.youtube.com/playlist?list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ)
 --
 -- ////////////////////////////////////////////////////////////////////////////
 
 -- Manually set the Python3 host path to make startup much faster (https://neovim.io/doc/user/provider.html)
 -- This makes a drastic difference in startup time: https://www.reddit.com/r/neovim/comments/r9acxp/comment/hnbuwy7/?utm_source=share&utm_medium=web2x&context=3
 -- NOTE: for now, this path should be manually changed on each system
+-- NOTE: startup time can be profiled with `nvim --startuptime <filename>`
 vim.g.python3_host_prog = '/usr/local/bin/python3'
 
 -- Install packer
@@ -65,6 +68,7 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-nvim-lsp',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
       'hrsh7th/cmp-path'
     },
   }
@@ -636,6 +640,9 @@ require('fidget').setup()
 --  See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
+
+-- From: https://www.youtube.com/watch?v=h4g0m0Iwmys
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup {
   snippet = {
