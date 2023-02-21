@@ -249,7 +249,20 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme tokyonight-night]]
+-- Tokyo Night colorscheme config
+-- NOTE: must set options _before_ loading `colorscheme` command
+require("tokyonight").setup({
+  style = "night",
+  dim_inactive = true,
+  lualine_bold = true,
+  -- Override colors for background and background dark to allow dim_inactive 
+  -- to work for "night" scheme (inactive slightly darker bg color)
+  on_colors = function(colors)
+    colors.bg = "#181818"
+    colors.bg_dark = "#101010"
+  end
+})
+vim.cmd [[colorscheme tokyonight]]
 vim.cmd [[hi WinSeparator guifg=orange]]
 -- show trailing whitespace as red
 vim.cmd [[hi ExtraWhitespace ctermfg=NONE ctermbg=red cterm=NONE guifg=NONE guibg=red gui=NONE]]
@@ -362,6 +375,7 @@ vim.api.nvim_create_autocmd(
   { "InsertEnter", "WinLeave" },
   { pattern = "*", command = "set nocursorline", group = hcursor_group }
 )
+
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
