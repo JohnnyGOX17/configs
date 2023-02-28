@@ -76,5 +76,9 @@ mouse:
   # If this is `true`, the cursor is temporarily hidden when typing.
   hide_when_typing: true
 
+scrolling:
+  # Disable scrollwheel/mousepad up/down arrow movements
+  multiplier: 0
+
 # Live config reload (changes require restart)
 live_config_reload: true
