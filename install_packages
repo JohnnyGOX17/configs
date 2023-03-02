@@ -566,29 +566,20 @@ elif [ "$pkgApp" = "dnf" ]; then
   pythonExe="pip3"
 
 elif [ "$pkgApp" = "brew" ]; then
-  brew install --cask \
+  brew install \
     alacritty \
     amethyst \
-    calibre \
-    docker \
-    google-chrome \
-    iterm2 \
-    kicad \
-    mactex \
-    skim \
-    visual-studio-code \
-    vlc
-
-  brew install \
     awscli \
     bash \
     bash-completion \
     binutils \
+    calibre \
     cmake \
     coreutils \
     ctags \
     diffutils \
     djvu2pdf \
+    docker \
     docker-compose \
     doxygen \
     drawio \
@@ -608,6 +599,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gnu-which --with-default-names \
     gnutls \
     go \
+    google-chrome \
     gpatch \
     grep --with-default-names \
     gtkwave \
@@ -618,9 +610,13 @@ elif [ "$pkgApp" = "brew" ]; then
     icarus-verilog \
     irssi \
     ipython \
+    iterm2 \
     jupyter \
+    kicad \
+    kitty \
     less \
     m4 \
+    mactex \
     make \
     mono \
     mutt \
@@ -644,6 +640,7 @@ elif [ "$pkgApp" = "brew" ]; then
     rsync \
     scipy \
     shellcheck \
+    skim \
     svn \
     tcl-tk \
     the_silver_searcher \
@@ -652,6 +649,8 @@ elif [ "$pkgApp" = "brew" ]; then
     unzip \
     verilator \
     vim --override-system-vi \
+    visual-studio-code \
+    vlc
     wakeonlan \
     watch \
     wdiff --with-gettext \
