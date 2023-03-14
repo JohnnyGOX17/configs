@@ -18,7 +18,6 @@ cp -u ~/.inputrc ./configs/.inputrc
 cp -u ~/.profile ./configs/.profile
 cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.profile
 cp -u ~/.vimrc ./configs/.vimrc
-cp -u ~/.config/nvim/init.lua ./configs/init.lua
 cp -u ~/.vim/colors/monokai.vim ./configs/monokai.vim
 cp -u ~/.tmux.conf ./configs/.tmux.conf
 cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
@@ -27,6 +26,8 @@ cp -u ~/.muttrc ./configs/.muttrc
 cp -u ~/.ctags ./configs/.ctags
 cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
 cp -u ~/.alacritty.yml ./configs/.alacritty.yml
+# Neovim has a tree of Lua files for config
+cp -ur ~/.config/nvim/ configs/
 
 # Then copy remote files over if they're newer
 cp -u ./configs/.gitconfig ~/.gitconfig
@@ -36,7 +37,6 @@ cp -u ./configs/.inputrc ~/.inputrc
 cp -u ./configs/.profile ~/.profile
 cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 cp -u ./configs/.vimrc ~/.vimrc
-cp -u ./configs/init.lua ~/.config/nvim/init.lua
 cp -u ./configs/monokai.vim ~/.vim/colors/monokai.vim
 cp -u ./configs/.tmux.conf ~/.tmux.conf
 cp -u ./configs/rc.conf ~/.config/ranger/rc.conf
@@ -45,3 +45,5 @@ cp -u ./configs/.muttrc ~/.muttrc
 cp -u ./configs/.ctags ~/.ctags
 cp -u ./configs/.glbl_gitignore ~/.glbl_gitignore
 cp -u ./configs/.alacritty.yml ~/.alacritty.yml
+# Neovim has a tree of Lua files for config
+cp -ur configs/nvim/ ~/.config/
