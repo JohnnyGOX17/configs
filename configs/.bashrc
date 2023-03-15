@@ -62,11 +62,19 @@ fi
 # set Neovim as default editor (when available)
 if command -v nvim > /dev/null; then
   alias vim='nvim'
+  alias vimdiff='nvim -d'
   export VISUAL=nvim
 else
   export VISUAL=vim
 fi
 export EDITOR="$VISUAL"
+
+# custom binary diff command using xxd and vimdiff for visualization
+if command -v xxd > /dev/null; then
+  bindiff() {
+    vimdiff <(xxd "$1") <(xxd "$2")
+  }
+fi
 
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr
 export PYTHONIOENCODING='UTF-8'
@@ -242,7 +250,7 @@ function lb() {
   echo "## Hypothesis"         >> "$StrPath"
   echo "## Experiment"         >> "$StrPath"
   echo "## Outcome"            >> "$StrPath"
-  vim "$StrPath"
+  $EDITOR "$StrPath"
 }
 
 # <tab> completion for "Makefile"s in a dir showing all options as well
