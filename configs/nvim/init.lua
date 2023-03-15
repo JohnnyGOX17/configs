@@ -137,6 +137,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- `jk` to escape from insert mode
+-- NOTE: to reset this mapping (for instance if trying to paste a session token 
+-- which just so happens to have a '..jk..` sequence in the string), do:
+--  :inoremap jk jk
 vim.keymap.set('i', 'jk', '<Esc>')
 -- Since 'chage inner word' allows you to not have the cursor at the beginning
 -- of the word, map ciw -> cw by default.
