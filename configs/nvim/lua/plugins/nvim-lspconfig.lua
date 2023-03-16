@@ -133,6 +133,8 @@ return { -- LSP Configuration & Plugins
         -- Enable clang-tidy linter. NOTE: by default, looks for `.clang-tidy` file in project root,
         --  which can be generated with a given check/style with --dump-config. For example:
         --  $ clang-tidy -checks=google-* --dump-config > .clang-tidy
+        -- Note also below where format-on-save is enabled for clangd, which uses clang-format.
+        -- In this case see to make a project .clang-format file with https://clang.llvm.org/docs/ClangFormatStyleOptions.html
         "--clang-tidy",
         "--completion-style=bundled", -- combine similar completion items
         "--cross-file-rename",
