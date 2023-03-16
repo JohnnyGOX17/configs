@@ -57,9 +57,6 @@ end
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- For VHDL syntax highlighting, indent similar to C-syntax operation (e.g. by shiftwidth())
-vim.g.vhdl_indent_genportmap = 0
-
 -- disable netrw at the very start of your init.lua (strongly advised for nvim-tree)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

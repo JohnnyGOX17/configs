@@ -35,7 +35,10 @@ return { -- LSP Configuration & Plugins
       lua_ls = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
       ruff_lsp = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
-      rust_analyzer = {}, -- Rust
+      -- Other Rust settings: https://sharksforarms.dev/posts/neovim-rust/
+      rust_analyzer = {  -- Rust (https://rust-analyzer.github.io/manual.html#configuration)
+        checkOnSave = { command = "clippy" }, -- use clippy over `cargo check` default
+      },
       tsserver = {}, -- JavaScript/TypeScript
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
@@ -119,7 +122,7 @@ return { -- LSP Configuration & Plugins
       end,
     }
 
-    require("lspconfig").clangd.setup { -- clangd specific setup opts
+    require("lspconfig").clangd.setup { -- clangd specific setup opts (https://clangd.llvm.org/config)
       cmd = {
         -- See https://clangd.llvm.org/installation.html and https://clangd.llvm.org/installation.html#project-setup
         -- for how to install & setup for a given project/system
@@ -138,6 +141,23 @@ return { -- LSP Configuration & Plugins
         "-j=4", -- number of async workers used by clangd & background index
       }
     }
+
+
+    -- Run `:Format` on buffer save, if the LSP for a given file type/pattern 
+    -- supports it (NOTE: Python still needs `Black` plugin- see py_black.lua- 
+    -- to format as pyright LSP does not support formatting)
+    local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.rs",
+      callback = function()
+        vim.lsp.buf.format({ timeout_ms = 200 })
+      end,
+      group = format_sync_grp,
+    })
+
+
+    -- For VHDL syntax highlighting, indent similar to C-syntax operation (e.g. by shiftwidth())
+    vim.g.vhdl_indent_genportmap = 0
 
 
     -- Setup https://github.com/suoto/hdl_checker, only for VHDL files, requires:
