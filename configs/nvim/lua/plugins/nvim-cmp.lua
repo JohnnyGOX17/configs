@@ -21,7 +21,7 @@ return { -- Autocompletion
     local cmp_kinds = {
       Text = '  ',
       Method = '  ',
-      Function = '  ',
+      Function = 'ƒ  ',
       Constructor = '  ',
       Field = '  ',
       Variable = '  ',
