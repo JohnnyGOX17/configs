@@ -25,7 +25,7 @@ return { -- LSP Configuration & Plugins
     -- LSP Config doc: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     local servers = {
       bashls = {}, -- Bash
-      clangd = {}, -- C/C++
+      clangd = {}, -- C/C++ (more options set below)
       cmake = {}, -- cmake
       cssls = {}, -- CSS
       --gopls = {}, -- Go
@@ -35,10 +35,7 @@ return { -- LSP Configuration & Plugins
       lua_ls = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
       ruff_lsp = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
-      -- Other Rust settings: https://sharksforarms.dev/posts/neovim-rust/
-      rust_analyzer = {  -- Rust (https://rust-analyzer.github.io/manual.html#configuration)
-        checkOnSave = { command = "clippy" }, -- use clippy over `cargo check` default
-      },
+      rust_analyzer = {},  -- Rust (more options set below)
       tsserver = {}, -- JavaScript/TypeScript
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
@@ -141,6 +138,17 @@ return { -- LSP Configuration & Plugins
         "--header-insertion=iwyu", -- include what you use, like https://github.com/include-what-you-use/include-what-you-use
         "--pch-storage=memory", -- store PCHs in memory to improve performance (increases memory usage however)
         "-j=4", -- number of async workers used by clangd & background index
+      }
+    }
+
+    -- [Rust Analyzer settings](https://rust-analyzer.github.io/manual.html#configuration)
+    --  Other Rust settings: https://sharksforarms.dev/posts/neovim-rust/
+    require'lspconfig'.rust_analyzer.setup {
+      settings = {
+        ['rust-analyzer'] = {
+          -- use clippy over `cargo check` default 
+          checkOnSave = { command = "clippy" }
+        }
       }
     }
 
