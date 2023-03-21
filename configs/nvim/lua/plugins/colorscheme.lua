@@ -24,6 +24,9 @@ return {
     vim.cmd [[hi WinSeparator guifg=orange]]
     -- show trailing whitespace as red
     vim.cmd [[hi ExtraWhitespace ctermfg=NONE ctermbg=red cterm=NONE guifg=NONE guibg=red gui=NONE]]
+    -- lighten up completion window background (only guibg need be set 
+    -- with vim.o.termguicolors = true (init.lua)
+    vim.cmd [[hi Pmenu guibg=#2C2C2C]]
     -- Italicize comments (not needed, already in theme)
     -- vim.cmd [[hi Comment cterm=italic gui=italic]]
     -- vim.cmd [[hi SpecialComment cterm=italic gui=italic]]

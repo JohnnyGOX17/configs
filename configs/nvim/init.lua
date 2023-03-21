@@ -15,6 +15,7 @@
 --  * [How to Configure Neovim to make it Amazing - typecraft YouTube](https://www.youtube.com/watch?v=J9yqSdvAKXY)
 --  * [Neovim from Scratch - chris@machine YouTube Series](https://www.youtube.com/playlist?list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ)
 --  * [Migrating from Packer.nvim to Lazy.nvim](https://www.youtube.com/watch?v=aqlxqpHs-aQ)
+--  * [NvChad](https://github.com/NvChad/NvChad)
 --
 -- ////////////////////////////////////////////////////////////////////////////
 

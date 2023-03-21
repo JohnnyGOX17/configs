@@ -18,7 +18,50 @@ return { -- Autocompletion
     -- From: https://www.youtube.com/watch?v=h4g0m0Iwmys
     require("luasnip.loaders.from_vscode").lazy_load()
 
+    local cmp_kinds = {
+      Text = '  ',
+      Method = '  ',
+      Function = '  ',
+      Constructor = '  ',
+      Field = '  ',
+      Variable = '  ',
+      Class = '  ',
+      Interface = '  ',
+      Module = '  ',
+      Property = '  ',
+      Unit = '  ',
+      Value = '  ',
+      Enum = '  ',
+      Keyword = '  ',
+      Snippet = '  ',
+      Color = '  ',
+      File = '  ',
+      Reference = '  ',
+      Folder = '  ',
+      EnumMember = '  ',
+      Constant = '  ',
+      Struct = '  ',
+      Event = '  ',
+      Operator = '  ',
+      TypeParameter = '  ',
+    }
+
     cmp.setup {
+      -- Add VS Code like icons to completion menus: 
+      -- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
+      formatting = {
+        format = function(_, vim_item)
+          vim_item.kind = (cmp_kinds[vim_item.kind] or '') .. vim_item.kind
+          return vim_item
+        end,
+      },
+      window = {
+        documentation = {
+          -- Make documentation popup window use same colors as completion window
+          winhighlight = "Normal:Pmenu",
+        },
+      },
+      -- NOTE: a snippet engine is REQUIRED, here using luasnip
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
