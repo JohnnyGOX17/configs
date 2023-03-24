@@ -27,5 +27,8 @@ return { -- Markdown/LaTeX highlighting & tools
     vim.g.vim_markdown_edit_url_in = 'tab'
 
     vim.keymap.set('n', '<leader>p', ':lua require("nabla").popup()<CR>')
+
+    -- Wrap long lines at 'breakat' characters (keeps whole words while wrapping)
+    vim.o.linebreak = true
   end
 }
