@@ -15,6 +15,6 @@ return {
       },
     })
 
-    vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<CR>')
+    vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<CR>', { desc = 'Open nvim-tree file viewer on the left', silent = true })
   end
 }
