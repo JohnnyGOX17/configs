@@ -232,7 +232,7 @@ return { -- LSP Configuration & Plugins
         Fragment = { icon = "", hl = "@constant" },
       },
     })
-    vim.keymap.set('n', '<leader>S', ':SymbolsOutline<CR>', { desc = 'Open LSP symbols tree view on the right', silent = true })
+    vim.keymap.set('n', '<leader>y', ':SymbolsOutline<CR>', { desc = 'Open LSP symbols tree view on the right', silent = true })
 
     -- Diagnostic keymaps
     vim.keymap.set('n', '<C-k>', vim.diagnostic.goto_prev)

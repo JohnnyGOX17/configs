@@ -160,6 +160,20 @@ vim.keymap.set('n', '<leader>K', ':res +10<CR>', { desc = 'Enlarge current windo
 vim.keymap.set('n', '<leader>J', ':res -10<CR>', { desc = 'Shrink current window by 10 lines', silent = true })
 vim.keymap.set('n', '<leader>L', ':vertical resize +10<CR>', { desc = 'Enlarge current window width by 10 lines', silent = true })
 vim.keymap.set('n', '<leader>H', ':vertical resize -10<CR>', { desc = 'Shrink current window widht by 10 lines', silent = true })
+-- Similar, terminal-mode keymaps
+vim.keymap.set('n', '<leader><leader>', ':terminal<CR>', { desc = 'Open terminal emulator buffer', silent = true })
+vim.keymap.set('t', '<leader>fl', '<C-\\><C-N>:bnext<CR>', { desc = 'Move to next open buffer', silent = true })
+vim.keymap.set('t', '<leader>fh', '<C-\\><C-N>:bprevious<CR>', { desc = 'Move to previous open buffer', silent = true })
+vim.keymap.set('t', '<leader>fq', '<C-\\><C-N>:bd!<CR>', { desc = 'Close current terminal emulator buffer and move to previous buffer (similar to closing tab)', silent = true })
+vim.keymap.set('t', '<leader>h', '<C-\\><C-N><C-w><Left>', { desc = 'Move to window left', silent = true })
+vim.keymap.set('t', '<leader>l', '<C-\\><C-N><C-w><Right>', { desc = 'Move to window right', silent = true })
+vim.keymap.set('t', '<leader>k', '<C-\\><C-N><C-w><Up>', { desc = 'Move to window up', silent = true })
+vim.keymap.set('t', '<leader>j', '<C-\\><C-N><C-w><Down>', { desc = 'Move to window down', silent = true })
+vim.keymap.set('t', '<leader>q', '<C-\\><C-N>:hide<CR>', { desc = 'Close current window', silent = true })
+vim.keymap.set('t', '<leader>K', '<C-\\><C-N>:res +10<CR>', { desc = 'Enlarge current window by 10 lines', silent = true })
+vim.keymap.set('t', '<leader>J', '<C-\\><C-N>:res -10<CR>', { desc = 'Shrink current window by 10 lines', silent = true })
+vim.keymap.set('t', '<leader>L', '<C-\\><C-N>:vertical resize +10<CR>', { desc = 'Enlarge current window width by 10 lines', silent = true })
+vim.keymap.set('t', '<leader>H', '<C-\\><C-N>:vertical resize -10<CR>', { desc = 'Shrink current window widht by 10 lines', silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
