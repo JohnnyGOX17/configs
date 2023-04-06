@@ -174,6 +174,8 @@ vim.keymap.set('t', '<leader>K', '<C-\\><C-N>:res +10<CR>', { desc = 'Enlarge cu
 vim.keymap.set('t', '<leader>J', '<C-\\><C-N>:res -10<CR>', { desc = 'Shrink current window by 10 lines', silent = true })
 vim.keymap.set('t', '<leader>L', '<C-\\><C-N>:vertical resize +10<CR>', { desc = 'Enlarge current window width by 10 lines', silent = true })
 vim.keymap.set('t', '<leader>H', '<C-\\><C-N>:vertical resize -10<CR>', { desc = 'Shrink current window widht by 10 lines', silent = true })
+-- Visual key mappings
+vim.keymap.set({'n', 'v'}, '~', ':s/\\v<(.)(\\w*)/\\u\\1\\L\\2/g<CR>', { desc = 'Turn a line into title caps (first letter of each word capitalized)', silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
