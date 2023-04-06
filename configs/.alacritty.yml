@@ -14,6 +14,7 @@ font:
     family: "Hack Nerd Font Mono"
     style: Italic
 
+  # NOTE: `ctrl +/-` (or `cmd +/-`) is the default hotkey to increase/decrease font size dynamically
   size: 12.0
 
   # Thin stroke font rendering (macOS only):
