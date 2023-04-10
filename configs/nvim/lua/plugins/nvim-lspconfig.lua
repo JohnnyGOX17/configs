@@ -201,6 +201,8 @@ return { -- LSP Configuration & Plugins
 
     -- LSP Tree view
     require("symbols-outline").setup({
+      relative_width = false,
+      width = 40,
       symbols = {
         File = { icon = "", hl = "@text.uri" },
         Module = { icon = "", hl = "@namespace" },
