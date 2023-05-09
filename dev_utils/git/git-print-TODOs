@@ -1,18 +1,28 @@
 #!/bin/bash
 #
-# Simple script to find all lines marked with "TODO" in certain files within a
-# git repo and create list at repo root
-# NOTE: based on current search pattern, TODO comment must be at least upper-
-# case and semicolon (e.x. "// TODO: stuff") but need not have a '#' or '@' or
-# other comment char preceding
+# Simple script to find all lines marked with "#.*TODO:" (regex) in files tracked
+# by a git repo
+#
+
+# Prevent whitespace in filenames from breaking search
+OIFS="$IFS"
+IFS=$'\n'
 
 if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
   git_root="$(git rev-parse --show-toplevel)"
   pushd "$git_root" > /dev/null || exit
+
+  # Markdown table header
   printf "| File | Line | Comment |\n| ---- | ---- | ------- |\n" > TODO.md
-  # TODO: change to meet file pattern/extension needs from stdin
-  grep --include=\*.{c,h,cpp,hpp,py,sh,tex,v,vhd} -rnw './' -e "TODO" | awk -F':' '{ printf "| ["; system("basename " $1 " | head -c -1"); printf "]"; print "(" $1 "#L" $2 ")" " | " $2 " | " $4 " |" }' | tee -a TODO.md
+
+  # Use the Git tracked files as the ones to search (inately follows .gitignore's)
+  grep -rnw $(git ls-files) -e "#.*TODO" \
+    | awk -F':' '{ printf "| ["; system("basename " $1 " | head -c -1"); printf "]"; print "(" $1 "#L" $2 ")" " | " $2 " | " $4 " |" }' \
+    | tee -a TODO.md
+
   popd > /dev/null || exit
 else
-  echo "Not in a git repo!"
+  echo "Not in a git repo, exiting..."
 fi
+
+IFS="$OIFS"
