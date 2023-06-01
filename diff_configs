@@ -23,5 +23,7 @@ $diffProg ./configs/.ctags ~/.ctags
 $diffProg ./configs/.glbl_gitignore ~/.glbl_gitignore
 $diffProg ./configs/.alacritty.yml ~/.alacritty.yml
 
-# Neovim has a tree of Lua files for config
-$diffProg ./configs/nvim/ ~/.config/nvim/
+# Neovim has a tree of Lua files for config (ignore Lazy's lazy-lock.json so each
+#  machine can have its own plugin update state)
+$diffProg ./configs/nvim/init.lua ~/.config/nvim/init.lua
+$diffProg ./configs/nvim/lua/ ~/.config/nvim/lua
