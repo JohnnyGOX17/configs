@@ -305,6 +305,7 @@ if [ "$pkgApp" = "apt" ]; then
     tree \
     unrar \
     urlview \
+    verilator \
     virtualbox-5.2 \
     visualboyadvance \
     visualboyadvance-gtk \
