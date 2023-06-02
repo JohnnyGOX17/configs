@@ -206,10 +206,12 @@ if [ "$pkgApp" = "apt" ]; then
     bash-completion \
     bazel \
     bear \
+    bison \
     brackets \
     build-essential \
     bzip2 \
     calibre \
+    ccache \
     checkinstall \
     cifs-utils \
     clang \
@@ -227,6 +229,7 @@ if [ "$pkgApp" = "apt" ]; then
     fd-find \
     ffmpegthumbnailer \
     filezilla \
+    flex \
     g++ \
     gcc \
     gdb \
@@ -246,6 +249,7 @@ if [ "$pkgApp" = "apt" ]; then
     gtkwave \
     helix-cli \
     helix-p4d \
+    help2man \
     highlight \
     htop \
     hugo \
@@ -257,6 +261,7 @@ if [ "$pkgApp" = "apt" ]; then
     libelf-dev \
     libevent-dev \
     libgtk-3-dev \
+    libgoogle-perftools-dev \
     libmagic-dev \
     libsynctex-dev \
     libusb-1.0-0-dev \
@@ -274,9 +279,11 @@ if [ "$pkgApp" = "apt" ]; then
     neovim \
     nmap \
     npm \
+    numactl \
     okular \
     openocd \
     pandoc \
+    perl-doc \
     playonlinux \
     python-dev \
     python3-dev \
@@ -305,7 +312,6 @@ if [ "$pkgApp" = "apt" ]; then
     tree \
     unrar \
     urlview \
-    verilator \
     virtualbox-5.2 \
     visualboyadvance \
     visualboyadvance-gtk \
@@ -901,6 +907,25 @@ else
   # install nerd-fonts (https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts)
   brew tap homebrew/cask-fonts
   brew install --cask font-hack-nerd-font
+fi
+
+
+# Install Verilator from source on non-brew/macOS
+if [ "$pkgApp" != "brew" ]; then
+  msg "Installing Verilator"
+  pushd ~/src/ > /dev/null
+  git clone https://github.com/verilator/verilator
+  pushd ~/verilator/ > /dev/null
+  popd > /dev/null
+  unset VERILATOR_ROOT
+  # Use most recent stable release, or use branch "v{version}" for specific release
+  git checkout stable
+  autoconf
+  # configure to install in system global location
+  ./configure
+  make -j "$(nproc)"
+  sudo make install
+  popd > /dev/null
 fi
 
 
