@@ -753,9 +753,9 @@ pushd /usr/local/ > /dev/null
 if [ "$pkgApp" = "brew" ]; then
   GHDL_TARBALL="ghdl-macos-11.0-mcode.tgz"
 elif [ "$pkgApp" = "apt" ]; then
-  GHDL_TARBALL="ghdl-gha-ubuntu-20.04-mcode.tgz"
+  GHDL_TARBALL="ghdl-gha-ubuntu-22.04-mcode.tgz"
 fi
-sudo wget "https://github.com/ghdl/ghdl/releases/download/nightly/$GHDL_TARBALL"
+sudo wget "https://github.com/ghdl/ghdl/releases/download/v3.0.0/$GHDL_TARBALL"
 sudo tar -xzvf "$GHDL_TARBALL"
 sudo rm -f "$GHDL_TARBALL"
 popd > /dev/null
