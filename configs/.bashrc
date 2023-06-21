@@ -263,10 +263,17 @@ function git-status-recursive-curr-dir() {
   for d in */ ; do
     pushd "$d" > /dev/null || exit
     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
+      # Check for uncommitted changes
       gitStatStr="$(git status -s)"
+      # Check if changes committed but not pushed
+      gitPushStr="$(git status --ahead-behind | grep 'ahead')"
+
       if [ -n "$gitStatStr" ]; then
         echo -e "\n${BLU}[$d]${NC}"
         echo -e "$gitStatStr"
+      elif [ -n "$gitPushStr" ]; then
+        echo -e "\n${BLU}[$d]${NC}"
+        echo -e "$gitPushStr"
       fi;
     fi;
     popd > /dev/null || exit
