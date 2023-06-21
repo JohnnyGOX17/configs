@@ -254,6 +254,25 @@ function lb() {
   $EDITOR "$StrPath"
 }
 
+function git-status-recursive-curr-dir() {
+  # Colors for printing
+  BLU='\033[1;34m'
+  NC='\033[0m'
+
+  # Iterate through directories in src/ and check git status
+  for d in */ ; do
+    pushd "$d" > /dev/null || exit
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
+      gitStatStr="$(git status -s)"
+      if [ -n "$gitStatStr" ]; then
+        echo -e "\n${BLU}[$d]${NC}"
+        echo -e "$gitStatStr"
+      fi;
+    fi;
+    popd > /dev/null || exit
+  done
+}
+
 # <tab> completion for "Makefile"s in a dir showing all options as well
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
 
