@@ -122,6 +122,11 @@ vim.o.laststatus = 3
 --   like -> https://www.reddit.com/r/neovim/comments/neaeej/only_just_discovered_set_signcolumnnumber_i_like/
 vim.o.signcolumn = "number"
 
+-- Set spell checking on by default, as most language supports will have this check 
+-- for spelling errors in code comments: https://unix.stackexchange.com/a/31162
+vim.o.spell = true
+vim.o.spelllang = "en_us"
+
 vim.o.termguicolors = true
 
 -- Set completeopt to have a better completion experience
@@ -202,12 +207,6 @@ vim.api.nvim_create_autocmd(
 vim.api.nvim_create_autocmd(
   { "BufNewFile", "BufFilePre", "BufRead" },
   { pattern = "*.xdc", command = "set filetype=tcl" }
-)
-
--- Turn on spell-check for Markdown & txt files, while turning off line numbering
-vim.api.nvim_create_autocmd(
-  { "BufNewFile", "BufFilePre", "BufRead" },
-  { pattern = "*.{md,tex,txt}", command = "setlocal spell spelllang=en_us | set nonu" }
 )
 
 -- Highlight trailing whitespace as match to ExtraWhitespace
