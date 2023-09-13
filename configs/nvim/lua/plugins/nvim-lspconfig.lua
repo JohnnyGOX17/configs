@@ -23,6 +23,7 @@ return { -- LSP Configuration & Plugins
     --  the `settings` field of the server config. You must look up that documentation yourself.
     --
     --  LSPs can be updated with `:MasonInstall <package>`, and debug info with `:MasonLog`
+    --   - Specific versions specified as `:MasonInstall <package>@<version>`
     --
     -- Available LSPs: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
     -- LSP Config doc: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
