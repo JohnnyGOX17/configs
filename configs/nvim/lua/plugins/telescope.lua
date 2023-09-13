@@ -5,6 +5,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
   dependencies = {
     'nvim-lua/plenary.nvim',
     { -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+      -- NOTE: ensure `ripgrep` is installed to use Live Grep feature
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make'
     },
