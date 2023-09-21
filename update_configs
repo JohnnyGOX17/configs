@@ -26,8 +26,8 @@ cp -u ~/.muttrc ./configs/.muttrc
 cp -u ~/.ctags ./configs/.ctags
 cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
 cp -u ~/.alacritty.yml ./configs/.alacritty.yml
-# Neovim has a tree of Lua files for config
 cp -u  ~/.config/nvim/init.lua configs/nvim/init.lua
+# Neovim has a tree of Lua files for config
 cp -ur ~/.config/nvim/lua/ configs/nvim/
 
 # Then copy remote files over if they're newer
@@ -46,6 +46,6 @@ cp -u ./configs/.muttrc ~/.muttrc
 cp -u ./configs/.ctags ~/.ctags
 cp -u ./configs/.glbl_gitignore ~/.glbl_gitignore
 cp -u ./configs/.alacritty.yml ~/.alacritty.yml
+cp -u ./configs/nvim/init.lua ~/.config/nvim/init.lua
 # Neovim has a tree of Lua files for config
-cp -u  configs/nvim/init.lua ~/.config/nvim/init.lua
-cp -ur configs/nvim/lua/ ~/.config/nvim/
+cp -ur ./configs/nvim/lua/ ~/.config/nvim/

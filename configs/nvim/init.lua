@@ -186,8 +186,9 @@ vim.keymap.set({'n', 'v'}, '~', ':s/\\v<(.)(\\w*)/\\u\\1\\L\\2/g<CR>', { desc = 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
+
+
+-- Highlight on yank, see `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -196,6 +197,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- Automatically save the current session when vim is closed
+-- NOTE: define what is in a session with `sessionoptions`, see `:help sessionoptions`
+-- NOTE: this is a lightweight method of some other plugins like https://github.com/mhinz/vim-startify
+vim.api.nvim_create_autocmd(
+  "VimLeave",
+  { command = "mksession! ~/.config/nvim/vim_session.vim"}
+)
+-- Restore saved session with <F9>
+vim.keymap.set('n', '<F9>', ':source ~/.config/nvim/vim_session.vim<CR>', { desc = 'Restore saved session', silent = true })
+-- Manually save current session with <F10>
+vim.keymap.set('n', '<F10>', ':mksession! ~/.config/nvim/vim_session.vim<CR>:echo "Session saved!"<CR>', { desc = 'Manually save current session', silent = true })
 
 -- Go to Last Location of Buffer on open
 vim.api.nvim_create_autocmd(
