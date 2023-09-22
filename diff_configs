@@ -10,6 +10,7 @@ diffProg='git diff --no-index'
 $diffProg ./configs/.gitconfig ~/.gitconfig
 $diffProg ./configs/.bashrc ~/.bashrc
 $diffProg ./configs/.bash_profile ~/.bash_profile
+$diffProg ./configs/.bash_logout ~/.bash_logout
 $diffProg ./configs/.inputrc ~/.inputrc
 $diffProg ./configs/.profile ~/.profile
 $diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile

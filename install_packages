@@ -653,11 +653,12 @@ elif [ "$pkgApp" = "brew" ]; then
     the_silver_searcher \
     tmux \
     tree \
+    unison \
     unzip \
     verilator \
     vim --override-system-vi \
     visual-studio-code \
-    vlc
+    vlc \
     wakeonlan \
     watch \
     wdiff --with-gettext \

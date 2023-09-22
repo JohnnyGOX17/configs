@@ -290,8 +290,16 @@ complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-
 
 # Run tmux automatically if not in SSH session and not already launched
 # Attach to `dev` session if existent, else launch session `dev`
-if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ]; then
-  tmux new-session -A -s dev
+if [ -z "$TMUX" ]; then
+  if [ -z "$SSH_CLIENT" ]; then
+    tmux new-session -A -s dev
+  else
+    # Not in a TMUX session, but we're SSH'ed so cd to last directory we were in
+    # NOTE: set in ~/.bash_logout
+    if [ -f "$HOME/.last_dir" ]; then
+      cd "$(<~/.last_dir)" || exit
+    fi
+  fi
 fi
 
 # Initiate Ruby environment
