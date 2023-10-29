@@ -238,6 +238,25 @@ vim.api.nvim_create_autocmd(
   { pattern = "*.{c,cpp,h,hpp,py,rs,sh,sv,v,vhd}", command = "%s/\\s\\+$//e" }
 )
 
+-- Go directly to insert mode when entering terminal emulator
+vim.api.nvim_create_autocmd(
+  "TermOpen",
+  { command = "startinsert" }
+)
+
+-- Turn off spellcheck in terminal emulator
+vim.api.nvim_create_autocmd(
+  "TermOpen",
+  { command = "setlocal nospell" }
+)
+
+-- Turn off ExtraWhitespace highlighting in terminal emulator
+vim.api.nvim_create_autocmd(
+  "TermOpen",
+  { command = "call clearmatches()" }
+)
+
+
 -- Set cursorline only when not in insert mode
 local hcursor_group = vim.api.nvim_create_augroup('HorizCursor', { clear = true })
 vim.api.nvim_create_autocmd(
