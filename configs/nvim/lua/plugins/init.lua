@@ -33,7 +33,7 @@ return { -- Configure treesitter here, other plugins in other lua files
           'typescript',
           'verilog',
           'vim',
-          'help'
+          'vimdoc'
         },
 
         -- Don't highlight for Markdown as preservim/vim-markdown handles other concealment
