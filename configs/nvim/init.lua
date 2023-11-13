@@ -242,10 +242,11 @@ vim.api.nvim_create_autocmd(
 --  * Go directly to insert mode when entering terminal emulator
 --  * Turn off line numbering
 --  * Turn off spellcheck in terminal emulator
+--  * Turn off signcolumn
 --  * Turn off ExtraWhitespace highlighting in terminal emulator
 vim.api.nvim_create_autocmd(
   "TermOpen",
-  { command = "startinsert | setlocal nonumber | setlocal nospell | call clearmatches()" }
+  { command = "startinsert | setlocal nonumber | setlocal nospell | setlocal scl=no | call clearmatches()" }
 )
 
 -- Set cursorline only when not in insert mode
