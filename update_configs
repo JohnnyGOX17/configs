@@ -21,8 +21,9 @@ cp -u ~/.local/share/konsole/JG_profile.profile ./configs/konsole/JG_profile.pro
 cp -u ~/.vimrc ./configs/.vimrc
 cp -u ~/.vim/colors/monokai.vim ./configs/monokai.vim
 cp -u ~/.tmux.conf ./configs/.tmux.conf
-cp -u ~/.config/ranger/rc.conf ./configs/rc.conf
-cp -u ~/.config/ranger/scope.sh ./configs/scope.sh
+cp -u ~/.config/ranger/rc.conf ./configs/ranger/rc.conf
+cp -u ~/.config/ranger/rifle.conf ./configs/ranger/rifle.conf
+cp -u ~/.config/ranger/scope.sh ./configs/ranger/scope.sh
 cp -u ~/.muttrc ./configs/.muttrc
 cp -u ~/.ctags ./configs/.ctags
 cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
@@ -42,8 +43,9 @@ cp -u ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.pro
 cp -u ./configs/.vimrc ~/.vimrc
 cp -u ./configs/monokai.vim ~/.vim/colors/monokai.vim
 cp -u ./configs/.tmux.conf ~/.tmux.conf
-cp -u ./configs/rc.conf ~/.config/ranger/rc.conf
-cp -u ./configs/scope.sh ~/.config/ranger/scope.sh
+cp -u ./configs/ranger/rc.conf ~/.config/ranger/rc.conf
+cp -u ./configs/ranger/rifle.conf ~/.config/ranger/rifle.conf
+cp -u ./configs/ranger/scope.sh ~/.config/ranger/scope.sh
 cp -u ./configs/.muttrc ~/.muttrc
 cp -u ./configs/.ctags ~/.ctags
 cp -u ./configs/.glbl_gitignore ~/.glbl_gitignore
