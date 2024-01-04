@@ -23,7 +23,7 @@ $diffProg ./configs/ranger/scope.sh ~/.config/ranger/scope.sh
 $diffProg ./configs/.muttrc ~/.muttrc
 $diffProg ./configs/.ctags ~/.ctags
 $diffProg ./configs/.glbl_gitignore ~/.glbl_gitignore
-$diffProg ./configs/.alacritty.yml ~/.alacritty.yml
+$diffProg ./configs/.alacritty.toml ~/.alacritty.toml
 
 # Neovim has a tree of Lua files for config (ignore Lazy's lazy-lock.json so each
 #  machine can have its own plugin update state)

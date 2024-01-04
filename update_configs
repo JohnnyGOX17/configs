@@ -27,7 +27,7 @@ cp -u ~/.config/ranger/scope.sh ./configs/ranger/scope.sh
 cp -u ~/.muttrc ./configs/.muttrc
 cp -u ~/.ctags ./configs/.ctags
 cp -u ~/.glbl_gitignore ./configs/.glbl_gitignore
-cp -u ~/.alacritty.yml ./configs/.alacritty.yml
+cp -u ~/.alacritty.toml ./configs/.alacritty.toml
 cp -u  ~/.config/nvim/init.lua configs/nvim/init.lua
 # Neovim has a tree of Lua files for config
 cp -ur ~/.config/nvim/lua/ configs/nvim/
@@ -49,7 +49,7 @@ cp -u ./configs/ranger/scope.sh ~/.config/ranger/scope.sh
 cp -u ./configs/.muttrc ~/.muttrc
 cp -u ./configs/.ctags ~/.ctags
 cp -u ./configs/.glbl_gitignore ~/.glbl_gitignore
-cp -u ./configs/.alacritty.yml ~/.alacritty.yml
+cp -u ./configs/.alacritty.toml ~/.alacritty.toml
 cp -u ./configs/nvim/init.lua ~/.config/nvim/init.lua
 # Neovim has a tree of Lua files for config
 cp -ur ./configs/nvim/lua/ ~/.config/nvim/

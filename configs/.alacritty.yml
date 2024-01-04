@@ -83,3 +83,7 @@ scrolling:
 
 # Live config reload (changes require restart)
 live_config_reload: true
+
+# fix in alacritty 0.12+ from https://ansidev.xyz/posts/2023-04-16-how-to-solve-alt-key-binding-issue-on-macos
+window:
+  option_as_alt: OnlyLeft # other values are None, OnlyRight, Both
