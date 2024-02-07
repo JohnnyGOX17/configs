@@ -5,6 +5,7 @@ Helpful scripts & personal configuration files (dotfiles) for a variety of tools
 ## Installation
 
 1. Run `./install_packages`.
+  + **NOTE:** may need to add SSH key to GitHub account to clone over SSH on new machine.
 
 ## Other Script Descriptions
 

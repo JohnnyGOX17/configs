@@ -16,6 +16,9 @@ if [ "$(uname -s)" = "Darwin" ]; then
       PATH=""
       source /etc/profile
   fi
+  # In Apple Silicon Brew installs, need to source brew env which is at /opt/homebrew
+  # instead of /usr/local/
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Source global definitions if exists
@@ -29,10 +32,12 @@ if [ -f /etc/bash_completion ]; then
 elif [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
 fi
+
 # Some distros make use of a profile.d script to import completion
 if [ -f /etc/profile.d/bash_completion.sh ]; then
   . /etc/profile.d/bash_completion.sh
 fi
+
 # On macOS, load brew bash completion modules
 if [ $(uname) = "Darwin" ] && command -v brew &> /dev/null ; then
   BREW_PREFIX=$(brew --prefix)
@@ -136,10 +141,9 @@ export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
     fi
   elif [ "$(uname -s)" = "Darwin" ]; then
     # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
-    # Can also add $(brew --prefix coreutils)/libexec/gnubin for dynamic (not needed...) path to utils
     # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/ruby/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
-    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
+    export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:/usr/local/opt/ruby/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+    export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
     export LDFLAGS="-L/usr/local/opt/ruby/lib"
     export CPPFLAGS="-I/usr/local/opt/ruby/include"
   fi
@@ -151,11 +155,6 @@ export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
   # set PATH so it includes user's private bin if it exists
   if [ -d "$HOME/.local/bin" ]; then
     PATH="$PATH:$HOME/.local/bin"
-  fi
-
-  # add toolbox to path
-  if [ -d "$HOME/.toolbox/bin" ]; then
-    PATH="$PATH:$HOME/.toolbox/bin"
   fi
 #fi
 

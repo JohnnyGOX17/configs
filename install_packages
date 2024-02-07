@@ -43,6 +43,7 @@ fi
 
 
 # Figure out what system and package manager we're using
+# NOTE: for macOS, need to install brew beforehand https://brew.sh
 if [ "$(uname -s)" = "Darwin" ]; then
   pkgApp=brew
 elif command -v apt > /dev/null; then
@@ -573,14 +574,13 @@ elif [ "$pkgApp" = "dnf" ]; then
   pythonExe="pip3"
 
 elif [ "$pkgApp" = "brew" ]; then
+  # NOTE: when using newer bash version, need to update default shell via https://apple.stackexchange.com/a/24635
   brew install \
     alacritty \
-    amethyst \
     awscli \
     bash \
     bash-completion \
     binutils \
-    calibre \
     cmake \
     coreutils \
     ctags \
@@ -590,25 +590,25 @@ elif [ "$pkgApp" = "brew" ]; then
     docker-compose \
     doxygen \
     drawio \
-    ed --with-default-names \
+    ed \
     editorconfig \
     fd \
     file-formula \
-    findutils --with-default-names \
+    findutils \
     fpp \
     gawk \
     gdb \
     gifski \
     git \
-    gnu-indent --with-default-names \
-    gnu-sed --with-default-names \
-    gnu-tar --with-default-names \
-    gnu-which --with-default-names \
+    gnu-indent \
+    gnu-sed \
+    gnu-tar \
+    gnu-which\
     gnutls \
     go \
     google-chrome \
     gpatch \
-    grep --with-default-names \
+    grep \
     gtkwave \
     gzip \
     handbrake \
@@ -616,11 +616,7 @@ elif [ "$pkgApp" = "brew" ]; then
     hugo \
     icarus-verilog \
     irssi \
-    ipython \
-    iterm2 \
-    jupyter \
     kicad \
-    kitty \
     less \
     m4 \
     mactex \
@@ -632,20 +628,16 @@ elif [ "$pkgApp" = "brew" ]; then
     netron \
     nmap \
     node \
-    numpy \
     openssh \
     perl \
     pidof \
     plantuml \
     python \
-    # `python` should now default to Python 3 in brew
-    python@2 \
     ranger \
     reattach-to-user-namespace \
     ripgrep \
     rust-analyzer \
     rsync \
-    scipy \
     shellcheck \
     skim \
     svn \
@@ -656,17 +648,12 @@ elif [ "$pkgApp" = "brew" ]; then
     unison \
     unzip \
     verilator \
-    vim --override-system-vi \
     visual-studio-code \
     vlc \
     wakeonlan \
     watch \
-    wdiff --with-gettext \
-    weechat \
+    wdiff \
     wget \
-    wine \
-    winetricks \
-    xquartz \
     youtube-dl
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
@@ -679,26 +666,25 @@ elif [ "$pkgApp" = "brew" ]; then
 fi
 
 msg "Installing npm packages"
-sudo npm install -g grunt-cli \
+npm install -g grunt-cli \
   gulp-cli \
-  neovim \
   pyright \
-  speed-test \
   write-good
 
 msg "Installing Gems"
-sudo gem install bundler \
-  jekyll \
-  vimgolf
 if [ "$pkgApp" = "brew" ]; then
   sudo gem install iStats
+else
+  # Bundler already installed in macOS
+  sudo gem install bundler
 fi
+sudo gem install jekyll \
+  vimgolf
 
 # Install Python packages w/pip as the current user
 msg "Installing Python modules via pip"
 #python -m pip install --user \
-${pythonExe} install --user \
-  awscli \
+${pythonExe} install \
   black \
   build \
   cocotb \
@@ -752,7 +738,7 @@ msg "Installing GHDL from GitHub releases..."
 msg "NOTE: Check for release updates at https://github.com/ghdl/ghdl/releases, currently using Nightly"
 pushd /usr/local/ > /dev/null
 if [ "$pkgApp" = "brew" ]; then
-  GHDL_TARBALL="ghdl-macos-11.0-mcode.tgz"
+  GHDL_TARBALL="ghdl-macos-11-mcode.tgz"
 elif [ "$pkgApp" = "apt" ]; then
   GHDL_TARBALL="ghdl-gha-ubuntu-22.04-mcode.tgz"
 fi
@@ -794,7 +780,7 @@ fi
 # Rust install
 if [ "$pkgApp" != "dnf" ]; then
   msg "Installing Rust"
-  curl https://sh.rustup.rs -sSf | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 
 # Rust analyzer
