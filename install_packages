@@ -999,7 +999,7 @@ elif [ "$pkgApp" = "dnf" ]; then
   # Backup directories every 4 hours:  0 */4 * * * /usr/local/bin/backup_data
 elif [ "$pkgApp" = "brew" ]; then
   # Nerd Font char used explicitly here in cron command since there's some weirdness with printf on macOS...
-  cronLine='*/5 * * * * /usr/local/bin/brew update &> /dev/null && if [[ $(/usr/local/bin/brew outdated) ]] ; then printf "  Brew Updates Available: $(/usr/local/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
+  cronLine='*/5 * * * * /opt/homebrew/bin/brew update &> /dev/null && if [[ $(/opt/homebrew/bin/brew outdated) ]] ; then printf "  Brew Updates Available: $(/opt/homebrew/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
 */5 * * * * /usr/local/bin/check-rust-outdated &> /dev/null
 */5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
 fi
