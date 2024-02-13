@@ -19,6 +19,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
   # In Apple Silicon Brew installs, need to source brew env which is at /opt/homebrew
   # instead of /usr/local/
   eval "$(/opt/homebrew/bin/brew shellenv)"
+  export SDKROOT=$(xcrun --show-sdk-path)
 fi
 
 # Source global definitions if exists
@@ -141,11 +142,8 @@ export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
     fi
   elif [ "$(uname -s)" = "Darwin" ]; then
     # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
-    # For macOS Catalina, Ruby not installed in System so use brew one and it's build paths
-    export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:/usr/local/opt/ruby/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+    export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:/opt/homebrew/opt/ruby@3.0/bin:$HOME/.gem/ruby/3.0.0/bin:/usr/local/bin:$HOME/.cargo/bin:$PATH"
     export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
-    export LDFLAGS="-L/usr/local/opt/ruby/lib"
-    export CPPFLAGS="-I/usr/local/opt/ruby/include"
   fi
 
   # set PATH so it includes user's private bin if it exists
@@ -299,9 +297,4 @@ if [ -z "$TMUX" ]; then
       cd "$(<~/.last_dir)" || exit
     fi
   fi
-fi
-
-# Initiate Ruby environment
-if [ $(command -v rbenv) ]; then
-  eval "$(rbenv init -)"
 fi

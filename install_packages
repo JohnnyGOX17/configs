@@ -636,6 +636,7 @@ elif [ "$pkgApp" = "brew" ]; then
     ranger \
     reattach-to-user-namespace \
     ripgrep \
+    ruby@3.0 \
     rust-analyzer \
     rsync \
     shellcheck \
