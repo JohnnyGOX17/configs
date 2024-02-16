@@ -196,6 +196,9 @@ alias lsd="ls -alF | grep /$"
 # color grep by default
 alias grep='grep --color=auto'
 
+# use ripgrep to search for filenames: https://github.com/BurntSushi/ripgrep/issues/193#issuecomment-513201558
+alias rgf='rg --files | rg'
+
 # allow `cd..` typo for `cd ..`
 alias cd..='cd ..'
 # allow for typo of `cd -` previous cmd (and suppress output since we're toggling
