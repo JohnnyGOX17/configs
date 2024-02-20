@@ -20,6 +20,11 @@ if [ "$(uname -s)" = "Darwin" ]; then
   # instead of /usr/local/
   eval "$(/opt/homebrew/bin/brew shellenv)"
   export SDKROOT=$(xcrun --show-sdk-path)
+
+  # We must also fix an issue where Jupyter path needs to see homebrew installed 
+  # Python and associated plugins
+  #  from https://github.com/jupyterlab/jupyterlab/issues/14965#issuecomment-1826294747
+  export JUPYTER_PATH=/opt/homebrew/share/jupyter
 fi
 
 # Source global definitions if exists
