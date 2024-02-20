@@ -916,6 +916,8 @@ if [ "$pkgApp" != "brew" ]; then
   popd > /dev/null
 fi
 
+# Verible can be installed for mac by manually DL'ing prebuilt binaries
+#  https://github.com/chipsalliance/verible/releases
 
 # Install Gnome extensions on Linux (assumed Gnome WDM)
 if [ "$pkgApp" != "brew" ]; then
