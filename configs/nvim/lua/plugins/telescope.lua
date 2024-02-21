@@ -28,8 +28,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
     pcall(require('telescope').load_extension, 'fzf')
 
     -- See `:help telescope.builtin`
+    -- You can also see/search keymaps using `:Telescope keymaps`
     vim.keymap.set('n', '<leader>rf', require('telescope.builtin').oldfiles, { desc = 'Find [R]ecently opened [F]iles' })
-    vim.keymap.set('n', '<leader>eb', require('telescope.builtin').buffers, { desc = 'Find [E]xisting [B]uffers' })
+    vim.keymap.set('n', '<leader>b', require('telescope.builtin').buffers, { desc = 'Find in currently open [B]uffers' })
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to telescope to change theme, layout, etc.
       require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
