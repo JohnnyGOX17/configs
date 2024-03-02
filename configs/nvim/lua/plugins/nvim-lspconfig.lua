@@ -46,6 +46,7 @@ return { -- LSP Configuration & Plugins
 
     -- NOTE: Verible is currently not supported on macOS, even https://github.com/chipsalliance/homebrew-verible
     -- is not building currently... 
+    -- TODO: remove once PR merged -> https://github.com/mason-org/mason-registry/pull/4619
     local current_OS = vim.loop.os_uname().sysname
     if current_OS == 'Darwin' then
       servers.verible = nil
@@ -196,6 +197,10 @@ return { -- LSP Configuration & Plugins
     end
     require'lspconfig'.hdl_checker.setup{}
 
+    require'lspconfig'.verible.setup {
+      cmd = {"verible-verilog-ls"};
+      filetypes = {"systemverilog", "verilog"};
+    }
 
     -- Turn on lsp status information
     require('fidget').setup()
