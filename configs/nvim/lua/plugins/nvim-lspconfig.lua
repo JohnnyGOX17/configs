@@ -163,9 +163,9 @@ return { -- LSP Configuration & Plugins
     -- to format as pyright LSP does not support formatting)
     local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
     vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.c,*.cpp,*.h,*.hpp,*.rs",
+      pattern = "*.c,*.cpp,*.h,*.hpp,*.rs,*.v,*.vhd,*.sv,*.svh",
       callback = function()
-        vim.lsp.buf.format({ async = true })
+        vim.lsp.buf.format({ async = false })
       end,
       group = format_sync_grp,
     })
