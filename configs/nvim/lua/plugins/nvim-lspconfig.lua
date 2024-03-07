@@ -136,7 +136,8 @@ return { -- LSP Configuration & Plugins
         --  which can be generated with a given check/style with --dump-config. For example:
         --  $ clang-tidy -checks=google-* --dump-config > .clang-tidy
         -- Note also below where format-on-save is enabled for clangd, which uses clang-format.
-        -- In this case see to make a project .clang-format file with https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+        -- In this case see to make a project .clang-format file with https://clang.llvm.org/docs/ClangFormatStyleOptions.html or similarly:
+        -- $ clang-format -style=google -dump-config > .clang-format
         "--clang-tidy",
         "--completion-style=bundled", -- combine similar completion items
         "--cross-file-rename",
