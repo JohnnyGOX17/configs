@@ -619,6 +619,7 @@ elif [ "$pkgApp" = "brew" ]; then
     irssi \
     kicad \
     less \
+    llvm \
     m4 \
     mactex \
     make \
