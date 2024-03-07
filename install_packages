@@ -607,6 +607,7 @@ elif [ "$pkgApp" = "brew" ]; then
     gnutls \
     go \
     google-chrome \
+    googletest \
     gpatch \
     grep \
     gtkwave \
