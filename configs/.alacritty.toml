@@ -31,8 +31,11 @@ yellow = "0xf7ca88"
 background = "0x181818"
 foreground = "0xd8d8d8"
 
+# this font size is good for high-res macOS XDR display, can update
+# font size live with Ctrl/Cmd +/-, and reset to this setting with 
+# Ctrl/Cmd 0
 [font]
-size = 12.0
+size = 8.5
 
 [font.bold]
 family = "Hack Nerd Font Mono"

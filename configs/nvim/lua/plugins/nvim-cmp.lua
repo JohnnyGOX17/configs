@@ -6,7 +6,8 @@ return { -- Autocompletion
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
     'rafamadriz/friendly-snippets',
-    'hrsh7th/cmp-path'
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-buffer'
   },
   config = function()
     -- nvim-cmp setup
@@ -106,6 +107,7 @@ return { -- Autocompletion
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        { name = 'buffer' },
       },
     })
   end

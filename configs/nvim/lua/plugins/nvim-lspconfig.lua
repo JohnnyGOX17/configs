@@ -211,10 +211,10 @@ return { -- LSP Configuration & Plugins
       relative_width = false,
       width = 40,
       symbols = {
-        File = { icon = "", hl = "@text.uri" },
-        Module = { icon = "", hl = "@namespace" },
-        Namespace = { icon = "", hl = "@namespace" },
-        Package = { icon = "", hl = "@namespace" },
+        File = { icon = "", hl = "@text.uri" },
+        Module = { icon = "󰕳", hl = "@namespace" },
+        Namespace = { icon = "", hl = "@namespace" },
+        Package = { icon = "", hl = "@namespace" },
         Class = { icon = "", hl = "@type" },
         Method = { icon = "", hl = "@method" },
         Property = { icon = "", hl = "@method" },
@@ -223,22 +223,22 @@ return { -- LSP Configuration & Plugins
         Enum = { icon = "", hl = "@type" },
         Interface = { icon = "", hl = "@type" },
         Function = { icon = "ƒ", hl = "@function" },
-        Variable = { icon = "", hl = "@constant" },
-        Constant = { icon = "", hl = "@constant" },
+        Variable = { icon = "󰫧", hl = "@constant" },
+        Constant = { icon = "", hl = "@constant" },
         String = { icon = "𝓐", hl = "@string" },
         Number = { icon = "#", hl = "@number" },
-        Boolean = { icon = "⊨", hl = "@boolean" },
-        Array = { icon = "", hl = "@constant" },
-        Object = { icon = "⦿", hl = "@type" },
-        Key = { icon = "🔐", hl = "@type" },
-        Null = { icon = "NULL", hl = "@type" },
+        Boolean = { icon = "󰊾", hl = "@boolean" },
+        Array = { icon = "", hl = "@constant" },
+        Object = { icon = "", hl = "@type" },
+        Key = { icon = "", hl = "@type" },
+        Null = { icon = "󰟢", hl = "@type" },
         EnumMember = { icon = "", hl = "@field" },
         Struct = { icon = "", hl = "@type" },
         Event = { icon = "", hl = "@type" },
         Operator = { icon = "", hl = "@operator" },
         TypeParameter = { icon = "", hl = "@parameter" },
-        Component = { icon = "", hl = "@function" },
-        Fragment = { icon = "", hl = "@constant" },
+        Component = { icon = "󰡀", hl = "@function" },
+        Fragment = { icon = "", hl = "@constant" },
       },
     })
     vim.keymap.set('n', '<leader>y', ':SymbolsOutline<CR>', { desc = 'Open LSP symbols tree view on the right', silent = true })
@@ -259,7 +259,7 @@ return { -- LSP Configuration & Plugins
       severity_sort = false,
     })
 
-    local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+    local signs = { Error = " ", Warn = " ", Hint = "󰅏 ", Info = " " }
 
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
