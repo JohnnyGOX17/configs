@@ -37,10 +37,11 @@ return { -- LSP Configuration & Plugins
       jsonls = {}, -- JSON
       jdtls = {}, -- Java
       lua_ls = {},
+      marksman = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
       ruff_lsp = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
       rust_analyzer = {},  -- Rust (more options set below)
-      tsserver = {}, -- JavaScript/TypeScript
+      tsserver = {}, -- JavaScript/TypeScript: npm install -g typescript typescript-language-server
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
 
@@ -202,6 +203,10 @@ return { -- LSP Configuration & Plugins
       cmd = {"verible-verilog-ls"};
       filetypes = {"systemverilog", "verilog"};
     }
+
+    require'lspconfig'.marksman.setup{}
+
+    require'lspconfig'.tsserver.setup{}
 
     -- Turn on lsp status information
     require('fidget').setup()
