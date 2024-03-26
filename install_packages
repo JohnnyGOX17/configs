@@ -454,6 +454,7 @@ elif [ "$pkgApp" = "dnf" ]; then
   sudo dnf -y install \
     acpid \
     apr-devel \
+    bat \
     bear \
     calibre \
     cargo \
@@ -580,6 +581,7 @@ elif [ "$pkgApp" = "brew" ]; then
     awscli \
     bash \
     bash-completion \
+    bat \
     binutils \
     cmake \
     coreutils \
