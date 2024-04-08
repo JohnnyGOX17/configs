@@ -983,37 +983,42 @@ elif [ "$pkgApp" != "dnf" ];then
   tic -x ./configs/tmux-256color.terminfo
 fi
 
-# check for brew package updates & git repo updates every 5 min
+# check for brew package updates & git repo updates every 4 hours
 # pipe to /dev/null so we don't get entries in /var/mail/<user>
 # NOTE: also add to local server
 # 0 */4 * * * /usr/local/bin/backup_data
 # NOTE: symbol hex codes from Nerd Fonts (https://www.nerdfonts.com/cheat-sheet)
+# NOTE: prepends cron entries in crontab (doesn't overwrite existing entries)
 #
 msg "Installing crontab entries"
-cronLine=""
+# start w/any existing cron entries
+cronLine="$(crontab -l 2>&1)"$'\n'
+
+# Add OS package manager specific entries
 if [ "$pkgApp" = "apt" ]; then
-  cronLine='*/5 * * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then printf " \uf31b Apt Updates Available: $(/usr/bin/apt list --upgradable | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/check-rust-outdated &> /dev/null
-*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
+  cronLine+='0 */4 * * * if [ $(/usr/bin/apt list --upgradable | wc -l) -ge 2 ] ; then printf " \uf31b Apt Updates Available: $(/usr/bin/apt list --upgradable | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
 elif [ "$pkgApp" = "yum" ]; then
-  cronLine='*/5 * * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then printf " \uf304 Yum Updates Available: $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/check-rust-outdated &> /dev/null
-*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
+  cronLine+='0 */4 * * * if [ $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then printf " \uf304 Yum Updates Available: $(/usr/bin/yum check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
 elif [ "$pkgApp" = "dnf" ]; then
-  cronLine='*/5 * * * * if [ $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then printf " \uf30b Dnf Updates Available: $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/check-rust-outdated &> /dev/null
-*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
+  cronLine+='0 */4 * * * if [ $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) -ge 1 ] ; then printf " \uf30b Dnf Updates Available: $(/usr/bin/dnf check-update | sed '1,/^$/d' | wc -l) " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
   # Backup directories every 4 hours:  0 */4 * * * /usr/local/bin/backup_data
 elif [ "$pkgApp" = "brew" ]; then
   # Nerd Font char used explicitly here in cron command since there's some weirdness with printf on macOS...
-  cronLine='*/5 * * * * /opt/homebrew/bin/brew update &> /dev/null && if [[ $(/opt/homebrew/bin/brew outdated) ]] ; then printf "  Brew Updates Available: $(/opt/homebrew/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi
-*/5 * * * * /usr/local/bin/check-rust-outdated &> /dev/null
-*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
+  cronLine+='0 */4 * * * /opt/homebrew/bin/brew update &> /dev/null && if [[ $(/opt/homebrew/bin/brew outdated) ]] ; then printf "  Brew Updates Available: $(/opt/homebrew/bin/brew outdated | wc -l | tr -s ' ') " > /tmp/sys_package_updates; else echo "" > /tmp/sys_package_updates; fi'
 fi
-# NOTE: overwrites any crontab entries, echo current entries before pipe if looking to keep
+
+# Add checks for Rust updates
+cronLine+=$'\n'
+cronLine+='0 */4 * * * if [[ "$(rustup check)" == *"Update available"* ]]; then printf " 🦀 Rust Update Available " > /tmp/rust_update_available; else echo "" > /tmp/rust_update_available; fi'
+
+# Add checks for updates in Git repos
+cronLine+=$'\n'
+cronLine+='*/5 * * * * /usr/local/bin/git-check-remote-changes &> /dev/null'
+
 echo "$cronLine" | crontab -
-echo "Current cron jobs:"
+echo "Final cron jobs:"
 crontab -l
+
 
 # Create (if needed) mutt dirs & other files
 mkdir -p ~/.mutt/jgentile/headers
