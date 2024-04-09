@@ -49,6 +49,8 @@ style = "Italic"
 family = "Hack Nerd Font Mono"
 style = "Regular"
 
+# NOTE: can launch new Alacritty windws with: Command+n
+#  https://github.com/alacritty/alacritty/issues/607#issuecomment-982307003
 [[keyboard.bindings]]
 chars = "\u001Ba"
 key = "A"
