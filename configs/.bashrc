@@ -215,6 +215,8 @@ alias cdg='cd "$(git rev-parse --show-toplevel)"'
 alias pdg='pushd "$(git rev-parse --show-toplevel) > /dev/null"'
 # cd to ~/src directory since common
 alias cds='cd ~/src'
+# cd to last directory (set in ~/.bash_logout)
+alias cdl='cd "$(<~/.last_dir)"'
 # pushd to ~/src directory since common
 alias pds='pushd ~/src > /dev/null'
 
@@ -288,21 +290,11 @@ function git-status-recursive-curr-dir() {
 # <tab> completion for "Makefile"s in a dir showing all options as well
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
 
+# NOTE: this used to auto-launch tmux session, however that didn't give much flexibility
+# to having multiple windows or launching tmux within an SSH session. So instead:
+#  * See if any tmux sessions exist with: tmux ls
+#    + Create a new <name> tmux session with: tmux new -s <name>
+#    + Attach to existing <name> session with: tmux a -t <name>
+#    + Kill existing <name> session with: tmux kill-session -t <name>
+#  * Or see https://tmuxcheatsheet.com/
 
-# =============================================================================
-# Cleanup & Launches
-# =============================================================================
-
-# Run tmux automatically if not in SSH session and not already launched
-# Attach to `dev` session if existent, else launch session `dev`
-if [ -z "$TMUX" ]; then
-  if [ -z "$SSH_CLIENT" ]; then
-    tmux new-session -A -s dev
-  else
-    # Not in a TMUX session, but we're SSH'ed so cd to last directory we were in
-    # NOTE: set in ~/.bash_logout
-    if [ -f "$HOME/.last_dir" ]; then
-      cd "$(<~/.last_dir)" || exit
-    fi
-  fi
-fi

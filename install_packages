@@ -1009,7 +1009,8 @@ fi
 
 # Add checks for Rust updates
 cronLine+=$'\n'
-cronLine+='0 */4 * * * if [[ "$(rustup check)" == *"Update available"* ]]; then printf " 🦀 Rust Update Available " > /tmp/rust_update_available; else echo "" > /tmp/rust_update_available; fi'
+# NOTE: change to full-path as needed!
+cronLine+='0 */4 * * * if [[ "$(/Users/jgentile/.cargo/bin/rustup check)" == *"Update available"* ]]; then printf " 🦀 Rust Update Available " > /tmp/rust_update_available; else echo "" > /tmp/rust_update_available; fi'
 
 # Add checks for updates in Git repos
 cronLine+=$'\n'
