@@ -575,6 +575,8 @@ elif [ "$pkgApp" = "dnf" ]; then
   pythonExe="pip3"
 
 elif [ "$pkgApp" = "brew" ]; then
+  msg "NOTE: for Apple Silicon, install Rosetta 2 (x86 translation service) with: softwareupdate --install-rosetta"
+
   # NOTE: when using newer bash version, need to update default shell via https://apple.stackexchange.com/a/24635
   brew install \
     alacritty \
@@ -662,6 +664,7 @@ elif [ "$pkgApp" = "brew" ]; then
     youtube-dl
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+  msg "install Docker Desktop for MAC: https://docs.docker.com/desktop/install/mac-install/"
   brew cleanup
 
   # Seperately install Python Neovim support for macOS

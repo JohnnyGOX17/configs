@@ -188,6 +188,8 @@ elif [ "$(uname -s)" = "Darwin" ]; then
   alias sys-update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
 fi
 
+alias rustupdate='rustup update && echo "" > /tmp/rust_update_available'
+
 # Upgrade all pip packages: https://stackoverflow.com/questions/2720014/how-to-upgrade-all-python-packages-with-pip
 alias pip-upgrade-all="pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U && echo '' > /tmp/pip_update_cnt"
 alias list_python_packages="python3 -c \"help('modules')\""
