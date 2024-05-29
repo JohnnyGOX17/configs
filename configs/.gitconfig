@@ -18,7 +18,7 @@
 	ui = auto
 [commit]
 	# https://help.github.com/articles/signing-commits-using-gpg/
-        #gpgsign = true
+	gpgsign = true
 [core]
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
 	# [default] trailing-space: looks for spaces at the end of a line
@@ -64,7 +64,7 @@
 	# Make `git push` push relevant annotated tags when pushing branches out
 	followTags = true
 [user]
-	name = Gentile, John
+	name = John Gentile
 	email = johncgentile17@gmail.com
 [pull]
 	rebase = false
@@ -73,3 +73,9 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[tag]
+	gpgsign = true
+	forceSignAnnotated = true
+[includeIf "gitdir:~/src/"]
+	# use settings overrides -> https://stackoverflow.com/a/43884702
+	path = .gitconfig-jcg

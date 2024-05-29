@@ -12,6 +12,7 @@ mkdir -p ~/.config/ranger/
 
 # First copy local files over if they're newer
 cp -u ~/.gitconfig ./configs/.gitconfig
+cp -u ~/.gitconfig-jcg ./configs/.gitconfig-jcg
 cp -u ~/.bashrc ./configs/.bashrc
 cp -u ~/.bash_profile ./configs/.bash_profile
 cp -u ~/.bash_logout ./configs/.bash_logout
@@ -34,6 +35,7 @@ cp -ur ~/.config/nvim/lua/ configs/nvim/
 
 # Then copy remote files over if they're newer
 cp -u ./configs/.gitconfig ~/.gitconfig
+cp -u ./configs/.gitconfig-jcg ~/.gitconfig-jcg
 cp -u ./configs/.bashrc ~/.bashrc
 cp -u ./configs/.bash_profile ~/.bash_profile
 cp -u ./configs/.bash_logout ~/.bash_logout
