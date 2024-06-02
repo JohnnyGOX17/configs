@@ -38,15 +38,15 @@ foreground = "0xd8d8d8"
 size = 8.5
 
 [font.bold]
-family = "Hack Nerd Font Mono"
+family = "MesloLGS Nerd Font Mono"
 style = "Bold"
 
 [font.italic]
-family = "Hack Nerd Font Mono"
+family = "MesloLGS Nerd Font Mono"
 style = "Italic"
 
 [font.normal]
-family = "Hack Nerd Font Mono"
+family = "MesloLGS Nerd Font Mono"
 style = "Regular"
 
 # NOTE: can launch new Alacritty windws with: Command+n

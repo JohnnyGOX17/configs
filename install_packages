@@ -621,6 +621,7 @@ elif [ "$pkgApp" = "brew" ]; then
     hugo \
     icarus-verilog \
     irssi \
+    iterm2 \
     kicad \
     less \
     llvm \
@@ -902,6 +903,7 @@ else
   # install nerd-fonts (https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts)
   brew tap homebrew/cask-fonts
   brew install --cask font-hack-nerd-font
+  brew install font-meslo-lg-nerd-font
 fi
 
 
@@ -980,6 +982,7 @@ if [ "$pkgApp" = "brew" ]; then
   # Add `tmux` terminal types to support italic/bold in tmux
   msg "NOTE: install iTerm2 backgrounds: https://github.com/mbadolato/iTerm2-Color-Schemes.git"
   tic -x ./configs/tmux.terminfo
+  msg "NOTE: for iTerm to peroperly work with tmux, go to Settings -> Profiles -> Keys -> General -> Left Option key: Esc+. Also update Text fonts as well!"
 elif [ "$pkgApp" != "dnf" ];then
   # Add `tmux` terminal types to support italic/bold in tmux (may not be needed for Fedora)
   tic -x ./configs/xterm-256color-italic.terminfo

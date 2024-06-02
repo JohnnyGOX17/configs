@@ -45,14 +45,6 @@ return { -- LSP Configuration & Plugins
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
 
-    -- NOTE: Verible is currently not supported on macOS, even https://github.com/chipsalliance/homebrew-verible
-    -- is not building currently... 
-    -- TODO: remove once PR merged -> https://github.com/mason-org/mason-registry/pull/4619
-    local current_OS = vim.loop.os_uname().sysname
-    if current_OS == 'Darwin' then
-      servers.verible = nil
-    end
-
     -- LSP settings.
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
@@ -160,12 +152,10 @@ return { -- LSP Configuration & Plugins
     }
 
 
-    -- Run `:Format` on buffer save, if the LSP for a given file type/pattern 
-    -- supports it (NOTE: Python still needs `Black` plugin- see py_black.lua- 
-    -- to format as pyright LSP does not support formatting)
+    -- Run `:Format` on buffer save, if the LSP for a given file type/pattern supports it
     local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
     vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*.c,*.cpp,*.h,*.hpp,*.rs,*.v,*.vhd,*.sv,*.svh",
+      pattern = "*.c,*.cpp,*.h,*.hpp,*.py,*.rs,*.v,*.vhd,*.sv,*.svh",
       callback = function()
         vim.lsp.buf.format({ async = false })
       end,
