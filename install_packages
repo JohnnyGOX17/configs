@@ -597,9 +597,11 @@ elif [ "$pkgApp" = "brew" ]; then
     ed \
     editorconfig \
     fd \
+    ffmpegthumbnailer \
     file-formula \
     findutils \
     fpp \
+    fzf \
     gawk \
     gdb \
     gifski \
@@ -622,6 +624,7 @@ elif [ "$pkgApp" = "brew" ]; then
     icarus-verilog \
     irssi \
     iterm2 \
+    jq \
     kicad \
     less \
     llvm \
@@ -639,6 +642,7 @@ elif [ "$pkgApp" = "brew" ]; then
     perl \
     pidof \
     plantuml \
+    poppler \
     python \
     ranger \
     reattach-to-user-namespace \
@@ -653,6 +657,7 @@ elif [ "$pkgApp" = "brew" ]; then
     the_silver_searcher \
     tmux \
     tree \
+    unar \
     unison \
     unzip \
     verilator \
@@ -662,7 +667,9 @@ elif [ "$pkgApp" = "brew" ]; then
     watch \
     wdiff \
     wget \
-    youtube-dl
+    yazi \
+    youtube-dl \
+    zoxide
 
   msg "install Java Dev Kit: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
   msg "install Docker Desktop for MAC: https://docs.docker.com/desktop/install/mac-install/"
@@ -904,6 +911,7 @@ else
   brew tap homebrew/cask-fonts
   brew install --cask font-hack-nerd-font
   brew install font-meslo-lg-nerd-font
+  brew install font-symbols-only-nerd-font
 fi
 
 

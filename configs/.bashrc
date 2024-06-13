@@ -249,6 +249,17 @@ alias ranger='source ranger'
 # tmux should assume 256 color terminal support
 alias tmux='tmux -2'
 
+# Yazi file manager, change to current working dir when leaving
+#  https://yazi-rs.github.io/docs/quick-start/
+function yy() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+
 # create daily logbook
 function lb() {
   mkdir -p ~/logbook
