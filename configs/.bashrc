@@ -115,51 +115,33 @@ export HISTCONTROL='ignoreboth'
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
-# Highlight section titles in manual pages
-export LESS_TERMCAP_md="${yellow}"
-
 # Don’t clear the screen after quitting a manual page
 export MANPAGER='less -X'
 
 # Added env safety for log4shell vuln
 export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
 
-# Set PATH & library variables
-#if [[ -z $TMUX ]]; then # prevent duplication when launching new shells in tmux
-  if [ "$(uname -s)" = "Linux" ]; then
-    # TODO: add check for non-Ubuntu system?
-    # add paths for - NVCC NVIDIA CUDA Compiler
-    #               - Go
-    #               - Rust
-    #               - Ruby `rbenv`
-    #               - Xilinx Vivado & Vitis 2022.2
-    #               - ModelSim Starter Edition (Ubuntu data HDD install)
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/cuda/lib64:/usr/lib/cuda/include
-    export PATH=$PATH:/usr/local/cuda/bin:/usr/local/go/bin:$HOME/.cargo/bin:$HOME/.rbenv/bin:$HOME/bin_nvme/Xilinx/Vitis/2022.2/bin:$HOME/bin_nvme/Xilinx/Vivado/2022.2/bin:$HOME/data/apps/intelFPGA_lite/20.1/modelsim_ase/bin
-    # TODO: better way for DPDK include?
-    #export RTE_SDK=$HOME/src/dpdk-19.02
-    #export RTE_TARGET=x86_64-native-linuxapp-gcc
-    # Prevent ioctl error when gpg2 signing
-    export GPG_TTY=$(tty)
-    # Enable GCC 8 & LLVM 7 in CentOS
-    if [ -f /etc/centos-release ]; then
-      source scl_source enable devtoolset-8 llvm-toolset-7
-    fi
-  elif [ "$(uname -s)" = "Darwin" ]; then
-    # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
-    export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$BREW_PREFIX/opt/llvm/bin/:/opt/homebrew/opt/ruby@3.0/bin:$HOME/.gem/ruby/3.0.0/bin:/usr/local/bin:$HOME/.cargo/bin:$PATH"
-    export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
-  fi
+# Set Path variables
+if [ "$(uname -s)" = "Linux" ]; then
+  # Created with `gem install --user-install ...`
+  export GEM_HOME="$HOME/.gem/ruby/3.0.0/gems/"
+  # Add Go and Ruby paths
+  export PATH="/usr/local/go/bin:$HOME/.gem/ruby/3.0.0/bin:$PATH"
+elif [ "$(uname -s)" = "Darwin" ]; then
+  # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
+  export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$BREW_PREFIX/opt/llvm/bin/:/opt/homebrew/opt/ruby@3.0/bin:$HOME/.gem/ruby/3.0.0/bin:/usr/local/bin:$PATH"
+  export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
+fi
 
-  # set PATH so it includes user's private bin if it exists
-  if [ -d "$HOME/bin" ]; then
-    PATH="$PATH:$HOME/bin"
-  fi
-  # set PATH so it includes user's private bin if it exists
-  if [ -d "$HOME/.local/bin" ]; then
-    PATH="$PATH:$HOME/.local/bin"
-  fi
-#fi
+# Common paths for Rust tools
+export PATH="$HOME/.cargo/bin:$PATH"
+
+if [ -d "$HOME/bin" ]; then
+  PATH="$HOME/bin:$PATH"
+fi
+if [ -d "$HOME/.local/bin" ]; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
 
 
 # =============================================================================

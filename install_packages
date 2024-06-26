@@ -164,8 +164,7 @@ elif [ "$pkgApp" = "brew" ]; then
     msg "Brew already present, continuing..."
   else
     msg "Installing Brew package manager..."
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew install cask
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brew update
   fi
 
@@ -231,6 +230,7 @@ if [ "$pkgApp" = "apt" ]; then
     ffmpegthumbnailer \
     filezilla \
     flex \
+    fzf \
     g++ \
     gcc \
     gdb \
@@ -257,6 +257,7 @@ if [ "$pkgApp" = "apt" ]; then
     ike \
     irssi \
     iverilog \
+    jq \
     kicad \
     latexmk \
     libelf-dev \
@@ -286,6 +287,7 @@ if [ "$pkgApp" = "apt" ]; then
     pandoc \
     perl-doc \
     playonlinux \
+    poppler-utils \
     python-dev \
     python3-dev \
     python3-matplotlib \
@@ -302,7 +304,7 @@ if [ "$pkgApp" = "apt" ]; then
     remmina-plugin-rdp \
     remmina-plugin-secret \
     ripgrep \
-    ruby \
+    ruby-full \
     scrot \
     shellcheck \
     silversearcher-ag \
@@ -311,6 +313,7 @@ if [ "$pkgApp" = "apt" ]; then
     tcl \
     texlive-full \
     tree \
+    unar \
     unrar \
     urlview \
     virtualbox-5.2 \
@@ -687,16 +690,6 @@ npm install -g grunt-cli \
   pyright \
   write-good
 
-msg "Installing Gems"
-if [ "$pkgApp" = "brew" ]; then
-  sudo gem install iStats
-else
-  # Bundler already installed in macOS
-  sudo gem install bundler
-fi
-sudo gem install jekyll \
-  vimgolf
-
 # Install Python packages w/pip as the current user
 msg "Installing Python modules via pip"
 #python -m pip install --user \
@@ -875,25 +868,6 @@ if [ "$pkgApp" = "yum" ]; then
   #pushd ranger-stable
   #make install
   #popd
-fi
-
-# install Ruby since most likely not pre-installed on *nix (except Fedora)
-if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
-  msg "Installing Ruby"
-  mkdir -p ~/.rbenv
-  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-  pushd ~/.rbenv > /dev/null
-  src/configure
-  make -C src
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-  git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-  export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-  popd > /dev/null
-
-  msg "Installing Ruby 2.4.1"
-  rbenv install -v 2.4.1
-  rbenv global 2.4.1
 fi
 
 # Patched fonts with Powerline and other symbols
