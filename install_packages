@@ -803,6 +803,12 @@ fi
 rustup update
 rustup component add clippy
 
+if [ "$pkgApp" != "brew" ]; then
+  msg "Installing yazi file manager"
+  cargo install --locked yazi-fm yazi-cli
+fi
+
+
 # tmux 2.9a install from src
 if [ "$pkgApp" != "brew" ] && [ "$pkgApp" != "dnf" ]; then
   msg "Installing tmux from source..."
