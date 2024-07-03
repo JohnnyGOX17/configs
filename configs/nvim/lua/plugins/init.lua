@@ -38,7 +38,7 @@ return { -- Configure treesitter here, other plugins in other lua files
 
         -- Don't highlight for Markdown as preservim/vim-markdown handles other concealment
         highlight = { enable = true, disable = { 'markdown' } },
-        indent = { enable = true, disable = { 'python', 'markdown' } },
+        indent = { enable = true, disable = { 'c', 'cpp', 'python', 'markdown' } },
         incremental_selection = {
           enable = true,
           keymaps = {

@@ -94,6 +94,10 @@ vim.o.foldlevel = 99
 -- Enable break indent
 vim.o.breakindent = true
 
+-- In C-style source, don't indent within a namespace block:
+-- https://neovim.io/doc/user/indent.html#_1.-indenting-c-style-programs
+vim.o.cino = "N-s"
+
 -- Save undo history
 vim.o.undofile = true
 

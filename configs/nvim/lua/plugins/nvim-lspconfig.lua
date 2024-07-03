@@ -164,6 +164,7 @@ return { -- LSP Configuration & Plugins
 
 
     -- For VHDL syntax highlighting, indent similar to C-syntax operation (e.g. by shiftwidth())
+    -- https://neovim.io/doc/user/indent.html#_vhdl
     vim.g.vhdl_indent_genportmap = 0
 
 
@@ -189,6 +190,8 @@ return { -- LSP Configuration & Plugins
     end
     require'lspconfig'.hdl_checker.setup{}
 
+    -- Note that verible's formatter will take care of indentation, but there are options like:
+    -- https://neovim.io/doc/user/indent.html#_verilog
     require'lspconfig'.verible.setup {
       cmd = {"verible-verilog-ls"};
       filetypes = {"systemverilog", "verilog"};
