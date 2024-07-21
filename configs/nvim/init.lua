@@ -108,7 +108,6 @@ vim.o.smartcase = true
 -- Decrease update time for CursorHold and timeout for events
 vim.o.updatetime = 250
 vim.o.timeoutlen = 250
-vim.wo.signcolumn = 'yes'
 
 -- Highlight current line horizontally
 vim.o.cursorline = true
@@ -123,8 +122,8 @@ vim.o.laststatus = 3
 -- Have a fixed column for the diagnostics to appear in (removes jitter of warnings/errors)
 -- setting from static 'yes' -> 'number' merges number and diag's to one column
 --   like -> https://www.reddit.com/r/neovim/comments/neaeej/only_just_discovered_set_signcolumnnumber_i_like/
---vim.o.signcolumn = "number"
 vim.o.signcolumn = "yes:1"
+vim.o.relativenumber = true
 
 -- Set spell checking on by default, as most language supports will have this check 
 -- for spelling errors in code comments: https://unix.stackexchange.com/a/31162
