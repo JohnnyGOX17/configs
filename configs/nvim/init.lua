@@ -249,7 +249,7 @@ vim.api.nvim_create_autocmd(
 --  * Turn off ExtraWhitespace highlighting in terminal emulator
 vim.api.nvim_create_autocmd(
   "TermOpen",
-  { command = "startinsert | setlocal nonumber | setlocal nospell | setlocal scl=no | call clearmatches()" }
+  { command = "startinsert | setlocal norelativenumber | setlocal nonumber | setlocal nospell | setlocal scl=no | call clearmatches()" }
 )
 
 -- Set cursorline only when not in insert mode
