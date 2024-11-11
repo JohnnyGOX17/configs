@@ -39,7 +39,7 @@ return { -- LSP Configuration & Plugins
       lua_ls = {},
       marksman = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
-      ruff_lsp = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
+      ruff = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
       rust_analyzer = {},  -- Rust (more options set below)
       ts_ls = {}, -- JavaScript/TypeScript: npm install -g typescript typescript-language-server
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
