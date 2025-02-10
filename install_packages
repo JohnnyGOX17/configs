@@ -642,6 +642,7 @@ elif [ "$pkgApp" = "brew" ]; then
     nmap \
     node \
     openssh \
+    p7zip \
     perl \
     pidof \
     plantuml \
