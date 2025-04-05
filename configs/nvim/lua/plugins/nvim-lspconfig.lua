@@ -11,9 +11,6 @@ return { -- LSP Configuration & Plugins
 
     -- Additional lua configuration, makes nvim stuff amazing
     'folke/neodev.nvim',
-
-    -- Tree view for LSP symbols
-    'simrat39/symbols-outline.nvim'
   },
   init = function()
     -- Enable the following language servers (LSPs):
@@ -204,43 +201,6 @@ return { -- LSP Configuration & Plugins
     -- Turn on lsp status information
     require('fidget').setup()
 
-    -- LSP Tree view
-    require("symbols-outline").setup({
-      relative_width = false,
-      width = 40,
-      symbols = {
-        File = { icon = "", hl = "@text.uri" },
-        Module = { icon = "󰕳", hl = "@namespace" },
-        Namespace = { icon = "", hl = "@namespace" },
-        Package = { icon = "", hl = "@namespace" },
-        Class = { icon = "", hl = "@type" },
-        Method = { icon = "", hl = "@method" },
-        Property = { icon = "", hl = "@method" },
-        Field = { icon = "", hl = "@field" },
-        Constructor = { icon = "", hl = "@constructor" },
-        Enum = { icon = "", hl = "@type" },
-        Interface = { icon = "", hl = "@type" },
-        Function = { icon = "ƒ", hl = "@function" },
-        Variable = { icon = "󰫧", hl = "@constant" },
-        Constant = { icon = "", hl = "@constant" },
-        String = { icon = "𝓐", hl = "@string" },
-        Number = { icon = "#", hl = "@number" },
-        Boolean = { icon = "󰊾", hl = "@boolean" },
-        Array = { icon = "", hl = "@constant" },
-        Object = { icon = "", hl = "@type" },
-        Key = { icon = "", hl = "@type" },
-        Null = { icon = "󰟢", hl = "@type" },
-        EnumMember = { icon = "", hl = "@field" },
-        Struct = { icon = "", hl = "@type" },
-        Event = { icon = "", hl = "@type" },
-        Operator = { icon = "", hl = "@operator" },
-        TypeParameter = { icon = "", hl = "@parameter" },
-        Component = { icon = "󰡀", hl = "@function" },
-        Fragment = { icon = "", hl = "@constant" },
-      },
-    })
-    vim.keymap.set('n', '<leader>y', ':SymbolsOutline<CR>', { desc = 'Open LSP symbols tree view on the right', silent = true })
-
     -- Diagnostic keymaps
     vim.keymap.set('n', '<C-k>', vim.diagnostic.goto_prev)
     vim.keymap.set('n', '<C-j>', vim.diagnostic.goto_next)
@@ -250,18 +210,19 @@ return { -- LSP Configuration & Plugins
     -- Customize nvim-lspconfig UI (https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter)
     -- Automatically update diagnostics
     vim.diagnostic.config({
-      virtual_text = false, -- disable end of line diagnostic message since using lsp_lines plugin
-      signs = true,
+      -- virtual_text (end of line diagnostic messages) are now off by default since nvim 0.11
+      virtual_lines = true, -- https://git.sr.ht/~whynothugo/lsp_lines.nvim is now upstreamed in nvim 0.11!
+      signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.INFO] = " ",
+            [vim.diagnostic.severity.HINT] = "󰅏 ",
+        },
+      },
       underline = true,
       update_in_insert = true,
       severity_sort = false,
     })
-
-    local signs = { Error = " ", Warn = " ", Hint = "󰅏 ", Info = " " }
-
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
   end
 }
