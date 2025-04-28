@@ -671,6 +671,7 @@ elif [ "$pkgApp" = "brew" ]; then
     watch \
     wdiff \
     wget \
+    wireshark \
     yazi \
     youtube-dl \
     zoxide
