@@ -98,20 +98,8 @@ return { -- LSP Configuration & Plugins
     require('mason').setup()
 
     -- Ensure the servers above are installed
-    local mason_lspconfig = require 'mason-lspconfig'
-
-    mason_lspconfig.setup {
+    require("mason-lspconfig").setup {
       ensure_installed = vim.tbl_keys(servers),
-    }
-
-    mason_lspconfig.setup_handlers {
-      function(server_name)
-        require('lspconfig')[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-        }
-      end,
     }
 
     require("lspconfig").clangd.setup { -- clangd specific setup opts (https://clangd.llvm.org/config)
@@ -142,7 +130,7 @@ return { -- LSP Configuration & Plugins
     require'lspconfig'.rust_analyzer.setup {
       settings = {
         ['rust-analyzer'] = {
-          -- use clippy over `cargo check` default 
+          -- use clippy over `cargo check` default
           checkOnSave = { command = "clippy" }
         }
       }
