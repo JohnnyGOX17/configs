@@ -143,6 +143,11 @@ if [ -d "$HOME/.local/bin" ]; then
   PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Add CUDA to path if there (NOTE: version specific)
+if [ -d "/usr/local/cuda-12.9/bin/" ]; then
+  PATH="$PATH:/usr/local/cuda-12.9/bin/"
+fi
+
 
 # =============================================================================
 # User specific aliases and functions
@@ -181,6 +186,9 @@ alias ll='ls -lhXG'
 alias ls='ls --color=auto'
 alias lsa='ls -A --color=auto'
 alias lsd="ls -alF | grep /$"
+
+# lsblk w/sane defaults (ignores loop devices)
+alias lsblka='lsblk -a -e7 -o NAME,UUID,SIZE,FSTYPE,MAJ:MIN,TYPE,RM,RO,MOUNTPOINTS'
 
 # color grep by default
 alias grep='grep --color=auto'
