@@ -43,7 +43,7 @@ if [ "$3" == "-d" ]; then
 fi
 
 localDir="data/"
-serverDir="$2:/home/jgentile/data/"
+serverDir="$2:/mnt/backup_SSD/"
 
 if [ "$1" == "to" ]; then
   toDir=$serverDir
@@ -59,14 +59,14 @@ pushd ~/ > /dev/null || exit
 if [ -d "$localDir" ]; then
   msg "Doing dry run to check differences: ${delOpt}"
   # to understand -i itemized rsync output see http://www.staroceans.org/e-book/understanding-the-output-of-rsync-itemize-changes.html
-  rsync -aivhzPn ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' --exclude '.venv/' "$fromDir" "$toDir"
+  rsync -aivhzPn ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude '.venv/' "$fromDir" "$toDir"
   echo
 
   read -p "Do you want to commit the rsync file changes? [y/n]: " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     msg "Syncing data:"
-    rsync -avhzP ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude 'apps/' --exclude 'LTspiceXVII' --exclude 'videos' --exclude '.venv/' "$fromDir" "$toDir"
+    rsync -avhzP ${delOpt} --stats --exclude '.DS_Store' --exclude 'lost+found' --exclude '.venv/' "$fromDir" "$toDir"
   else
     msg "No file changes made. Exiting..."
     exit 0
@@ -74,6 +74,5 @@ if [ -d "$localDir" ]; then
 
 else
   err "Directory to sync not found! Expecting $(pwd)/$localDir"
-  exit 1
 fi
 popd > /dev/null || exit
