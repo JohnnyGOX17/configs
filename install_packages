@@ -592,6 +592,7 @@ elif [ "$pkgApp" = "brew" ]; then
     coreutils \
     ctags \
     diffutils \
+    difftastic \
     djvu2pdf \
     docker \
     docker-compose \
