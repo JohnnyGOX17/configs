@@ -37,7 +37,6 @@ return { -- LSP Configuration & Plugins
       marksman = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
       ruff = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
-      rust_analyzer = {},  -- Rust (more options set below)
       ts_ls = {}, -- JavaScript/TypeScript: npm install -g typescript typescript-language-server
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
@@ -124,18 +123,6 @@ return { -- LSP Configuration & Plugins
         "-j=4", -- number of async workers used by clangd & background index
       }
     }
-
-    -- [Rust Analyzer settings](https://rust-analyzer.github.io/manual.html#configuration)
-    --  Other Rust settings: https://sharksforarms.dev/posts/neovim-rust/
-    require'lspconfig'.rust_analyzer.setup {
-      settings = {
-        ['rust-analyzer'] = {
-          -- use clippy over `cargo check` default
-          checkOnSave = { command = "clippy" }
-        }
-      }
-    }
-
 
     -- Run `:Format` on buffer save, if the LSP for a given file type/pattern supports it
     local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
