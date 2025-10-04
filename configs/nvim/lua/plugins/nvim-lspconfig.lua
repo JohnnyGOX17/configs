@@ -101,7 +101,7 @@ return { -- LSP Configuration & Plugins
       ensure_installed = vim.tbl_keys(servers),
     }
 
-    require("lspconfig").clangd.setup { -- clangd specific setup opts (https://clangd.llvm.org/config)
+    vim.lsp.config("clangd", { -- clangd specific setup opts (https://clangd.llvm.org/config)
       cmd = {
         -- See https://clangd.llvm.org/installation.html and https://clangd.llvm.org/installation.html#project-setup
         -- for how to install & setup for a given project/system
@@ -122,7 +122,8 @@ return { -- LSP Configuration & Plugins
         "--pch-storage=memory", -- store PCHs in memory to improve performance (increases memory usage however)
         "-j=4", -- number of async workers used by clangd & background index
       }
-    }
+    })
+    vim.lsp.enable("clangd")
 
     -- Run `:Format` on buffer save, if the LSP for a given file type/pattern supports it
     local format_sync_grp = vim.api.nvim_create_augroup("Format", {})
@@ -160,18 +161,19 @@ return { -- LSP Configuration & Plugins
         };
       }
     end
-    require'lspconfig'.hdl_checker.setup{}
+    vim.lsp.enable("hdl_checker")
 
     -- Note that verible's formatter will take care of indentation, but there are options like:
     -- https://neovim.io/doc/user/indent.html#_verilog
-    require'lspconfig'.verible.setup {
+    vim.lsp.config("verible", {
       cmd = {"verible-verilog-ls"};
       filetypes = {"systemverilog", "verilog"};
-    }
+    })
+    vim.lsp.enable("verible")
 
-    require'lspconfig'.marksman.setup{}
+    vim.lsp.enable("marksman")
 
-    require'lspconfig'.ts_ls.setup{}
+    vim.lsp.enable("ts_ls")
 
     -- Turn on lsp status information
     require('fidget').setup()
