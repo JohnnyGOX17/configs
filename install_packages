@@ -588,6 +588,7 @@ elif [ "$pkgApp" = "brew" ]; then
     bash-completion \
     bat \
     binutils \
+    claude-code \
     cmake \
     coreutils \
     ctags \
