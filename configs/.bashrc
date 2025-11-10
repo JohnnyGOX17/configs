@@ -130,6 +130,7 @@ if [ "$(uname -s)" = "Linux" ]; then
 elif [ "$(uname -s)" = "Darwin" ]; then
   # Prioritize GNU Utils over system ones: https://stackoverflow.com/questions/57972341/how-to-install-and-use-gnu-ls-on-macos
   export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$BREW_PREFIX/opt/llvm/bin/:/opt/homebrew/opt/ruby@3.0/bin:$HOME/.gem/ruby/3.0.0/bin:/usr/local/bin:$PATH"
+  export PATH="$BREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
   export MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:${MANPATH}"
 fi
 
