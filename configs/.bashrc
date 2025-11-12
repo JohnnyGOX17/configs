@@ -145,8 +145,8 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 # Add CUDA to path if there (NOTE: version specific)
-if [ -d "/usr/local/cuda-12.9/bin/" ]; then
-  PATH="$PATH:/usr/local/cuda-12.9/bin/"
+if [ -d "/usr/local/cuda-13.0/bin/" ]; then
+  PATH="$PATH:/usr/local/cuda-13.0/bin/"
 fi
 
 
