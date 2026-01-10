@@ -194,8 +194,9 @@ alias lsblka='lsblk -a -e7 -o NAME,UUID,SIZE,FSTYPE,MAJ:MIN,TYPE,RM,RO,MOUNTPOIN
 # color grep by default
 alias grep='grep --color=auto'
 
+# OBSOLETE: use [`fd`](https://github.com/sharkdp/fd) instead...
 # use ripgrep to search for filenames: https://github.com/BurntSushi/ripgrep/issues/193#issuecomment-513201558
-alias rgf='rg --files | rg'
+#alias rgf='rg --files | rg'
 
 # allow `cd..` typo for `cd ..`
 alias cd..='cd ..'
