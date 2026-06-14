@@ -179,8 +179,12 @@ return { -- LSP Configuration & Plugins
     require('fidget').setup()
 
     -- Diagnostic keymaps
-    vim.keymap.set('n', '<C-k>', vim.diagnostic.goto_prev)
-    vim.keymap.set('n', '<C-j>', vim.diagnostic.goto_next)
+    vim.keymap.set('n', '<C-k>', function()
+      vim.diagnostic.jump({ count = 1, float = true})
+    end, { desc = "Next diagnostic" })
+    vim.keymap.set('n', '<C-j>', function()
+      vim.diagnostic.jump({ count = -1, float = true})
+    end, { desc = "Previous diagnostic" })
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
     --vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
