@@ -37,6 +37,8 @@ return { -- LSP Configuration & Plugins
       marksman = {},
       pyright = {}, -- Python (https://github.com/microsoft/pyright)
       ruff = {}, -- Python (https://github.com/charliermarsh/ruff) Options: https://github.com/charliermarsh/ruff-lsp
+      rust_analyzer = {},
+      slang_server = {}, -- SystemVerilog LSP https://github.com/hudson-trading/slang-server
       ts_ls = {}, -- JavaScript/TypeScript: npm install -g typescript typescript-language-server
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
     }
