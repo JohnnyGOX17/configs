@@ -173,7 +173,7 @@ if [ "$(uname -s)" = "Linux" ]; then
     alias sys-update='sudo dnf upgrade -y && echo "" > /tmp/sys_package_updates'
   fi
 elif [ "$(uname -s)" = "Darwin" ]; then
-  alias sys-update='brew update && brew upgrade && brew cleanup && echo "" > /tmp/sys_package_updates'
+  alias sys-update='brew update && brew upgrade -y && brew cleanup && echo "" > /tmp/sys_package_updates'
 fi
 
 alias rustupdate='rustup update && echo "" > /tmp/rust_update_available'
