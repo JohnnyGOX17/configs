@@ -1,9 +1,9 @@
 return { -- Configure treesitter here, other plugins in other lua files
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    build = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end,
+    branch = "master",
+    version = false,
+    build = ":TSUpdate",
     dependencies = {
       -- Additional text objects via treesitter 
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -23,7 +23,6 @@ return { -- Configure treesitter here, other plugins in other lua files
           'html',
           'java',
           'javascript',
-          'latex',
           'lua',
           'markdown',
           'markdown_inline',
