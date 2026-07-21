@@ -14,14 +14,9 @@ $diffProg ./configs/.bash_profile ~/.bash_profile
 $diffProg ./configs/.bash_logout ~/.bash_logout
 $diffProg ./configs/.inputrc ~/.inputrc
 $diffProg ./configs/.profile ~/.profile
-$diffProg ./configs/konsole/JG_profile.profile ~/.local/share/konsole/JG_profile.profile
 $diffProg ./configs/.vimrc ~/.vimrc
 $diffProg ./configs/monokai.vim ~/.vim/colors/monokai.vim
 $diffProg ./configs/.tmux.conf ~/.tmux.conf
-$diffProg ./configs/ranger/rc.conf ~/.config/ranger/rc.conf
-$diffProg ./configs/ranger/rifle.conf ~/.config/ranger/rifle.conf
-$diffProg ./configs/ranger/scope.sh ~/.config/ranger/scope.sh
-$diffProg ./configs/.muttrc ~/.muttrc
 $diffProg ./configs/.ctags ~/.ctags
 $diffProg ./configs/.glbl_gitignore ~/.glbl_gitignore
 $diffProg ./configs/.alacritty.toml ~/.alacritty.toml
