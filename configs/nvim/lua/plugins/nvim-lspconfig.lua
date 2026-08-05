@@ -41,6 +41,7 @@ return { -- LSP Configuration & Plugins
       slang_server = {}, -- SystemVerilog LSP https://github.com/hudson-trading/slang-server
       ts_ls = {}, -- JavaScript/TypeScript: npm install -g typescript typescript-language-server
       verible = {}, -- [(System)Verilog](https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md)
+      vhdl_ls = {}, -- VHDL [VHDL-LS](https://github.com/VHDL-LS/rust_hdl) (Mason package `rust_hdl`)
     }
 
     -- LSP settings.
@@ -143,27 +144,7 @@ return { -- LSP Configuration & Plugins
     vim.g.vhdl_indent_genportmap = 0
 
 
-    -- Setup https://github.com/suoto/hdl_checker, only for VHDL files, requires:
-    --  * [GHDL](https://ghdl.github.io/ghdl/getting.html)
-    --  * HDL checker: `$ pip install hdl-checker --upgrade`
-    --  * [How to setup HDL Checker project](https://github.com/suoto/hdl_checker/wiki/HOWTO:-Setting-up-a-project)
-    -- As of now, easier than integrating [GHDL's LSP](https://github.com/ghdl/ghdl-language-server)
-    if not require'lspconfig.configs'.hdl_checker then
-      require'lspconfig.configs'.hdl_checker = {
-        default_config = {
-        cmd = {"hdl_checker", "--lsp", };
-        filetypes = {"vhdl"};
-          root_dir = function(fname)
-            -- will look for the .hdl_checker.config file in parent directory, a
-            -- .git directory, or else use the current directory, in that order.
-            local util = require'lspconfig'.util
-            return util.root_pattern('.hdl_checker.config')(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
-          end;
-          settings = {};
-        };
-      }
-    end
-    vim.lsp.enable("hdl_checker")
+    vim.lsp.enable("vhdl_ls")
 
     -- Note that verible's formatter will take care of indentation, but there are options like:
     -- https://neovim.io/doc/user/indent.html#_verilog
