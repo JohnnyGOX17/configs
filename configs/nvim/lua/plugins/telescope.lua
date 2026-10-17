@@ -1,7 +1,7 @@
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = "VeryLazy", -- Not needed for initial UI
-  branch = '0.1.x',
+  version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',
     { -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
