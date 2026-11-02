@@ -1,26 +1,26 @@
 return {
   "petertriho/nvim-scrollbar",
-  dependencies = { "kevinhwang91/nvim-hlslens" },
+  -- shortcut: v2 lands on main on 2026-11-16; drop this line after that (the branch may be deleted)
+  branch = "refactor/v2",
   event = "VeryLazy",
   config = function()
     local colors = require("tokyonight.colors").setup()
 
+    -- v2 search provider reads native / and ? search, no hlslens needed
     require("scrollbar").setup({
-        handle = {
-            color = colors.bg_highlight,
-        },
         marks = {
-            Search = { color = colors.orange },
-            Error = { color = colors.error },
-            Warn = { color = colors.warning },
-            Info = { color = colors.info },
-            Hint = { color = colors.hint },
-            Misc = { color = colors.purple },
-        }
-    })
-
-    require("scrollbar.handlers.search").setup({
-        override_lens = function() end,
+            Search = { highlight = { fg = colors.orange } },
+            Error = { highlight = { fg = colors.error } },
+            Warn = { highlight = { fg = colors.warning } },
+            Info = { highlight = { fg = colors.info } },
+            Hint = { highlight = { fg = colors.hint } },
+            Misc = { highlight = { fg = colors.purple } },
+        },
+        scrollbar = {
+            thumb = {
+                highlight = { bg = colors.bg_highlight },
+            },
+        },
     })
   end
 }
