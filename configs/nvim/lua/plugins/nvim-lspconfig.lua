@@ -149,7 +149,8 @@ return { -- LSP Configuration & Plugins
     -- Note that verible's formatter will take care of indentation, but there are options like:
     -- https://neovim.io/doc/user/indent.html#_verilog
     vim.lsp.config("verible", {
-      cmd = {"verible-verilog-ls"};
+      -- verible defaults to 2-space block indent but 4-space wrap (port/param lists); make both 4
+      cmd = {"verible-verilog-ls", "--indentation_spaces=4"};
       filetypes = {"systemverilog", "verilog"};
     })
     vim.lsp.enable("verible")
